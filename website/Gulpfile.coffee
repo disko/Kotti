@@ -13,7 +13,7 @@ paths =
     js:
       vendor: [
         './node_modules/jquery/dist/jquery.js',
-        './node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'
+        './node_modules/bootstrap/dist/js/bootstrap.js'
       ]
     sass: './styles/kotti.scss'
 
@@ -23,9 +23,6 @@ paths =
     fonts: './assets/static/fonts'
 
 gulp.task 'fonts', ->
-  base = './node_modules/bootstrap-sass/assets/fonts'
-  gulp.src "#{base}/bootstrap/*", base: base
-    .pipe gulp.dest(paths.dest.fonts)
   gulp.src "./node_modules/font-awesome/fonts/*"
     .pipe gulp.dest(paths.dest.fonts)
 
