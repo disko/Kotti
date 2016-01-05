@@ -11,3 +11,52 @@
 
 // Import Font Awesome
 @import "../node_modules/font-awesome/scss/font-awesome.scss";
+
+$lektor-header-bg: #FFF;
+$navbar-inverse-bg: $lektor-header-bg;
+
+div.page-banner {
+  margin: 15px 0;
+  background-size: cover;
+  background-position: center center;
+  background-color: $lektor-header-bg;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &.page-banner-500-tall {
+    height: 500px;
+
+    @include media-breakpoint-down(xs) { height: 400px; }
+  }
+
+  &.page-banner-500 {
+    height: 500px;
+
+    @include media-breakpoint-down(md) { height: 400px; }
+    @include media-breakpoint-down(sm) { height: 300px; }
+  }
+
+  &.page-banner-400 {
+    height: 400px;
+
+    @include media-breakpoint-down(lg) { height: 300px; }
+    @include media-breakpoint-down(md) { height: 250px; }
+    @include media-breakpoint-down(sm) { height: 180px; }
+    @include media-breakpoint-down(xs) { height: 130px; }
+  }
+
+  &.page-banner-300 {
+    height: 300px;
+
+    @include media-breakpoint-down(md) { height: 200px; }
+    @include media-breakpoint-down(sm) { height: 120px; }
+  }
+
+  &.page-banner-200 {
+    height: 200px;
+
+    @include media-breakpoint-down(sm) { height: 120px; }
+  }
+}
