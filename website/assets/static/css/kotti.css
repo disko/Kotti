@@ -6803,9 +6803,10 @@ a.bg-danger:focus {
 
 div.page-banner {
   margin: 15px 0;
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
-  background-color: #FFF; }
+  background-color: #FFF;
+  background-repeat: no-repeat; }
   div.page-banner:first-child {
     margin-top: 0; }
   div.page-banner.page-banner-500-tall {

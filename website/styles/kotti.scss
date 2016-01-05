@@ -17,9 +17,10 @@ $navbar-inverse-bg: $lektor-header-bg;
 
 div.page-banner {
   margin: 15px 0;
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
   background-color: $lektor-header-bg;
+  background-repeat: no-repeat;
 
   &:first-child {
     margin-top: 0;

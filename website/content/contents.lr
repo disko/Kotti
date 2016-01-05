@@ -13,6 +13,8 @@ contents:
 #### text-block ####
 text:
 
+## <center>Kotti is a <i>high-level</i>, <i>Pythonic</i> web application framework based on <i>Pyramid</i> and <i>SQLAlchemy</i>. <br><small>It includes an extensible Content Management System called the <i>Kotti CMS</i>.</small></center>
+
 ## Full of Features
 
 * <i class="feature-circle fa fa-ship"></i> **Deploy Anywhere** Because Lektor
