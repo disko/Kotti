@@ -1,14 +1,15 @@
 [pytest]
 addopts =
-    --doctest-modules
-    --doctest-glob='*.txt'
     --capture=no
     --cov={{package}}
-    --cov-report=term-missing
     --cov-config .coveragerc
+    --cov-report=term-missing
+    --doctest-modules
+    --doctest-glob='*.txt'
     --ignore={{package}}/templates/
+#    --pep8
     --strict
-    --pep8
+    --tb=native
     {{package}}/tests
 python_files = test*py
 markers =
