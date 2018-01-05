@@ -33,13 +33,13 @@ Change History
 
 - Switch from ``oursql``to ``mysqlclient`` in tests.
 
-- Temporarily disable ``pep8`` tests, as they cause problems with recent
-  ``pytest`` versions.
-
 - Setup tests on TravisCI with ``pip install -e .[testing]``, making
   ``requirements.txt`` obsolete.
 
 -  Adjust CLI command tests for new versions of ``Pyramid`` / ``plaster``.
+
+- remove pytest-warnings from test dependencies (already integrated in
+  modern pytest versions)
 
 1.3.0 - 2016-10-10
 ------------------
