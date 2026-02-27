@@ -777,7 +777,7 @@ class SaveDataMixin:
             fp = BytesIO(value)
             value = _to_fieldstorage(
                 fp=fp,
-                filename=target.filename,
+                filename=target.filename or "unnamed",
                 mimetype=target.mimetype,
                 size=len(value),
             )
