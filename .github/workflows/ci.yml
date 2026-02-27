@@ -81,14 +81,14 @@ jobs:
 
     services:
       mysql:
-        image: mariadb:latest
+        image: mariadb:11.4
         env:
           MYSQL_USER: kotti
           MYSQL_PASSWORD: kotti
           MYSQL_DATABASE: kotti
           MYSQL_ROOT_PASSWORD: kotti
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mariadb-admin ping -h 127.0.0.1"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
