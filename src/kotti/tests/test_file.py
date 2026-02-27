@@ -247,7 +247,7 @@ class TestUploadedFileResponse:
         assert b"".join(resp.app_iter) == data
 
     def test_unknown_filename(self, filedepot, image_asset2, dummy_request):
-        f = self._create_file(b"foo", "file.bar", None)
+        f = self._create_file(b"foo", "file.nknwnxt", None)
         # resp = UploadedFileResponse(f.data, DummyRequest())
         resp = dummy_request.uploaded_file_response(f.data)
         assert resp.headers["Content-Type"] == "application/octet-stream"
@@ -318,7 +318,7 @@ class TestStoredFileResponse:
         assert b"".join(resp.app_iter) == data
 
     def test_unknown_filename(self, filedepot, image_asset2, dummy_request):
-        f = self._create_file(b"foo", "file.bar", None)
+        f = self._create_file(b"foo", "file.nknwnxt", None)
         resp = StoredFileResponse(f.data.file, dummy_request)
         assert resp.headers["Content-Type"] == "application/octet-stream"
 
