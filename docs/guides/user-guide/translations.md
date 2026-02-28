@@ -1,0 +1,3 @@
+# Translations
+
+*Content pending migration.*

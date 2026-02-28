@@ -1,0 +1,3 @@
+# Images
+
+*Content pending migration.*

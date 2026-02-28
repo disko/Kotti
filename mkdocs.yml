@@ -1,0 +1,193 @@
+# Kotti Documentation — mkdocs.yml
+# Material for MkDocs + Kotti Amber Heritage brand skin
+
+site_name: Kotti
+site_description: Pythonic web framework + CMS built on Pyramid & SQLAlchemy
+site_url: https://kotti.readthedocs.io/
+repo_url: https://github.com/Kotti/Kotti
+repo_name: Kotti/Kotti
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  language: en
+
+  # Logo & favicon
+  logo: assets/kotti-mark-dark.svg       # amber mark on dark header
+  favicon: assets/kotti-favicon.svg
+
+  # Color scheme — toggle between light/dark
+  palette:
+    - scheme: default
+      primary: custom     # we override via CSS
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+  # JetBrains Mono everywhere
+  font:
+    text: JetBrains Mono
+    code: JetBrains Mono
+
+  # Material features
+  features:
+    - navigation.instant       # SPA-style navigation
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs          # top-level tabs in header
+    - navigation.sections      # render sections as groups
+    - navigation.indexes       # section index pages (api/index.md etc.)
+    - navigation.expand        # auto-expand nav sections
+    - navigation.top           # back-to-top button
+    - navigation.footer        # prev/next in footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy        # copy button on code blocks
+    - content.code.annotate    # code annotations
+    - content.tabs.link        # linked content tabs
+    - toc.follow
+
+  # Custom icon overrides (optional)
+  icon:
+    repo: fontawesome/brands/github
+
+# Brand CSS
+extra_css:
+  - stylesheets/kotti.css
+
+# Plugins
+plugins:
+  - search
+  - social:
+      enabled: !ENV [CI, false]
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_style: sphinx
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: true
+            show_bases: true
+            members_order: source
+            filters:
+              - "!^_"
+
+# Markdown extensions
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+# Extra
+extra:
+  # Social links in footer
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Kotti/Kotti
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/Kotti/
+
+  # Version selector (mike)
+  version:
+    provider: mike
+    alias: true
+    default: stable
+
+# Navigation structure
+nav:
+  - Overview: index.md
+  - Guides:
+    - Getting Started:
+      - Overview: guides/getting-started/overview.md
+      - Installation: guides/getting-started/installation.md
+      - Tutorial: guides/getting-started/tutorial.md
+      - Tutorial Part 1: guides/getting-started/tut-1.md
+      - Tutorial Part 2: guides/getting-started/tut-2.md
+      - Tutorial Part 3: guides/getting-started/tut-3.md
+    - User Guide:
+      - Developer Manual: guides/user-guide/developer-manual.md
+      - Security: guides/user-guide/security.md
+      - Configuration: guides/user-guide/configuration.md
+      - Testing: guides/user-guide/testing.md
+      - Translations: guides/user-guide/translations.md
+      - Deployment: guides/user-guide/deployment.md
+      - Advanced:
+        - As a Library: guides/user-guide/as-a-library.md
+        - Close to Anonymous: guides/user-guide/close-to-anonymous.md
+        - Default Views: guides/user-guide/default-views.md
+        - Edit Interface: guides/user-guide/add-to-edit-interface.md
+        - Events: guides/user-guide/events.md
+        - Front Page Template: guides/user-guide/frontpage-different-template.md
+        - Images: guides/user-guide/images.md
+        - Blob Storage: guides/user-guide/blobs.md
+        - Static Resources: guides/user-guide/static-resource-management.md
+        - Startup Internals: guides/user-guide/understanding-kotti-startup.md
+        - Sanitizers: guides/user-guide/sanitizers.md
+  - API:
+    - Reference: api/index.md
+    - kotti: api/kotti.md
+    - kotti.events: api/kotti.events.md
+    - kotti.fanstatic: api/kotti.fanstatic.md
+    - kotti.filedepot: api/kotti.filedepot.md
+    - kotti.interfaces: api/kotti.interfaces.md
+    - kotti.message: api/kotti.message.md
+    - kotti.migrate: api/kotti.migrate.md
+    - kotti.populate: api/kotti.populate.md
+    - kotti.request: api/kotti.request.md
+    - kotti.resources: api/kotti.resources.md
+    - kotti.sanitizers: api/kotti.sanitizers.md
+    - kotti.security: api/kotti.security.md
+    - kotti.sqla: api/kotti.sqla.md
+    - kotti.testing: api/kotti.testing.md
+    - kotti.traversal: api/kotti.traversal.md
+    - kotti.util: api/kotti.util.md
+    - kotti.workflow: api/kotti.workflow.md
+    - kotti.views:
+      - Overview: api/kotti.views/index.md
+      - kotti.views.cache: api/kotti.views/kotti.views.cache.md
+      - kotti.views.file: api/kotti.views/kotti.views.file.md
+      - kotti.views.form: api/kotti.views/kotti.views.form.md
+      - kotti.views.login: api/kotti.views/kotti.views.login.md
+      - kotti.views.site_setup: api/kotti.views/kotti.views.site_setup.md
+      - kotti.views.slots: api/kotti.views/kotti.views.slots.md
+      - kotti.views.users: api/kotti.views/kotti.views.users.md
+      - kotti.views.util: api/kotti.views/kotti.views.util.md
+      - kotti.views.view: api/kotti.views/kotti.views.view.md
+      - kotti.views.edit:
+        - Overview: api/kotti.views/kotti.views.edit/index.md
+        - kotti.views.edit.actions: api/kotti.views/kotti.views.edit/kotti.views.edit.actions.md
+        - kotti.views.edit.content: api/kotti.views/kotti.views.edit/kotti.views.edit.content.md
+        - kotti.views.edit.default_views: api/kotti.views/kotti.views.edit/kotti.views.edit.default_views.md
+  - Community:
+    - Help: community/help.md
+    - Contributing: community/contributing.md
+    - Changelog: community/changelog.md
