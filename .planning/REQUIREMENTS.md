@@ -43,7 +43,7 @@ Requirements for this modernization milestone. Each maps to roadmap phases.
 - [x] **LNT-03**: pytest-flake8 removed from test dependencies
 - [x] **LNT-04**: Formatting applied in isolated first commit (preserves git blame)
 - [x] **LNT-05**: pyupgrade-style modernizations applied (super(), union syntax, etc.)
-- [ ] **LNT-06**: pre-commit hooks configured (.pre-commit-config.yaml)
+- [x] **LNT-06**: pre-commit hooks configured (.pre-commit-config.yaml)
 
 ### CI/CD
 
@@ -128,7 +128,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LNT-03 | Phase 3 | Complete |
 | LNT-04 | Phase 4 | Complete |
 | LNT-05 | Phase 4 | Complete |
-| LNT-06 | Phase 4 | Pending |
+| LNT-06 | Phase 4 | Complete |
 | CI-01 | Phase 3 | Complete |
 | CI-02 | Phase 3 | Complete |
 | CI-03 | Phase 3 | Complete |

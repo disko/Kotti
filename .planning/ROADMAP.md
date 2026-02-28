@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Packaging Foundation** - Replace setup.py/setup.cfg with pyproject.toml, adopt src layout, and commit uv.lock (completed 2026-02-27)
 - [x] **Phase 2: Runtime Dependency Updates** - Replace bleach with nh3, pkg_resources with importlib, and mock with unittest.mock (completed 2026-02-27)
 - [x] **Phase 3: Python Version and CI Modernization** - Update GitHub Actions, add Python 3.10-3.13 matrix, replace pytest-flake8 with ruff (completed 2026-02-27)
-- [ ] **Phase 4: Code Quality and Formatting** - Apply ruff formatting, fix bare excepts, modernize type annotations, add pre-commit hooks
+- [x] **Phase 4: Code Quality and Formatting** - Apply ruff formatting, fix bare excepts, modernize type annotations, add pre-commit hooks (completed 2026-02-28)
 - [ ] **Phase 5: Documentation Migration** - Migrate from Sphinx/RST to MkDocs with Material for MkDocs theme
 
 ## Phase Details
@@ -90,5 +90,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Packaging Foundation | 2/2 | Complete   | 2026-02-27 |
 | 2. Runtime Dependency Updates | 2/2 | Complete   | 2026-02-27 |
 | 3. Python Version and CI Modernization | 1/1 | Complete   | 2026-02-27 |
-| 4. Code Quality and Formatting | 2/3 | In Progress|  |
+| 4. Code Quality and Formatting | 3/3 | Complete   | 2026-02-28 |
 | 5. Documentation Migration | 0/? | Not started | - |
