@@ -7,8 +7,8 @@ Create Date: 2014-12-10 13:20:29.374951
 """
 
 # revision identifiers, used by Alembic.
-revision = '559ce6eb0949'
-down_revision = '1063d7178fa'
+revision = "559ce6eb0949"
+down_revision = "1063d7178fa"
 
 
 def upgrade():
@@ -19,14 +19,10 @@ def upgrade():
 
     conn = get_bind()
 
-    if conn.engine.dialect.name == 'mysql':
-        update = "UPDATE nodes " \
-                 "SET path = concat(path, '/') " \
-                 "WHERE path NOT LIKE '%/'"
+    if conn.engine.dialect.name == "mysql":
+        update = "UPDATE nodes SET path = concat(path, '/') WHERE path NOT LIKE '%/'"
     else:
-        update = "UPDATE nodes " \
-                 "SET path = path || '/' " \
-                 "WHERE path NOT LIKE '%/'"
+        update = "UPDATE nodes SET path = path || '/' WHERE path NOT LIKE '%/'"
     DBSession.execute(update)
 
 
@@ -36,5 +32,5 @@ def downgrade():
 
     for node in DBSession.query(Node).with_polymorphic([Node]):
         # remove trailing '/' from all nodes but root
-        if node.path != '/':
+        if node.path != "/":
             node.path = node.path[:-1]

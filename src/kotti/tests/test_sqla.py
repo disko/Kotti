@@ -236,8 +236,8 @@ class TestMutationDunderJson:
 
 
 def test_missing_foreign_key_indices(db_session):
-    """ Test for foreign key constraints that don't have a corresponding
-    index. """
+    """Test for foreign key constraints that don't have a corresponding
+    index."""
 
     from sqlalchemy_utils.functions import non_indexed_foreign_keys
     from kotti import metadata

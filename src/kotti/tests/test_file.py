@@ -36,9 +36,7 @@ class TestFileViews:
 
         self._test_common_headers(res.headers)
 
-        assert res.content_disposition.startswith(
-            f"{disposition};filename=\"my"
-        )
+        assert res.content_disposition.startswith(f'{disposition};filename="my')
 
         data = asset("logo.png").read()
         assert res.body == data
@@ -156,7 +154,6 @@ class TestFileUploadTempStore:
 
 
 class TestDepotStore:
-
     from kotti.resources import File
 
     @pytest.mark.parametrize("factory", [File])

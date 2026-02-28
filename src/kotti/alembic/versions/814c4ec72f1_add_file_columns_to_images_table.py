@@ -14,21 +14,21 @@ from kotti import DBSession
 
 # revision identifiers, used by Alembic.
 
-revision = '814c4ec72f1'
-down_revision = '4a3de0d0804a'
+revision = "814c4ec72f1"
+down_revision = "4a3de0d0804a"
 
 
 def upgrade():
 
-    op.drop_table('images')
+    op.drop_table("images")
     op.create_table(
-        'images',
-        sa.Column('id', sa.Integer(), sa.ForeignKey('contents.id'),
-                  primary_key=True),
-        sa.Column('filename', sa.Unicode(100)),
-        sa.Column('mimetype', sa.String(100)),
-        sa.Column('size', sa.Integer()),
-        sa.Column('data', UploadedFileField()))
+        "images",
+        sa.Column("id", sa.Integer(), sa.ForeignKey("contents.id"), primary_key=True),
+        sa.Column("filename", sa.Unicode(100)),
+        sa.Column("mimetype", sa.String(100)),
+        sa.Column("size", sa.Integer()),
+        sa.Column("data", UploadedFileField()),
+    )
 
     DBSession.execute("""
         INSERT INTO images (id, filename, mimetype, size, data)
@@ -46,11 +46,11 @@ def downgrade():
         INSERT INTO files (id, filename, mimetype, size, data)
         SELECT id, filename, mimetype, size, data
         FROM images""")
-    op.drop_table('images')
+    op.drop_table("images")
     op.create_table(
-        'images',
-        sa.Column('id', sa.Integer(), sa.ForeignKey('files.id'),
-                  primary_key=True))
+        "images",
+        sa.Column("id", sa.Integer(), sa.ForeignKey("files.id"), primary_key=True),
+    )
     DBSession.execute("""
         INSERT INTO images (id)
         SELECT id

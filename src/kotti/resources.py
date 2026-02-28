@@ -7,6 +7,7 @@ Inheritance Diagram
 
 .. inheritance-diagram:: kotti.resources
 """
+
 import abc
 import datetime
 import os
@@ -758,9 +759,7 @@ class SaveDataMixin:
     @staticmethod
     def _save_data(
         target: "File",
-        value: Optional[
-            Union[FieldStorage, bytes, UploadedFile, BufferedReader]
-        ],  # noqa
+        value: Optional[Union[FieldStorage, bytes, UploadedFile, BufferedReader]],  # noqa
         oldvalue: Optional[Union[UploadedFile, _symbol]],
         initiator: Event,
     ) -> Optional[UploadedFile]:
@@ -871,7 +870,7 @@ def get_root(request: Optional[Request] = None) -> Node:
 
 
 class DefaultRootCache:
-    """ Default implementation for :func:`~kotti.resources.get_root` """
+    """Default implementation for :func:`~kotti.resources.get_root`"""
 
     _root = None
 
@@ -884,11 +883,13 @@ class DefaultRootCache:
         """
 
         query = bakery(
-            lambda session: session.query(Node)
-            .with_polymorphic(Node)
-            .add_columns(Node.id)
-            .enable_eagerloads(False)
-            .filter(Node.parent_id == None)
+            lambda session: (
+                session.query(Node)
+                .with_polymorphic(Node)
+                .add_columns(Node.id)
+                .enable_eagerloads(False)
+                .filter(Node.parent_id == None)
+            )
         )
 
         return query(DBSession()).one().id

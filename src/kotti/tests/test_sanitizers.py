@@ -27,6 +27,7 @@ def test_no_html():
     from kotti.sanitizers import no_html
 
     import warnings
+
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", DeprecationWarning)
         _verify_no_html(no_html(unsanitized))
@@ -39,7 +40,7 @@ def _verify_minimal_html(sanitized):
     assert "<script" not in sanitized
 
     # style attribute is NOT in _MINIMAL_ATTRS — style values stripped entirely
-    assert 'style=' not in sanitized.lower()
+    assert "style=" not in sanitized.lower()
 
     # <a> links preserved with rel added; target stripped (not in _MINIMAL_ATTRS)
     assert '<a href="http://external.com/"' in sanitized
@@ -64,13 +65,16 @@ def _verify_xss_protection(sanitized):
     assert "<h1>Title</h1>" in sanitized
 
     # nh3 adds rel="noopener noreferrer" to <a> tags
-    assert '<a href="internal.html" target="_blank" rel="noopener noreferrer">internal</a>' in sanitized
+    assert (
+        '<a href="internal.html" target="_blank" rel="noopener noreferrer">internal</a>'
+        in sanitized
+    )
 
     # size attribute is NOT in _XSS_SAFE_ATTRS — stripped from <b>
-    assert 'size=' not in sanitized.lower()
+    assert "size=" not in sanitized.lower()
 
     # <b> tag itself IS in _XSS_SAFE_TAGS — preserved
-    assert '<b' in sanitized
+    assert "<b" in sanitized
 
     # style="color: red" IS preserved (style in wildcard attrs)
     assert 'style="color: red"' in sanitized
@@ -203,7 +207,7 @@ def test_nh3_characterization_xss_protection():
     assert "<script>" not in sanitized
 
     # Attribute handling: nh3 uses explicit allowlist — size NOT allowed on <b>
-    assert 'size=' not in sanitized.lower()
+    assert "size=" not in sanitized.lower()
 
     # Style preservation: style is in wildcard attrs — preserved (no trailing semicolon)
     assert 'style="color: red"' in sanitized
@@ -223,7 +227,7 @@ def test_nh3_characterization_minimal_html():
     sanitized = minimal_html_nh3(unsanitized)
 
     # Style handling: nh3 with no style in attrs — NO style attribute at all
-    assert 'style=' not in sanitized.lower()
+    assert "style=" not in sanitized.lower()
 
     # Attribute stripping: size on <b> is NOT in _MINIMAL_ATTRS
     assert "size" not in sanitized.lower()

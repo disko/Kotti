@@ -541,7 +541,7 @@ class TestTemplateAPI:
         user = Dummy(email="daniel.nouri@gmail.com")
         result = api.avatar_url(user)
         assert result.startswith(
-            "https://secure.gravatar.com/avatar/" "d3aeefdd7afe103ab70875172135cab7"
+            "https://secure.gravatar.com/avatar/d3aeefdd7afe103ab70875172135cab7"
         )
 
     def test_avatar_url_request_user(self, db_session):
@@ -549,7 +549,7 @@ class TestTemplateAPI:
         api.request.user = Dummy(email="daniel.nouri@gmail.com")
         result = api.avatar_url()
         assert result.startswith(
-            "https://secure.gravatar.com/avatar/" "d3aeefdd7afe103ab70875172135cab7"
+            "https://secure.gravatar.com/avatar/d3aeefdd7afe103ab70875172135cab7"
         )
 
 
@@ -695,6 +695,7 @@ class TestRootOnlyPredicate:
 
 def test_base_view(dummy_request, root):
     from kotti.views import BaseView
+
     bv = BaseView(root, dummy_request)
     assert bv.context == root
     assert bv.request == dummy_request

@@ -76,7 +76,6 @@ class TestDefaultViewSelection:
     def test_warning_for_non_registered_views(self, root):
 
         with warnings.catch_warnings(record=True) as w:
-
             DefaultViewSelection(root, DummyRequest()).default_view_selector()
 
             assert len(w) == 1

@@ -14,7 +14,7 @@ from kotti.security import get_user
 
 @implementer(IRequest)
 class Request(pyramid.request.Request):
-    """ Kotti subclasses :class:`pyramid.request.Request` to make additional
+    """Kotti subclasses :class:`pyramid.request.Request` to make additional
     attributes / methods available on request objects and override Pyramid's
     :meth:`pyramid.request.Request.has_permission`.  The latter is needed to
     support Kotti's concept of local roles not just for users but also for
@@ -23,7 +23,7 @@ class Request(pyramid.request.Request):
 
     @reify
     def user(self) -> Optional[Principal]:
-        """ Add the authenticated user to the request object.
+        """Add the authenticated user to the request object.
 
         :result: the currently authenticated user
         :rtype: :class:`kotti.security.Principal` or whatever is returned by
@@ -35,7 +35,7 @@ class Request(pyramid.request.Request):
     def has_permission(
         self, permission: str, context: object = None
     ) -> Union[Allowed, Denied]:
-        """ Check if the current request has the given permission on the
+        """Check if the current request has the given permission on the
         current or explicitly passed context.  This is different from
         :meth:`pyramid.request.Request.has_permission`` in that a context other
         than the one bound to the request can be passed.  This allows to

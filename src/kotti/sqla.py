@@ -4,6 +4,7 @@ Inheritance Diagram
 
 .. inheritance-diagram:: kotti.sqla
 """
+
 from pyramid.compat import json
 from pyramid.security import ALL_PERMISSIONS
 from pyramid.security import Allow
@@ -35,8 +36,7 @@ def no_autoflush(func):
 
 
 class JsonType(TypeDecorator):
-    """http://www.sqlalchemy.org/docs/core/types.html#marshal-json-strings
-    """
+    """http://www.sqlalchemy.org/docs/core/types.html#marshal-json-strings"""
 
     impl = Text
 
@@ -77,8 +77,7 @@ class ACLType(JsonType):
 
 
 class MutationDict(Mutable):
-    """http://www.sqlalchemy.org/docs/orm/extensions/mutable.html
-    """
+    """http://www.sqlalchemy.org/docs/orm/extensions/mutable.html"""
 
     _wraps = dict
 
@@ -107,7 +106,6 @@ class MutationDict(Mutable):
 
 
 class MutationList(Mutable):
-
     _wraps = list
 
     def __init__(self, data):

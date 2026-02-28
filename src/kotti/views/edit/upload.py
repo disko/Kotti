@@ -1,6 +1,7 @@
 """
 Created on 2013-02-23
 """
+
 import json
 from cgi import FieldStorage
 from logging import getLogger
@@ -19,7 +20,7 @@ log = getLogger(__name__)
 @view_defaults(name="upload", context="kotti.resources.Content", permission="edit")
 class UploadView:
     def __init__(self, context, request):
-        """ Constructor.
+        """Constructor.
 
         :param context: Container of the nodes that will be created from
                         uploads.
@@ -35,7 +36,7 @@ class UploadView:
 
     @view_config(request_method="GET", renderer="kotti:templates/edit/upload.pt")
     def form(self):
-        """ The upload form.
+        """The upload form.
 
         :result: Data that is needed to render the form (such as allowed child
                  types).
@@ -47,7 +48,7 @@ class UploadView:
         return {}
 
     def possible_factories(self, mimetype):
-        """ Return a list of factories for content types that are allowed in the
+        """Return a list of factories for content types that are allowed in the
             context *and* for the given mimetype.
 
             The result is sorted by length of the matching
@@ -84,7 +85,7 @@ class UploadView:
         renderer="json",
     )
     def content_types(self):
-        """ Return a list of content type names and title for those types that
+        """Return a list of content type names and title for those types that
             can be created from files of the MIME type given as GET parameter.
 
         :result: JSON object with a single attribute ``content_types``.  This
@@ -104,7 +105,7 @@ class UploadView:
         return result
 
     def factory_by_name(self, content_type_name):
-        """ Return a factory (i.e. content class) by its name.
+        """Return a factory (i.e. content class) by its name.
 
         :param content_type_name: type_info.name of the class.
         :type content_type_name: str
@@ -127,7 +128,7 @@ class UploadView:
 
     @view_config(request_method="POST", xhr=True, accept="application/json")
     def process_upload(self):
-        """ Process a single upload.  Also see:
+        """Process a single upload.  Also see:
             https://github.com/valums/file-uploader/blob/master/server/readme.md
 
         :result: Status object with URL of the created item (on success) or
@@ -158,7 +159,7 @@ class UploadView:
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

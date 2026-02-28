@@ -1,4 +1,5 @@
-""" This module contains navigation related views. """
+"""This module contains navigation related views."""
+
 from pyramid.view import view_config
 
 from kotti.interfaces import INavigationRoot
@@ -16,7 +17,7 @@ from kotti.views.util import nodes_tree
     name="navigate", permission="view", renderer="kotti:templates/edit/nav-tree-view.pt"
 )
 def render_tree_navigation(context, request):
-    """ Renders the navigation view.
+    """Renders the navigation view.
 
     :result: Dictionary passed to the template for rendering.
     :rtype: dict
@@ -47,7 +48,7 @@ def local_navigation(context, request):
 
 
 def includeme_local_navigation(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`
@@ -62,7 +63,7 @@ def includeme_local_navigation(config):
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

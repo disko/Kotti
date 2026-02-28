@@ -134,32 +134,32 @@ class DispatcherDict(OrderedDict):
 class Dispatcher(DispatcherDict):
     """Dispatches based on event type.
 
-      >>> class BaseEvent(object): pass
-      >>> class SubEvent(BaseEvent): pass
-      >>> class UnrelatedEvent(object): pass
-      >>> def base_listener(event):
-      ...     print('Called base listener')
-      >>> def sub_listener(event):
-      ...     print('Called sub listener')
-      >>> def unrelated_listener(event):
-      ...     print('Called unrelated listener')
-      ...     return 1
+    >>> class BaseEvent(object): pass
+    >>> class SubEvent(BaseEvent): pass
+    >>> class UnrelatedEvent(object): pass
+    >>> def base_listener(event):
+    ...     print('Called base listener')
+    >>> def sub_listener(event):
+    ...     print('Called sub listener')
+    >>> def unrelated_listener(event):
+    ...     print('Called unrelated listener')
+    ...     return 1
 
-      >>> dispatcher = Dispatcher()
-      >>> dispatcher[BaseEvent].append(base_listener)
-      >>> dispatcher[SubEvent].append(sub_listener)
-      >>> dispatcher[UnrelatedEvent].append(unrelated_listener)
+    >>> dispatcher = Dispatcher()
+    >>> dispatcher[BaseEvent].append(base_listener)
+    >>> dispatcher[SubEvent].append(sub_listener)
+    >>> dispatcher[UnrelatedEvent].append(unrelated_listener)
 
-      >>> dispatcher(BaseEvent())
-      Called base listener
-      [None]
-      >>> dispatcher(SubEvent())
-      Called base listener
-      Called sub listener
-      [None, None]
-      >>> dispatcher(UnrelatedEvent())
-      Called unrelated listener
-      [1]
+    >>> dispatcher(BaseEvent())
+    Called base listener
+    [None]
+    >>> dispatcher(SubEvent())
+    Called base listener
+    Called sub listener
+    [None, None]
+    >>> dispatcher(UnrelatedEvent())
+    Called unrelated listener
+    [1]
     """
 
     def __call__(self, event):
@@ -174,28 +174,28 @@ class Dispatcher(DispatcherDict):
 class ObjectEventDispatcher(DispatcherDict):
     """Dispatches based on both event type and object type.
 
-      >>> class BaseObject(object): pass
-      >>> class SubObject(BaseObject): pass
-      >>> def base_listener(event):
-      ...     return 'base'
-      >>> def subobj_insert_listener(event):
-      ...     return 'sub'
-      >>> def all_listener(event):
-      ...     return 'all'
+    >>> class BaseObject(object): pass
+    >>> class SubObject(BaseObject): pass
+    >>> def base_listener(event):
+    ...     return 'base'
+    >>> def subobj_insert_listener(event):
+    ...     return 'sub'
+    >>> def all_listener(event):
+    ...     return 'all'
 
-      >>> dispatcher = ObjectEventDispatcher()
-      >>> dispatcher[(ObjectEvent, BaseObject)].append(base_listener)
-      >>> dispatcher[(ObjectInsert, SubObject)].append(subobj_insert_listener)
-      >>> dispatcher[(ObjectEvent, None)].append(all_listener)
+    >>> dispatcher = ObjectEventDispatcher()
+    >>> dispatcher[(ObjectEvent, BaseObject)].append(base_listener)
+    >>> dispatcher[(ObjectInsert, SubObject)].append(subobj_insert_listener)
+    >>> dispatcher[(ObjectEvent, None)].append(all_listener)
 
-      >>> dispatcher(ObjectEvent(BaseObject()))
-      ['base', 'all']
-      >>> dispatcher(ObjectInsert(BaseObject()))
-      ['base', 'all']
-      >>> dispatcher(ObjectEvent(SubObject()))
-      ['base', 'all']
-      >>> dispatcher(ObjectInsert(SubObject()))
-      ['base', 'sub', 'all']
+    >>> dispatcher(ObjectEvent(BaseObject()))
+    ['base', 'all']
+    >>> dispatcher(ObjectInsert(BaseObject()))
+    ['base', 'all']
+    >>> dispatcher(ObjectEvent(SubObject()))
+    ['base', 'all']
+    >>> dispatcher(ObjectInsert(SubObject()))
+    ['base', 'sub', 'all']
     """
 
     def __call__(self, event):
@@ -223,7 +223,7 @@ clear()
 
 # noinspection PyUnusedLocal,PyShadowingNames
 def _after_delete(mapper, connection, target):
-    """ Trigger the Kotti event :class:``ObjectAfterDelete``.
+    """Trigger the Kotti event :class:``ObjectAfterDelete``.
 
     :param mapper: SQLAlchemy mapper
     :type mapper: :class:`sqlalchemy.orm.mapper.Mapper`
@@ -324,11 +324,11 @@ def delete_orphaned_tags(event):
 
 def cleanup_user_groups(event):
     """Remove a deleted group from the groups of a user/group and remove
-       all local group entries of it.
+    all local group entries of it.
 
-       :param event: event that triggered this handler.
-       :type event: :class:`UserDeleted`
-       """
+    :param event: event that triggered this handler.
+    :type event: :class:`UserDeleted`
+    """
     name = event.object.name
 
     if name.startswith("group:"):
@@ -363,7 +363,7 @@ def _update_children_paths(old_parent_path, new_parent_path):
             # The child is the node itself and has already be renamed.
             # Nothing to do!
             continue
-        child.path = new_parent_path + child.path[len(old_parent_path):]
+        child.path = new_parent_path + child.path[len(old_parent_path) :]
 
 
 # noinspection PyUnusedLocal,SpellCheckingInspection
@@ -429,8 +429,7 @@ def _all_children(item, _all=None):
 # noinspection PyUnusedLocal,PyUnusedLocal,SpellCheckingInspection
 @no_autoflush
 def _set_path_for_new_parent(target, value, oldvalue, initiator):
-    """Triggered whenever the Node's 'parent' attribute is set.
-    """
+    """Triggered whenever the Node's 'parent' attribute is set."""
     if value is None or value == oldvalue:
         # The parent is about to be set to 'None', so skip.
         return
@@ -528,8 +527,8 @@ _WIRED_SQLALCHMEY = False
 
 
 def wire_sqlalchemy():  # pragma: no cover
-    """ Connect SQLAlchemy events to their respective handler function (that
-    fires the corresponding Kotti event). """
+    """Connect SQLAlchemy events to their respective handler function (that
+    fires the corresponding Kotti event)."""
 
     global _WIRED_SQLALCHMEY
     if _WIRED_SQLALCHMEY:
@@ -548,7 +547,7 @@ def wire_sqlalchemy():  # pragma: no cover
 
 # noinspection PyUnusedLocal
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

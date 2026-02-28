@@ -1,6 +1,7 @@
-""" For a high level introduction and available configuration options
+"""For a high level introduction and available configuration options
 see :ref:`sanitizers`.
 """
+
 import warnings
 from typing import Dict
 from typing import Union
@@ -20,64 +21,202 @@ from kotti.events import objectevent_listeners
 # nh3). This is a tightened allowlist per CONTEXT.md: excludes form/input/button
 # elements and other potentially risky interactive tags that were in bleach_allowlist
 # but are not needed for CMS content.
-_XSS_SAFE_TAGS = frozenset({
-    'a', 'abbr', 'acronym', 'address', 'area', 'article', 'aside', 'b', 'base',
-    'basefont', 'bdi', 'bdo', 'big', 'blink', 'blockquote', 'br', 'button',
-    'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'content',
-    'data', 'datalist', 'dd', 'del', 'detals', 'dfn', 'dialog', 'dir', 'div',
-    'dl', 'dt', 'element', 'em', 'fieldset', 'figcaption', 'figure', 'font',
-    'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup',
-    'hr', 'i', 'image', 'img', 'input', 'ins', 'isindex', 'kbd', 'keygen',
-    'label', 'legend', 'li', 'listing', 'main', 'map', 'mark', 'marquee', 'menu',
-    'menuitem', 'meter', 'multicol', 'nav', 'nobr', 'noembed', 'noframes',
-    'noscript', 'ol', 'optgroup', 'option', 'output', 'p', 'picture', 'plaintext',
-    'pre', 'progress', 'q', 'rp', 's', 'samp', 'section', 'select', 'shadow',
-    'small', 'spacer', 'span', 'strike', 'strong', 'sub', 'summary', 'sup',
-    'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'time',
-    'tr', 'tt', 'u', 'ul', 'var', 'wbr',
-})
+_XSS_SAFE_TAGS = frozenset(
+    {
+        "a",
+        "abbr",
+        "acronym",
+        "address",
+        "area",
+        "article",
+        "aside",
+        "b",
+        "base",
+        "basefont",
+        "bdi",
+        "bdo",
+        "big",
+        "blink",
+        "blockquote",
+        "br",
+        "button",
+        "caption",
+        "center",
+        "cite",
+        "code",
+        "col",
+        "colgroup",
+        "command",
+        "content",
+        "data",
+        "datalist",
+        "dd",
+        "del",
+        "detals",
+        "dfn",
+        "dialog",
+        "dir",
+        "div",
+        "dl",
+        "dt",
+        "element",
+        "em",
+        "fieldset",
+        "figcaption",
+        "figure",
+        "font",
+        "footer",
+        "form",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "header",
+        "hgroup",
+        "hr",
+        "i",
+        "image",
+        "img",
+        "input",
+        "ins",
+        "isindex",
+        "kbd",
+        "keygen",
+        "label",
+        "legend",
+        "li",
+        "listing",
+        "main",
+        "map",
+        "mark",
+        "marquee",
+        "menu",
+        "menuitem",
+        "meter",
+        "multicol",
+        "nav",
+        "nobr",
+        "noembed",
+        "noframes",
+        "noscript",
+        "ol",
+        "optgroup",
+        "option",
+        "output",
+        "p",
+        "picture",
+        "plaintext",
+        "pre",
+        "progress",
+        "q",
+        "rp",
+        "s",
+        "samp",
+        "section",
+        "select",
+        "shadow",
+        "small",
+        "spacer",
+        "span",
+        "strike",
+        "strong",
+        "sub",
+        "summary",
+        "sup",
+        "table",
+        "tbody",
+        "td",
+        "template",
+        "textarea",
+        "tfoot",
+        "th",
+        "thead",
+        "time",
+        "tr",
+        "tt",
+        "u",
+        "ul",
+        "var",
+        "wbr",
+    }
+)
 
 # Curated attribute allowlist — tightened from bleach's "allow everything" lambda.
 # Per CONTEXT.md: "Tighten allowlists where bleach was overly broad."
 _XSS_SAFE_ATTRS = {
-    '*': {'class', 'id', 'style', 'title', 'lang', 'dir'},
-    'a': {'href', 'target'},
-    'img': {'src', 'alt', 'width', 'height'},
-    'table': {'border', 'cellpadding', 'cellspacing', 'width', 'summary'},
-    'td': {'colspan', 'rowspan', 'align', 'valign'},
-    'th': {'colspan', 'rowspan', 'scope', 'align', 'valign'},
-    'ol': {'start', 'type'},
-    'ul': {'type'},
-    'blockquote': {'cite'},
-    'col': {'span', 'width'},
-    'colgroup': {'span', 'width'},
-    'del': {'cite', 'datetime'},
-    'ins': {'cite', 'datetime'},
-    'time': {'datetime'},
+    "*": {"class", "id", "style", "title", "lang", "dir"},
+    "a": {"href", "target"},
+    "img": {"src", "alt", "width", "height"},
+    "table": {"border", "cellpadding", "cellspacing", "width", "summary"},
+    "td": {"colspan", "rowspan", "align", "valign"},
+    "th": {"colspan", "rowspan", "scope", "align", "valign"},
+    "ol": {"start", "type"},
+    "ul": {"type"},
+    "blockquote": {"cite"},
+    "col": {"span", "width"},
+    "colgroup": {"span", "width"},
+    "del": {"cite", "datetime"},
+    "ins": {"cite", "datetime"},
+    "time": {"datetime"},
 }
 
 # Minimal HTML tags — union of bleach_allowlist markdown_tags and print_tags
-_MINIMAL_TAGS = frozenset({
-    'a', 'b', 'blockquote', 'br', 'code', 'dd', 'div', 'dt', 'em',
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'li',
-    'ol', 'p', 'pre', 'span', 'strong', 'sub', 'sup', 'table', 'tbody',
-    'td', 'tfoot', 'th', 'thead', 'tr', 'tt', 'ul',
-})
+_MINIMAL_TAGS = frozenset(
+    {
+        "a",
+        "b",
+        "blockquote",
+        "br",
+        "code",
+        "dd",
+        "div",
+        "dt",
+        "em",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "hr",
+        "i",
+        "img",
+        "li",
+        "ol",
+        "p",
+        "pre",
+        "span",
+        "strong",
+        "sub",
+        "sup",
+        "table",
+        "tbody",
+        "td",
+        "tfoot",
+        "th",
+        "thead",
+        "tr",
+        "tt",
+        "ul",
+    }
+)
 
 # Minimal HTML attributes — merged from bleach_allowlist markdown_attrs and
 # print_attrs. Note: 'style' from print_attrs is intentionally excluded —
 # style values are stripped (tightened from bleach which left empty style="").
 _MINIMAL_ATTRS = {
-    '*': {'class', 'id'},
-    'a': {'href', 'alt', 'title'},
-    'img': {'src', 'alt', 'title', 'width', 'height'},
-    'td': {'colspan', 'rowspan', 'align', 'valign'},
-    'th': {'colspan', 'rowspan', 'scope', 'align', 'valign'},
+    "*": {"class", "id"},
+    "a": {"href", "alt", "title"},
+    "img": {"src", "alt", "title", "width", "height"},
+    "td": {"colspan", "rowspan", "align", "valign"},
+    "th": {"colspan", "rowspan", "scope", "align", "valign"},
 }
 
 
 def sanitize(html: str, sanitizer: str) -> str:
-    """ Sanitize HTML
+    """Sanitize HTML
 
     :param html: HTML to be sanitized
     :type html: basestring
@@ -242,7 +381,7 @@ def _setup_listeners(settings):
 
 
 def includeme(config: Configurator) -> None:
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

@@ -56,7 +56,7 @@ upload = Group([upload_js, upload_css])
 
 class NeededGroup:
     """A collection of fanstatic resources that supports
-       dynamic appending of resources after initialization"""
+    dynamic appending of resources after initialization"""
 
     def __init__(
         self, resources: Optional[List[Union[Resource, "NeededGroup"]]] = None
@@ -79,8 +79,8 @@ class NeededGroup:
     def add(self, resource: Union["NeededGroup", Resource]):
         """resource may be a:
 
-            - :class:`fanstatic.Resource` object or
-            - :class:`fanstatic.Group` object"""
+        - :class:`fanstatic.Resource` object or
+        - :class:`fanstatic.Group` object"""
 
         if isinstance(resource, self.__class__):
             self.resources = self.resources + resource.resources

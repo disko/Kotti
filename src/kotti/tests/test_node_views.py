@@ -495,7 +495,7 @@ class TestNodeShare:
         }
 
     def test_csrf(self, extra_principals, root, dummy_request):
-        """ Test if a CSRF token is present and checked on submission """
+        """Test if a CSRF token is present and checked on submission"""
         from kotti.views.users import share_node
 
         result = share_node(root, dummy_request)
@@ -506,8 +506,6 @@ class TestNodeShare:
         with raises(HTTPBadRequest):
             share_node(root, dummy_request)
 
-        dummy_request.params[
-            "csrf_token"
-        ] = dummy_request.session.get_csrf_token()  # noqa
+        dummy_request.params["csrf_token"] = dummy_request.session.get_csrf_token()  # noqa
         result = share_node(root, dummy_request)
         assert result["csrf_token"] == dummy_request.session.get_csrf_token()

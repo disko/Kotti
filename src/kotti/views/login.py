@@ -1,6 +1,7 @@
 """
 Login / logout and forbidden views and forms.
 """
+
 from datetime import datetime
 
 import colander
@@ -50,12 +51,12 @@ def _find_user(login):
 
 
 class UserSelfRegistered(ObjectEvent):
-    """ This event is emitted just after user self registered.
+    """This event is emitted just after user self registered.
 
     Intended use is to allow addons to do some preparation for such a user
     (create custom contents, nodes etc.
 
-    Event handler object parameter is a Principal object. """
+    Event handler object parameter is a Principal object."""
 
 
 class RegisterSchema(colander.Schema):
@@ -126,7 +127,7 @@ def register(context, request):
 
 
 def login_success_callback(request, user, came_from):
-    """ Default implementation of ``kotti.login_success_callback``.  You can
+    """Default implementation of ``kotti.login_success_callback``.  You can
     implement a custom function with the same signature and point the
     ``kotti.login_success_callback`` setting to it.
 
@@ -153,7 +154,7 @@ def login_success_callback(request, user, came_from):
 
 
 def reset_password_callback(request, user):
-    """ Default implementation of ``kotti.reset_password_callback``.  You can
+    """Default implementation of ``kotti.reset_password_callback``.  You can
     implement a custom function with the same signature and point the
     ``kotti.reset_password_callback`` setting to it.
 
@@ -184,7 +185,7 @@ def reset_password_callback(request, user):
 
 @view_config(name="login", renderer="kotti:templates/login.pt")
 def login(context, request):
-    """ Login view.  Renders either the login or password forgot form templates
+    """Login view.  Renders either the login or password forgot form templates
     or handles their form submission and redirects to came_from on success.
 
     :result: Either a redirect response or a dictionary passed to the template
@@ -233,7 +234,7 @@ def login(context, request):
 
 @view_config(name="logout")
 def logout(context, request):
-    """ Logout view.  Always redirects the user to where he came from.
+    """Logout view.  Always redirects the user to where he came from.
 
     :result: Redirect to came_from
     :rtype: pyramid.httpexceptions.HTTPFound
@@ -246,7 +247,7 @@ def logout(context, request):
 
 
 class SetPasswordSchema(colander.MappingSchema):
-    """ Schema for the set password form """
+    """Schema for the set password form"""
 
     #: colander.String
     password = colander.SchemaNode(
@@ -269,7 +270,7 @@ class SetPasswordSchema(colander.MappingSchema):
 
 @view_config(name="set-password", renderer="kotti:templates/edit/simpleform.pt")
 def set_password(context, request, success_msg=_("You have reset your password.")):
-    """ Set password view.  Displays the set password form and handles its form
+    """Set password view.  Displays the set password form and handles its form
     submission.
 
     :param context: Current context
@@ -334,7 +335,7 @@ def set_password(context, request, success_msg=_("You have reset your password."
 
 @view_config(context=HTTPForbidden, accept="text/html")
 def forbidden_redirect(context, request):
-    """ Forbidden redirect view.  Redirects to the login form for anonymous
+    """Forbidden redirect view.  Redirects to the login form for anonymous
     users or to the forbidden view for authenticated users.
 
     :result: Redirect to one of the above.
@@ -353,7 +354,7 @@ def forbidden_redirect(context, request):
 
 @view_config(context=HTTPForbidden)
 def forbidden_view(request):
-    """ Forbidden view.  Raises 403 for requests not originating from a web
+    """Forbidden view.  Raises 403 for requests not originating from a web
     browser like device.
 
     :result: 403
@@ -365,7 +366,7 @@ def forbidden_view(request):
 
 @view_config(name="forbidden", renderer="kotti:templates/forbidden.pt")
 def forbidden_view_html(request):
-    """ Forbidden view for browsers.
+    """Forbidden view for browsers.
 
     :result: empty dictionary passed to the template for rendering
     :rtype: dict
@@ -375,7 +376,7 @@ def forbidden_view_html(request):
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

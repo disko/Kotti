@@ -1,10 +1,10 @@
 class BaseView:
-    """ Very basic view class that can be subclassed.  Does nothing more than
+    """Very basic view class that can be subclassed.  Does nothing more than
     assignment of ``context`` and ``request`` to instance attributes on
-    initialization. """
+    initialization."""
 
     def __init__(self, context, request):
-        """ Constructor
+        """Constructor
 
         :param context: Context of the view
         :type context: :class:`kotti.resources.Node` or descendant for views on
@@ -19,7 +19,7 @@ class BaseView:
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

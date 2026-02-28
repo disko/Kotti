@@ -10,35 +10,41 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '37a05f6246af'
-down_revision = '413fa5fcc581'
+revision = "37a05f6246af"
+down_revision = "413fa5fcc581"
 
 
 def upgrade():
-    op.alter_column('nodes',
-                    'title',
-                    type_=sa.Unicode(250),
-                    )
-    op.alter_column('nodes',
-                    'name',
-                    type_=sa.Unicode(250),
-                    )
-    op.alter_column('nodes',
-                    'path',
-                    type_=sa.Unicode(2000),
-                    )
+    op.alter_column(
+        "nodes",
+        "title",
+        type_=sa.Unicode(250),
+    )
+    op.alter_column(
+        "nodes",
+        "name",
+        type_=sa.Unicode(250),
+    )
+    op.alter_column(
+        "nodes",
+        "path",
+        type_=sa.Unicode(2000),
+    )
 
 
 def downgrade():
-    op.alter_column('nodes',
-                    'title',
-                    type_=sa.Unicode(100),
-                    )
-    op.alter_column('nodes',
-                    'name',
-                    type_=sa.Unicode(50),
-                    )
-    op.alter_column('nodes',
-                    'path',
-                    type_=sa.Unicode(1000),
-                    )
+    op.alter_column(
+        "nodes",
+        "title",
+        type_=sa.Unicode(100),
+    )
+    op.alter_column(
+        "nodes",
+        "name",
+        type_=sa.Unicode(50),
+    )
+    op.alter_column(
+        "nodes",
+        "path",
+        type_=sa.Unicode(1000),
+    )

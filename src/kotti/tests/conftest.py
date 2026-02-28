@@ -28,8 +28,8 @@ def app(db_session, setup_app):
 
 @fixture
 def extra_principals(db_session):
-    """ Setup additional users 'bob', 'frank' and groups 'bobsgroup' and
-    'franksgroup'.  Return the result of ``get_pricipals()``. """
+    """Setup additional users 'bob', 'frank' and groups 'bobsgroup' and
+    'franksgroup'.  Return the result of ``get_pricipals()``."""
 
     from kotti.security import get_principals
 

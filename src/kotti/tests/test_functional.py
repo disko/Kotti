@@ -138,7 +138,7 @@ class TestValidatorMaxLength:
 
 
 class TestBrowser:
-    """ This is a one to one conversion of the former browsert.txt.
+    """This is a one to one conversion of the former browsert.txt.
     These tests should definitively be rewritten and splitted into multiple
     methods to ease readability.
     """
@@ -154,7 +154,7 @@ class TestBrowser:
 
     @staticmethod
     def _select_children(resp, *child_idx):
-        """ Mark the checkbox(es) of the rows in the ``contents`` view
+        """Mark the checkbox(es) of the rows in the ``contents`` view
 
         :param resp: response which's body contains the contents table
         :type resp: :class:`webtest.response.TestResponse`
@@ -532,8 +532,8 @@ class TestBrowser:
         assert "Are you sure" in resp.text
         resp = (
             resp.forms["form-delete-nodes"]
-                .submit("delete_nodes", status=302)
-                .maybe_follow()
+            .submit("delete_nodes", status=302)
+            .maybe_follow()
         )
         assert "Child One Three was deleted." in resp.text
         assert "Child One Four was deleted." in resp.text
@@ -542,9 +542,7 @@ class TestBrowser:
         assert "Welcome to Kotti" in resp.text
         assert '<i class="glyphicon glyphicon-home"></i>' in resp.text
         assert '<i class="glyphicon glyphicon-folder-open"></i>' in resp.text
-        assert (
-            '<i class="glyphicon glyphicon-folder-close"></i>' not in resp.text
-        )  # noqa
+        assert '<i class="glyphicon glyphicon-folder-close"></i>' not in resp.text  # noqa
 
         # Navigation
         resp = resp.click("Navigate")
@@ -993,7 +991,7 @@ class TestBrowser:
         # He can use it to set his own password:
         [email, email2] = dummy_mailer.outbox
         assert email.recipients == ['"Bob Dabolina" <bob@dabolina.com>']
-        assert email.subject == "Your registration for Website des " "Kottbusser Tors"
+        assert email.subject == "Your registration for Website des Kottbusser Tors"
         assert "Hello, Bob Dabolina!" in email.body
         assert "You are joining Website des Kottbusser Tors." in email.body
         assert "Click here to set your password and log in:" in email.body
@@ -1002,7 +1000,7 @@ class TestBrowser:
 
         # We'll use that link to set our password:
         resp.click("Logout").maybe_follow()
-        path = email.body[email.body.index("http://localhost"):].split()[0][16:]
+        path = email.body[email.body.index("http://localhost") :].split()[0][16:]
         resp = app.get(path)
         form = resp.forms["deform"]
         form["password"] = "newpassword"

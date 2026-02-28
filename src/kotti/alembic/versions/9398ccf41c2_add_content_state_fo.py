@@ -10,13 +10,13 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision = '9398ccf41c2'
+revision = "9398ccf41c2"
 down_revision = None
 
 
 def upgrade():
-    op.add_column('contents', sa.Column('state', sa.String(50)))
+    op.add_column("contents", sa.Column("state", sa.String(50)))
 
 
 def downgrade():
-    op.drop_column('contents', 'state')
+    op.drop_column("contents", "state")

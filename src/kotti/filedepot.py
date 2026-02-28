@@ -51,7 +51,7 @@ _marker = object()
 
 
 class DBStoredFile(Base):
-    """ :class:`depot.io.interfaces.StoredFile` implementation that stores
+    """:class:`depot.io.interfaces.StoredFile` implementation that stores
     file data in SQL database.
 
     Can be used together with :class:`kotti.filedepot.DBFileStorage` to
@@ -135,24 +135,21 @@ class DBStoredFile(Base):
 
     @staticmethod
     def closed() -> bool:
-        """Implement :meth:`StoredFile.closed`.
-        """
+        """Implement :meth:`StoredFile.closed`."""
         return False
 
     @staticmethod
     def writable() -> bool:
-        """Implement :meth:`StoredFile.writable`.
-        """
+        """Implement :meth:`StoredFile.writable`."""
         return False
 
     @staticmethod
     def seekable() -> bool:
-        """Implement :meth:`StoredFile.seekable`.
-        """
+        """Implement :meth:`StoredFile.seekable`."""
         return True
 
     def seek(self, offset: int, whence: int = 0) -> None:
-        """ Change stream position.
+        """Change stream position.
 
         Change the stream position to the given byte offset. The offset is
         interpreted relative to the position indicated by whence.
@@ -174,7 +171,7 @@ class DBStoredFile(Base):
             raise ValueError("whence must be 0, 1 or 2")
 
     def tell(self) -> int:
-        """ Returns current position of file cursor
+        """Returns current position of file cursor
 
         :result: Current file cursor position.
         :rtype: int
@@ -192,7 +189,7 @@ class DBStoredFile(Base):
 
     @classmethod
     def __declare_last__(cls) -> None:
-        """ Executed by SQLAlchemy as part of mapper configuration
+        """Executed by SQLAlchemy as part of mapper configuration
 
         When the data changes, we want to reset the cursor position of target
         instance, to allow proper streaming of data.
@@ -416,7 +413,7 @@ def migrate_storages_command():  # pragma: no cover
 
 
 class StoredFileResponse(Response):
-    """ A Response object that can be used to serve an UploadedFile instance.
+    """A Response object that can be used to serve an UploadedFile instance.
 
     Code adapted from :class:`pyramid.response.FileResponse`.
     """
@@ -648,7 +645,7 @@ def adjust_for_engine(conn: Connection, branch: bool) -> None:
 def extract_depot_settings(
     prefix: Optional[str] = "kotti.depot.", settings: Optional[Dict[str, str]] = None
 ) -> List[Dict[str, str]]:  # noqa
-    """ Merges items from a dictionary that have keys that start with `prefix`
+    """Merges items from a dictionary that have keys that start with `prefix`
     to a list of dictionaries.
 
     :param prefix: A dotted string representing the prefix for the common values
@@ -696,7 +693,7 @@ def configure_filedepot(settings: Dict[str, str]) -> None:
 
 
 def includeme(config: Configurator) -> None:
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

@@ -162,7 +162,7 @@ class TemplateAPI:
 
     @reify
     def site_title(self):
-        """ The site title.
+        """The site title.
 
         :result: Value of the ``kotti.site_title`` setting (if specified) or
                  the root item's ``title`` attribute.
@@ -258,7 +258,7 @@ class TemplateAPI:
         return reversed(breadcrumbs)
 
     def has_permission(self, permission, context=None):
-        """ Convenience wrapper for :func:`pyramid.security.has_permission`
+        """Convenience wrapper for :func:`pyramid.security.has_permission`
         with the same signature.  If ``context`` is ``None`` the current
         context is passed to ``has_permission``."""
         if context is None:
@@ -361,12 +361,15 @@ class TemplateAPI:
 
     @reify
     def site_setup_links(self):
-        return [link for link in CONTROL_PANEL_LINKS
-                if link.visible(self.root, self.request)]
+        return [
+            link
+            for link in CONTROL_PANEL_LINKS
+            if link.visible(self.root, self.request)
+        ]
 
     @staticmethod
     def sanitize(html, sanitizer="default"):
-        """ Convenience wrapper for :func:`kotti.sanitizers.sanitize`.
+        """Convenience wrapper for :func:`kotti.sanitizers.sanitize`.
 
         :param html: HTML to be sanitized
         :type html: str
@@ -519,7 +522,7 @@ def search_content_for_tags(tags, request=None):
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

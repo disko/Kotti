@@ -18,23 +18,23 @@ from importlib.metadata import version as _pkg_version
 # -- General configuration -----------------------------------------------------
 
 extensions = [
-    'repoze.sphinx.autointerface',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.graphviz',
-    'sphinx.ext.inheritance_diagram',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode',
-    ]
+    "repoze.sphinx.autointerface",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.doctest",
+    "sphinx.ext.graphviz",
+    "sphinx.ext.inheritance_diagram",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.viewcode",
+]
 
-copyright = u'2012-{0}, Kotti developers'.format(date.today().year)
-exclude_patterns = ['_build', '_themes']
-master_doc = 'index'
-project = u'Kotti'
-pygments_style = 'sphinx'
-source_suffix = '.rst'
-templates_path = ['_templates']
-today_fmt = '%Y-%m-%d'
+copyright = "2012-{0}, Kotti developers".format(date.today().year)
+exclude_patterns = ["_build", "_themes"]
+master_doc = "index"
+project = "Kotti"
+pygments_style = "sphinx"
+source_suffix = ".rst"
+templates_path = ["_templates"]
+today_fmt = "%Y-%m-%d"
 # The full version, including alpha/beta/rc tags.
 version = _pkg_version("Kotti")
 release = version
@@ -50,19 +50,20 @@ release = version
 # -- Options for HTML output ---------------------------------------------------
 
 # on_rtd is whether we are on readthedocs.org
-on_rtd = os.environ.get('READTHEDOCS') == 'True'
+on_rtd = os.environ.get("READTHEDOCS") == "True"
 
 if not on_rtd:  # only import and set the theme if we're building docs locally
     import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
+
+    html_theme = "sphinx_rtd_theme"
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 # A shorter title for the navigation bar.  Default is the same as html_title.
-html_last_updated_fmt = '%Y-%m-%d'
-html_static_path = ['_static']
-htmlhelp_basename = 'Kottidoc'
+html_last_updated_fmt = "%Y-%m-%d"
+html_static_path = ["_static"]
+htmlhelp_basename = "Kottidoc"
 # html_additional_pages = {}
 # html_domain_indices = True
 # html_favicon = None
@@ -105,26 +106,21 @@ htmlhelp_basename = 'Kottidoc'
 # ]
 
 # -- Options for inheritance diagrams ------------------------------------------
-inheritance_graph_attrs = dict(
-    rankdir='TB',
-    nodesep=0.1,
-    ratio='auto',
-    size=11.0
-)
+inheritance_graph_attrs = dict(rankdir="TB", nodesep=0.1, ratio="auto", size=11.0)
 inheritance_node_attrs = dict(
     height=0.7,
     margin='"0.06, 0.03"',
-    fontname='"Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans"'
+    fontname='"Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans"',
 )
-graphviz_output_format = 'svg'
+graphviz_output_format = "svg"
 
 # -- Options for Intersphinx ---------------------------------------------------
 intersphinx_mapping = {
-    'bleach': ('https://bleach.readthedocs.io/en/latest/', None),
-    'colander': ('https://colander.readthedocs.io/en/latest/', None),
-    'deform': ('https://deform.readthedocs.io/en/latest/', None),
-    'depot': ('https://depot.readthedocs.io/en/latest/', None),
-    'fanstatic': ('http://www.fanstatic.org/en/latest/', None),
-    'pyramid': ('https://pyramid.readthedocs.io/en/latest/', None),
-    'sqlalchemy': ('https://sqlalchemy.readthedocs.io/en/latest/', None),
+    "bleach": ("https://bleach.readthedocs.io/en/latest/", None),
+    "colander": ("https://colander.readthedocs.io/en/latest/", None),
+    "deform": ("https://deform.readthedocs.io/en/latest/", None),
+    "depot": ("https://depot.readthedocs.io/en/latest/", None),
+    "fanstatic": ("http://www.fanstatic.org/en/latest/", None),
+    "pyramid": ("https://pyramid.readthedocs.io/en/latest/", None),
+    "sqlalchemy": ("https://sqlalchemy.readthedocs.io/en/latest/", None),
 }

@@ -1,6 +1,7 @@
 """
 :summary: Default view selctor views
 """
+
 import warnings
 
 from pyramid.compat import map_
@@ -24,9 +25,9 @@ class DefaultViewSelection:
 
     def _get_view(self, view_name):  # pragma: no cover
         """This code is copied from pyramid.view.
-           We trust it and don't test.
+        We trust it and don't test.
 
-           Returns True if a view with name view_name is registered for context.
+        Returns True if a view with name view_name is registered for context.
         """
         provides = [IViewClassifier] + map_(providedBy, (self.request, self.context))
 
@@ -38,8 +39,7 @@ class DefaultViewSelection:
         return reg.adapters.lookup(provides, IView, name=view_name)
 
     def _is_valid_view(self, view_name):
-        """Return True if a view with name view_name is registered for context.
-        """
+        """Return True if a view with name view_name is registered for context."""
 
         return self._get_view(view_name) is not None
 
@@ -102,7 +102,6 @@ class DefaultViewSelection:
         """
 
         if "view_name" in self.request.GET:
-
             view_name = self.request.GET["view_name"]
 
             if view_name == "default":
@@ -125,7 +124,7 @@ class DefaultViewSelection:
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

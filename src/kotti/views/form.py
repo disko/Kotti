@@ -37,7 +37,7 @@ def get_appstruct(context, schema):
 
 
 class ObjectType(colander.SchemaType):
-    """ A type leaving the value untouched. """
+    """A type leaving the value untouched."""
 
     @staticmethod
     def serialize(node, value):
@@ -58,7 +58,7 @@ def deferred_tag_it_widget(node, kw):
 
 
 class Form(deform.Form):
-    """ A deform Form that allows 'appstruct' to be set on the instance. """
+    """A deform Form that allows 'appstruct' to be set on the instance."""
 
     def render(self, appstruct=None, readonly=False):
         if appstruct is None:
@@ -67,7 +67,7 @@ class Form(deform.Form):
 
 
 class BaseFormView(FormView):
-    """ A basic view for forms with save and cancel buttons. """
+    """A basic view for forms with save and cancel buttons."""
 
     form_class = Form
     buttons = (deform.Button("save", _("Save")), deform.Button("cancel", _("Cancel")))
@@ -106,7 +106,7 @@ class BaseFormView(FormView):
 
 
 class EditFormView(BaseFormView):
-    """ A base form for content editing purposes.
+    """A base form for content editing purposes.
 
     Set `self.schema_factory` to the context's schema.  Values of
     fields in this schema will be set as attributes on the context.
@@ -152,7 +152,7 @@ class EditFormView(BaseFormView):
 
 
 class AddFormView(BaseFormView):
-    """ A base form for content adding purposes.
+    """A base form for content adding purposes.
 
     Set `self.schema_factory` as with EditFormView.  Also set
     `item_type` to your model class.  An example::
@@ -213,10 +213,10 @@ class CommaSeparatedListWidget(deform.widget.Widget):
 
 
 class FileUploadTempStore(MutableMapping):
-    """ A temporary storage for file file uploads
+    """A temporary storage for file file uploads
 
     File uploads are stored in the session so that you don't need to upload
-    your file again if validation of another schema node fails. """
+    your file again if validation of another schema node fails."""
 
     def __init__(self, request):
         self.session = request.session
@@ -258,7 +258,7 @@ class FileUploadTempStore(MutableMapping):
 
 
 def validate_file_size_limit(node, value):
-    """ File size limit validator.
+    """File size limit validator.
 
     You can configure the maximum size by setting the kotti.max_file_size
     option to the maximum number of bytes that you want to allow.

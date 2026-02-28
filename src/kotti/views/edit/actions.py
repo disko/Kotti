@@ -1,6 +1,7 @@
 """
 Action views
 """
+
 from pyramid.exceptions import Forbidden
 from pyramid.httpexceptions import HTTPFound
 from pyramid.url import resource_url
@@ -33,7 +34,7 @@ class NodeActions:
         self.flash = self.request.session.flash
 
     def _selected_children(self, add_context=True):
-        """ Get the selected children of the given context. These are either
+        """Get the selected children of the given context. These are either
         the selected nodes of the contents view or the context itself.
 
         :result: List with select children.
@@ -45,7 +46,7 @@ class NodeActions:
         return ids
 
     def _all_children(self, context, permission="view"):
-        """ Recursively get all children of the given context.
+        """Recursively get all children of the given context.
 
         :result: List with all children of a given context.
         :rtype: list
@@ -54,7 +55,7 @@ class NodeActions:
         return tree.tolist()[1:]
 
     def back(self, view=None):
-        """ Redirect to the given view of the context, the referrer of the
+        """Redirect to the given view of the context, the referrer of the
         request or the default_view of the context.
 
         :rtype: pyramid.httpexceptions.HTTPFound
@@ -68,7 +69,7 @@ class NodeActions:
 
     @view_config(name="workflow-change", permission="state_change")
     def workflow_change(self):
-        """ Handle workflow change requests from workflow dropdown.
+        """Handle workflow change requests from workflow dropdown.
 
         :result: Redirect response to the referrer of the request.
         :rtype: pyramid.httpexceptions.HTTPFound
@@ -81,7 +82,7 @@ class NodeActions:
 
     @view_config(name="copy")
     def copy_node(self):
-        """ Copy nodes view. Copy the current node or the selected nodes in the
+        """Copy nodes view. Copy the current node or the selected nodes in the
         contents view and save the result in the session of the request.
 
         :result: Redirect response to the referrer of the request.
@@ -91,7 +92,7 @@ class NodeActions:
 
     @view_config(name="cut")
     def cut_nodes(self):
-        """ Cut nodes view. Cut the current node or the selected nodes in the
+        """Cut nodes view. Cut the current node or the selected nodes in the
         contents view and save the result in the session of the request.
 
         :result: Redirect response to the referrer of the request.
@@ -113,7 +114,7 @@ class NodeActions:
 
     @view_config(name="paste")
     def paste_nodes(self):
-        """ Paste nodes view.  Paste formerly copied or cutted nodes into the
+        """Paste nodes view.  Paste formerly copied or cutted nodes into the
         current context.  Note that a cutted node can not be pasted into itself.
 
         :result: Redirect response to the referrer of the request.
@@ -149,7 +150,7 @@ class NodeActions:
             return self.back()
 
     def move(self, move):
-        """ Do the real work to move the selected nodes up or down. Called
+        """Do the real work to move the selected nodes up or down. Called
         by the up and the down view.
 
         :result: Redirect response to the referrer of the request.
@@ -171,7 +172,7 @@ class NodeActions:
 
     @view_config(name="up")
     def up(self):
-        """ Move up nodes view. Move the selected nodes up by 1 position
+        """Move up nodes view. Move the selected nodes up by 1 position
         and get back to the referrer of the request.
 
         :result: Redirect response to the referrer of the request.
@@ -181,7 +182,7 @@ class NodeActions:
 
     @view_config(name="down")
     def down(self):
-        """ Move down nodes view. Move the selected nodes down by 1 position
+        """Move down nodes view. Move the selected nodes down by 1 position
         and get back to the referrer of the request.
 
         :result: Redirect response to the referrer of the request.
@@ -190,7 +191,7 @@ class NodeActions:
         return self.move(1)
 
     def set_visibility(self, show):
-        """ Do the real work to set the visibility of nodes in the menu. Called
+        """Do the real work to set the visibility of nodes in the menu. Called
         by the show and the hide view.
 
         :result: Redirect response to the referrer of the request.
@@ -217,7 +218,7 @@ class NodeActions:
 
     @view_config(name="show")
     def show(self):
-        """ Show nodes view.  Switch the in_navigation attribute of selected
+        """Show nodes view.  Switch the in_navigation attribute of selected
         nodes to ``True`` and get back to the referrer of the request.
 
         :result: Redirect response to the referrer of the request.
@@ -227,7 +228,7 @@ class NodeActions:
 
     @view_config(name="hide")
     def hide(self):
-        """ Hide nodes view. Switch the in_navigation attribute of selected
+        """Hide nodes view. Switch the in_navigation attribute of selected
         nodes to ``False`` and get back to the referrer of the request.
 
         :result: Redirect response to the referrer of the request.
@@ -239,7 +240,7 @@ class NodeActions:
         name="delete", permission="delete", renderer="kotti:templates/edit/delete.pt"
     )
     def delete_node(self):
-        """ Delete node view. Renders either a view to delete the current node
+        """Delete node view. Renders either a view to delete the current node
         or handle the deletion of the current node and get back to the
         default view of the node.
 
@@ -250,7 +251,6 @@ class NodeActions:
 
         action = self.request.POST.get("delete")
         if action is not None:
-
             parent = self.context.__parent__
 
             if action == "delete":
@@ -273,7 +273,7 @@ class NodeActions:
         renderer="kotti:templates/edit/delete-nodes.pt",
     )
     def delete_nodes(self):
-        """ Delete nodes view. Renders either a view to delete multiple nodes or
+        """Delete nodes view. Renders either a view to delete multiple nodes or
         delete the selected nodes and get back to the referrer of the request.
 
         :result: Either a redirect response or a dictionary passed to the
@@ -310,7 +310,7 @@ class NodeActions:
 
     @view_config(name="rename", renderer="kotti:templates/edit/rename.pt")
     def rename_node(self):
-        """ Rename node view. Renders either a view to change the title and
+        """Rename node view. Renders either a view to change the title and
         name for the current node or handle the changes and get back to the
         default view of the node.
 
@@ -332,7 +332,7 @@ class NodeActions:
 
     @view_config(name="rename_nodes", renderer="kotti:templates/edit/rename-nodes.pt")
     def rename_nodes(self):
-        """ Rename nodes view. Renders either a view to change the titles and
+        """Rename nodes view. Renders either a view to change the titles and
         names for multiple nodes or handle the changes and get back to the
         referrer of the request.
 
@@ -370,7 +370,7 @@ class NodeActions:
 
     @view_config(name="change_state", renderer="kotti:templates/edit/change-state.pt")
     def change_state(self):
-        """ Change state view. Renders either a view to handle workflow changes
+        """Change state view. Renders either a view to handle workflow changes
         for multiple nodes or handle the selected workflow changes and get
         back to the referrer of the request.
 
@@ -422,7 +422,7 @@ class NodeActions:
 
 
 def contents_buttons(context, request):
-    """ Build the action buttons for the contents view based on the current
+    """Build the action buttons for the contents view based on the current
     state and the persmissions of the user.
 
     :result: List of ActionButtons.
@@ -451,7 +451,7 @@ def contents_buttons(context, request):
 
 @view_config(name="add-dropdown", renderer="kotti:templates/add-dropdown.pt")
 def content_type_factories(context, request):
-    """ Renders the drop down menu for Add button in editor bar.
+    """Renders the drop down menu for Add button in editor bar.
 
     :result: Dictionary passed to the template for rendering.
     :rtype: pyramid.httpexceptions.HTTPFound or dict
@@ -471,7 +471,7 @@ def content_type_factories(context, request):
     renderer="kotti:templates/edit/contents.pt",
 )
 def contents(context, request):
-    """ Contents view. Renders either the contents view or handle the action
+    """Contents view. Renders either the contents view or handle the action
     button actions of the view.
 
     :result: Either a redirect response or a dictionary passed to the
@@ -503,7 +503,7 @@ def contents(context, request):
     renderer="json",
 )
 def move_child_position(context, request):
-    """ Move the child from one position to another.
+    """Move the child from one position to another.
 
     :param context: "Container" node in which the child changes its position.
     :type context: :class:kotti.resources.Node or descendant
@@ -521,7 +521,6 @@ def move_child_position(context, request):
     data = request.POST or request.json_body
 
     if ("from" in data) and ("to" in data):
-
         max_pos = len(context.children) - 1
         try:
             old_position = int(data["from"])
@@ -547,7 +546,7 @@ def move_child_position(context, request):
     renderer="kotti:templates/workflow-dropdown.pt",
 )
 def workflow(context, request):
-    """ Renders the drop down menu for workflow actions.
+    """Renders the drop down menu for workflow actions.
 
     :result: Dictionary passed to the template for rendering.
     :rtype: dict
@@ -577,7 +576,7 @@ def workflow(context, request):
     renderer="kotti:templates/actions-dropdown.pt",
 )
 def actions(context, request):
-    """ Renders the drop down menu for Actions button in editor bar.
+    """Renders the drop down menu for Actions button in editor bar.
 
     :result: Dictionary passed to the template for rendering.
     :rtype: dict
@@ -591,7 +590,7 @@ def actions(context, request):
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

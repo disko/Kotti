@@ -1,4 +1,5 @@
-""" User management screens """
+"""User management screens"""
+
 import re
 from urllib.parse import urlencode
 
@@ -46,9 +47,7 @@ def roles_form_handler(context, request, available_role_names, groups_lister):
                 if role_name not in available_role_names:
                     raise Forbidden()
                 new_value = bool(
-                    request.params.get(
-                        f"role::{principal_name}::{role_name}"
-                    )
+                    request.params.get(f"role::{principal_name}::{role_name}")
                 )
                 if principal_name not in p_to_r:
                     p_to_r[principal_name] = set()
@@ -117,7 +116,7 @@ def share_node(context, request):
             raise HTTPBadRequest("Invalid CSRF token")
     changed = roles_form_handler(context, request, SHARING_ROLES, list_groups_raw)
     if changed:
-        for (principal_name, context, groups) in changed:
+        for principal_name, context, groups in changed:
             set_groups(principal_name, context, groups)
         return HTTPFound(location=request.url)
 
@@ -143,14 +142,14 @@ def share_node(context, request):
 
 def name_pattern_validator(node, value):
     """
-        >>> name_pattern_validator(None, 'bob')
-        >>> name_pattern_validator(None, 'b ob')
-        Traceback (most recent call last):
-         ...
-        colander.Invalid: <unprintable Invalid object>
-        >>> name_pattern_validator(None, 'b:ob')
-        Traceback (most recent call last):
-        colander.Invalid: <unprintable Invalid object>
+    >>> name_pattern_validator(None, 'bob')
+    >>> name_pattern_validator(None, 'b ob')
+    Traceback (most recent call last):
+     ...
+    colander.Invalid: <unprintable Invalid object>
+    >>> name_pattern_validator(None, 'b:ob')
+    Traceback (most recent call last):
+    colander.Invalid: <unprintable Invalid object>
     """
     valid_pattern = re.compile(r"^[a-zA-Z0-9_\-\.]+$")
     if not valid_pattern.match(value):
@@ -304,9 +303,7 @@ def _massage_groups_in(appstruct):
     need to append that before we save.
     """
     groups = appstruct.get("groups", [])
-    all_groups = list(appstruct.get("roles", [])) + [
-        f"group:{g}" for g in groups if g
-    ]
+    all_groups = list(appstruct.get("roles", [])) + [f"group:{g}" for g in groups if g]
     if "roles" in appstruct:
         del appstruct["roles"]
     appstruct["groups"] = all_groups
@@ -386,7 +383,6 @@ class GroupAddFormView(UserAddFormView):
     renderer="kotti:templates/site-setup/users.pt",
 )
 class UsersManage(FormView):
-
     UserAddFormView = UserAddFormView
     GroupAddFormView = GroupAddFormView
 
@@ -410,7 +406,7 @@ class UsersManage(FormView):
         )
         if changed:
             changed_names = []
-            for (principal_name, context, groups) in changed:
+            for principal_name, context, groups in changed:
                 principal = principals[principal_name]
                 principal.groups = list(groups)
                 changed_names.append(principal_name)
@@ -463,7 +459,6 @@ class UserEditFormView(EditFormView):
 
 
 class UserManageFormView(UserEditFormView):
-
     buttons = (
         Button("save", _("Save")),
         Button("cancel", _("Cancel")),
@@ -520,7 +515,6 @@ class GroupManageFormView(UserManageFormView):
     renderer="kotti:templates/site-setup/user.pt",
 )
 class UserManage(FormView):
-
     GroupManageFormView = GroupManageFormView
     UserManageFormView = UserManageFormView
 
@@ -617,7 +611,6 @@ class PreferencesFormView(UserEditFormView):
     name="prefs", root_only=True, renderer="kotti:templates/edit/simpleform.pt"
 )
 class Preferences(FormView):
-
     PreferencesFormView = PreferencesFormView
 
     def __init__(self, context, request):
@@ -647,7 +640,7 @@ class Preferences(FormView):
 
 
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

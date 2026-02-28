@@ -96,7 +96,7 @@ class LinkBase:
         )
 
     def selected(self, context, request):
-        """ Returns True if the Link's url, based on its name,
+        """Returns True if the Link's url, based on its name,
         matches the request url
 
         If the link name is '', it will be selected for all urls ending in '/'
@@ -121,8 +121,7 @@ class LinkBase:
 
 
 class LinkRenderer(LinkBase):
-    """A menu link that renders a view to render the link.
-    """
+    """A menu link that renders a view to render the link."""
 
     def __init__(self, name, predicate=None):
         self.name = name
@@ -138,8 +137,7 @@ class LinkRenderer(LinkBase):
 
 
 class LinkParent(LinkBase):
-    """A menu link that renders sublinks in a dropdown.
-    """
+    """A menu link that renders sublinks in a dropdown."""
 
     template = "kotti:templates/edit/el-parent.pt"
 
@@ -258,10 +256,10 @@ def clear_cache():  # only useful for tests really
 
 def extract_from_settings(prefix, settings=None):
     """
-      >>> settings = {
-      ...     'kotti_twitter.foo_bar': '1', 'kotti.spam_eggs': '2'}
-      >>> print(extract_from_settings('kotti_twitter.', settings))
-      {'foo_bar': '1'}
+    >>> settings = {
+    ...     'kotti_twitter.foo_bar': '1', 'kotti.spam_eggs': '2'}
+    >>> print(extract_from_settings('kotti_twitter.', settings))
+    {'foo_bar': '1'}
     """
     from kotti import get_settings
 
@@ -288,8 +286,8 @@ def disambiguate_name(name):
 
 
 def title_to_name(title, blacklist=(), max_length=None):
-    """ If max_length is None, fallback to the ``name`` column
-        size (:class:`kotti.resources.Node`)
+    """If max_length is None, fallback to the ``name`` column
+    size (:class:`kotti.resources.Node`)
     """
     if max_length is None:
         from kotti.resources import Node
@@ -315,16 +313,16 @@ def title_to_name(title, blacklist=(), max_length=None):
 
 def camel_case_to_name(text):
     """
-      >>> camel_case_to_name('FooBar')
-      'foo_bar'
-      >>> camel_case_to_name('TXTFile')
-      'txt_file'
-      >>> camel_case_to_name ('MyTXTFile')
-      'my_txt_file'
-      >>> camel_case_to_name('froBOZ')
-      'fro_boz'
-      >>> camel_case_to_name('f')
-      'f'
+    >>> camel_case_to_name('FooBar')
+    'foo_bar'
+    >>> camel_case_to_name('TXTFile')
+    'txt_file'
+    >>> camel_case_to_name ('MyTXTFile')
+    'my_txt_file'
+    >>> camel_case_to_name('froBOZ')
+    'fro_boz'
+    >>> camel_case_to_name('f')
+    'f'
     """
     return re.sub(r"((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))", r"_\1", text).lower()
 
@@ -344,7 +342,7 @@ def command(func, doc):
 
 
 def _to_fieldstorage(fp, filename, mimetype, size, **_kwds):
-    """ Build a :class:`cgi.FieldStorage` instance.
+    """Build a :class:`cgi.FieldStorage` instance.
 
     Deform's :class:`FileUploadWidget` returns a dict, but
     :class:`depot.fields.sqlalchemy.UploadedFileField` likes

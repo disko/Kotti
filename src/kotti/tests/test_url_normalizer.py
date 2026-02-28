@@ -3,6 +3,7 @@ from kotti import get_settings
 
 def test_url_normalizer(config):
     from kotti.url_normalizer import url_normalizer
+
     assert url_normalizer("simpleandsafe") == "simpleandsafe"
     assert (
         url_normalizer(" Whitespace and capital Letters  ")
@@ -25,6 +26,7 @@ def test_url_normalizer(config):
 
 def test_url_normalizer_map_non_ascii_characters(config):
     from kotti.url_normalizer import url_normalizer
+
     get_settings()["kotti.url_normalizer.map_non_ascii_characters"] = True
     assert url_normalizer("simpleandsafe") == "simpleandsafe"
     assert (

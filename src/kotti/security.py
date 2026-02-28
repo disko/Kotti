@@ -40,7 +40,7 @@ from kotti.util import request_cache
 def has_permission(
     permission: str, context: "Node", request: "Request"
 ) -> PermitsResult:
-    """ Default permission checker """
+    """Default permission checker"""
     return request.has_permission(permission, context=context)
 
 
@@ -134,8 +134,7 @@ class AbstractPrincipals:
     """
 
     def __getitem__(self, name: str):
-        """Return the Principal object with the id 'name'.
-        """
+        """Return the Principal object with the id 'name'."""
 
     def __setitem__(self, name: str, principal: Union[Principal, dict]):
         """Add a given Principal object to the database.
@@ -146,12 +145,10 @@ class AbstractPrincipals:
         """
 
     def __delitem__(self, name: str) -> None:
-        """Remove the principal with the given name from the database.
-        """
+        """Remove the principal with the given name from the database."""
 
     def keys(self) -> List[str]:
-        """Return a list of principal ids that are in the database.
-        """
+        """Return a list of principal ids that are in the database."""
 
     def search(self, **kwargs) -> List[Principal]:
         """Return an iterable with principal objects that correspond
@@ -181,8 +178,7 @@ class AbstractPrincipals:
         """
 
     def validate_password(self, clear: str, hashed: str) -> bool:
-        """Returns True if the clear text password matches the hash.
-        """
+        """Returns True if the clear text password matches the hash."""
 
 
 ROLES = {
@@ -275,9 +271,7 @@ def list_groups_raw(name, context):
     from kotti.resources import Node
 
     if isinstance(context, Node):
-        return {
-            r.group_name for r in context.local_groups if r.principal_name == name
-        }
+        return {r.group_name for r in context.local_groups if r.principal_name == name}
     return set()
 
 
@@ -359,8 +353,8 @@ def set_groups(name: str, context: "Node", groups_to_set: Iterable[str] = ()) ->
 
 
 def list_groups_callback(name: str, request: "Request") -> Optional[List[str]]:
-    """ List the groups for the principal identified by ``name``.  Consider
-    ``authz_context`` to support assignment of local roles to groups. """
+    """List the groups for the principal identified by ``name``.  Consider
+    ``authz_context`` to support assignment of local roles to groups."""
     if not is_user(name):
         return None  # Disallow logging in with groups
     if name in get_principals():
@@ -514,7 +508,7 @@ class Principals(MutableMapping):
         return list(self.iterkeys())
 
     def search(self, match: Optional[str] = "any", **kwargs) -> Query:
-        """ Search the principal database.
+        """Search the principal database.
 
         :param match: ``any`` to return all principals matching any search
                       param, ``all`` to return only principals matching

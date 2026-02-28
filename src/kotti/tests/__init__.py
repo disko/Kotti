@@ -54,14 +54,14 @@ from kotti import testing
 
 @fixture
 def image_asset():
-    """ Return an image file """
+    """Return an image file"""
 
     return testing.asset("sendeschluss.jpg")
 
 
 @fixture
 def image_asset2():
-    """ Return another image file """
+    """Return another image file"""
 
     return testing.asset("logo.png")
 
@@ -299,8 +299,7 @@ def webtest(app, monkeypatch, request, filedepot, dummy_mailer):
     if marker:
         login = marker.args[0]
         monkeypatch.setattr(
-            "pyramid.authentication."
-            "AuthTktAuthenticationPolicy.unauthenticated_userid",
+            "pyramid.authentication.AuthTktAuthenticationPolicy.unauthenticated_userid",
             lambda self, req: login,
         )
     return TestApp(app)

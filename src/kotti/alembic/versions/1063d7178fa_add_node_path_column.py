@@ -12,27 +12,26 @@ from pyramid.location import lineage
 
 
 # revision identifiers, used by Alembic.
-revision = '1063d7178fa'
-down_revision = '57fecf5dbd62'
+revision = "1063d7178fa"
+down_revision = "57fecf5dbd62"
 
 
 def upgrade():
     from alembic.context import get_bind
 
     conn = get_bind()
-    if conn.engine.dialect.name == 'mysql':
-        op.add_column('nodes', sa.Column('path', sa.Unicode(1000)))
+    if conn.engine.dialect.name == "mysql":
+        op.add_column("nodes", sa.Column("path", sa.Unicode(1000)))
     else:
-        op.add_column('nodes', sa.Column('path', sa.Unicode(1000), index=True))
+        op.add_column("nodes", sa.Column("path", sa.Unicode(1000), index=True))
 
     from kotti import DBSession
     from kotti.resources import Node
 
     for node in DBSession.query(Node).with_polymorphic([Node]):
         reversed_lineage = reversed(tuple(lineage(node)))
-        node.path = '/'.join(
-            node.__name__ for node in reversed_lineage) or '/'
+        node.path = "/".join(node.__name__ for node in reversed_lineage) or "/"
 
 
 def downgrade():
-    op.drop_column('nodes', 'path')
+    op.drop_column("nodes", "path")

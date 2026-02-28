@@ -1,6 +1,7 @@
 """
 Edit views.
 """
+
 import warnings
 
 from kotti.util import _
@@ -45,7 +46,7 @@ def _states(context, request):
 
 # noinspection PyUnusedLocal
 def includeme(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`

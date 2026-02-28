@@ -4,6 +4,7 @@ Inheritance Diagram
 
 .. inheritance-diagram:: kotti.testing
 """
+
 import os
 from os.path import dirname
 from os.path import join
@@ -85,7 +86,7 @@ def asset(name):
 
 
 def includeme_login(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`
@@ -95,7 +96,7 @@ def includeme_login(config):
 
 
 def includeme_layout(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`
@@ -294,7 +295,7 @@ def dummy_view(context, request):
 
 
 def include_testing_view(config):
-    """ Pyramid includeme hook.
+    """Pyramid includeme hook.
 
     :param config: app config
     :type config: :class:`pyramid.config.Configurator`
@@ -318,7 +319,7 @@ def setUpFunctionalStrippedDownApp(global_config=None, **settings):
     # An app that doesn't use Nodes at all
     _settings = {
         "kotti.base_includes": (
-            "kotti kotti.views kotti.views.login kotti.views.users " "kotti.views.view"
+            "kotti kotti.views kotti.views.login kotti.views.users kotti.views.view"
         ),
         "kotti.use_tables": "principals",
         "kotti.populators": "kotti.populate.populate_users",

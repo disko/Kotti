@@ -38,6 +38,7 @@ adding their Alembic 'script directory' location to the
 ``kotti-migrate`` commands 'list_all', 'upgrade_all' and
 'stamp_heads' will then include the add-on.
 """
+
 import os
 from typing import Callable
 from typing import List
