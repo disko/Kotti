@@ -163,7 +163,7 @@ def kotti_configure(settings):
 ```
 
 This is useful if you've built your own custom theme.
-Alternatively, you can completely [override the master template](../user-guide/static-resource-management.md#asset-overrides) for even more control (e.g. if you don't want to use Bootstrap).
+Alternatively, you can completely [override the master template](../user-guide/configuration.md#asset-overrides) for even more control (e.g. if you don't want to use Bootstrap).
 
 See also [Configuration](../user-guide/configuration.md) for a full list of Kotti's configuration variables, and [Static Resource Management](../user-guide/static-resource-management.md) for a more complete discussion of how Kotti handles static resources through fanstatic.
 
