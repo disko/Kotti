@@ -1,3 +1,10 @@
 # kotti.traversal
 
-*Content pending migration.*
+::: kotti.traversal
+    options:
+      docstring_style: sphinx
+      show_source: true
+      members: true
+      members_order: source
+      filters:
+        - "!^_"

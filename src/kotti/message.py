@@ -71,19 +71,12 @@ def send_email(
 ) -> None:
     """General email sender.
 
-    :param request: current request.
-    :type request: :class:`kotti.request.Request`
-
-    :param recipients: list of email addresses. Each email should be a
-                       string like: u'"John Doe" <joedoe@foo.com>'.
-    :type recipients: list
-
-    :param template_name: asset specification (e.g.
-                          'mypackage:templates/email.pt')
-    :type template_name: string
-
-    :param template_vars: set of variables present on template.
-    :type template_vars: dict
+    :param kotti.request.Request request: current request.
+    :param list recipients: list of email addresses. Each email should be a
+        string like: ``'"John Doe" <joedoe@foo.com>'``.
+    :param str template_name: asset specification (e.g.
+        ``'mypackage:templates/email.pt'``).
+    :param dict template_vars: set of variables present on template.
     """
 
     if template_vars is None:

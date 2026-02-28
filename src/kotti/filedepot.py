@@ -139,14 +139,11 @@ class DBStoredFile(Base):
         Change the stream position to the given byte offset. The offset is
         interpreted relative to the position indicated by whence.
 
-        :param offset: Position for the cursor
-        :type offset: int
-
-        :param whence: * 0 -- start of stream (the default);
-                              offset should be zero or positive
-                       * 1 -- current stream position; offset may be negative
-                       * 2 -- end of stream; offset is usually negative
-        :type whence: int
+        :param int offset: Position for the cursor.
+        :param int whence: * 0 -- start of stream (the default);
+            offset should be zero or positive
+            * 1 -- current stream position; offset may be negative
+            * 2 -- end of stream; offset is usually negative
         """
         if whence == 0:
             self._cursor = offset
@@ -196,8 +193,8 @@ def handle_change_data(
 def set_metadata(event: ObjectUpdate | ObjectInsert) -> None:
     """Set DBStoredFile metadata based on data
 
-    :param event: event that triggered this handler.
-    :type event: :class:`ObjectInsert` or :class:`ObjectUpdate`
+    :param event: event that triggered this handler
+        (:class:`ObjectInsert` or :class:`ObjectUpdate`).
     """
     obj = event.object
     obj.content_length = (obj.data and len(obj.data)) or 0
@@ -215,8 +212,7 @@ class DBFileStorage(FileStorage):
     def get(file_id: str) -> DBStoredFile:
         """Returns the file given by the file_id
 
-        :param file_id: the unique id associated to the file
-        :type file_id: string
+        :param str file_id: the unique id associated to the file
         :result: a :class:`kotti.filedepot.DBStoredFile` instance
         :rtype: :class:`kotti.filedepot.DBStoredFile`
         """
@@ -235,16 +231,11 @@ class DBFileStorage(FileStorage):
         """Saves a new file and returns the file id
 
         :param content: can either be ``bytes``, another ``file object``
-                        or a :class:`cgi.FieldStorage`. When ``filename`` and
-                        ``content_type``  parameters are not provided they are
-                        deducted from the content itself.
-
-        :param filename: filename for this file
-        :type filename: string
-
-        :param content_type: Mimetype of this file
-        :type content_type: string
-
+            or a :class:`cgi.FieldStorage`. When ``filename`` and
+            ``content_type`` parameters are not provided they are
+            deducted from the content itself.
+        :param str filename: filename for this file.
+        :param str content_type: Mimetype of this file.
         :return: the unique ``file_id`` associated to this file
         :rtype: string
         """
@@ -279,17 +270,12 @@ class DBFileStorage(FileStorage):
         the current values are kept.
 
         :param file_or_id: can be either ``DBStoredFile`` or a ``file_id``
-
         :param content: can either be ``bytes``, another ``file object``
-                        or a :class:`cgi.FieldStorage`. When ``filename`` and
-                        ``content_type`` parameters are not provided they are
-                        deducted from the content itself.
-
-        :param filename: filename for this file
-        :type filename: string
-
-        :param content_type: Mimetype of this file
-        :type content_type: string
+            or a :class:`cgi.FieldStorage`. When ``filename`` and
+            ``content_type`` parameters are not provided they are
+            deducted from the content itself.
+        :param str filename: filename for this file.
+        :param str content_type: Mimetype of this file.
         """
 
         file_id = self._get_file_id(file_or_id)
@@ -627,11 +613,8 @@ def extract_depot_settings(
     """Merges items from a dictionary that have keys that start with `prefix`
     to a list of dictionaries.
 
-    :param prefix: A dotted string representing the prefix for the common values
-    :type prefix: string
-
-    :param settings: A dictionary with settings. Result is extracted from this
-    :type settings: dict
+    :param str prefix: A dotted string representing the prefix for the common values.
+    :param dict settings: A dictionary with settings. Result is extracted from this.
 
       >>> settings = {
       ...     'kotti.depot_mountpoint': '/depot',
@@ -675,8 +658,7 @@ def configure_filedepot(settings: dict[str, str]) -> None:
 def includeme(config: Configurator) -> None:
     """Pyramid includeme hook.
 
-    :param config: app config
-    :type config: :class:`pyramid.config.Configurator`
+    :param pyramid.config.Configurator config: app config.
     """
 
     config.add_tween(

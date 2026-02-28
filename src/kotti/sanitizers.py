@@ -213,12 +213,8 @@ _MINIMAL_ATTRS = {
 def sanitize(html: str, sanitizer: str) -> str:
     """Sanitize HTML
 
-    :param html: HTML to be sanitized
-    :type html: basestring
-
-    :param sanitizer: name of the sanitizer to use
-    :type sanitizer: str
-
+    :param str html: HTML to be sanitized.
+    :param str sanitizer: name of the sanitizer to use.
     :result: sanitized HTML
     :rtype: str
     """
@@ -238,8 +234,7 @@ def xss_protection_nh3(html: str) -> str:
     Script and style tag content is removed entirely (not just the tags).
     Links get rel="noopener noreferrer" for security.
 
-    :param html: HTML to be sanitized
-    :type html: str
+    :param str html: HTML to be sanitized.
     :result: sanitized HTML
     :rtype: str
     """
@@ -257,8 +252,7 @@ def minimal_html_nh3(html: str) -> str:
     Based on markdown and print tag/attribute sets. Style attributes
     are NOT allowed (tightened from bleach which left empty style="").
 
-    :param html: HTML to be sanitized
-    :type html: str
+    :param str html: HTML to be sanitized.
     :result: sanitized HTML
     :rtype: str
     """
@@ -273,8 +267,7 @@ def minimal_html_nh3(html: str) -> str:
 def no_html_nh3(html: str) -> str:
     """Sanitizer that removes **all** tags.
 
-    :param html: HTML to be sanitized
-    :type html: str
+    :param str html: HTML to be sanitized.
     :result: plain text
     :rtype: str
     """
@@ -378,8 +371,7 @@ def _setup_listeners(settings):
 def includeme(config: Configurator) -> None:
     """Pyramid includeme hook.
 
-    :param config: app config
-    :type config: :class:`pyramid.config.Configurator`
+    :param pyramid.config.Configurator config: app config.
     """
 
     _setup_sanitizers(config.registry.settings)

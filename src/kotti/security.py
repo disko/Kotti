@@ -485,13 +485,9 @@ class Principals(MutableMapping):
     def search(self, match: str | None = "any", **kwargs) -> Query:
         """Search the principal database.
 
-        :param match: ``any`` to return all principals matching any search
-                      param, ``all`` to return only principals matching
-                      all params
-        :type match: str
-
+        :param str match: ``any`` to return all principals matching any search
+            param, ``all`` to return only principals matching all params.
         :param kwargs: Search conditions, e.g. ``name='bob', active=True``.
-        :type kwargs: varying.
 
         :result: SQLAlchemy query object
         :rtype: :class:`sqlalchemy.orm.query.Query``

@@ -168,13 +168,9 @@ class ContainerMixin(MutableMapping):
         """Return only those children for which the user initiating the
         request has the asked permission.
 
-        :param request: current request
-        :type request: :class:`kotti.request.Request`
-
-        :param permission: The permission for which you want the allowed
-                           children
-        :type permission: str
-
+        :param kotti.request.Request request: current request.
+        :param str permission: The permission for which you want the allowed
+            children.
         :result: List of child nodes
         :rtype: list
         """
@@ -411,13 +407,9 @@ class TypeInfo:
     def addable(self, context: "Content", request: Request | None) -> bool:
         """
 
-        :param context:
-        :type context: Content or subclass thereof (or anything that has a
-                       type_info attribute of type
-                       :class:`~kotti.resources.TypeInfo`)
-
-        :param request: current request
-        :type request: :class:`kotti.request.Request`
+        :param context: Content or subclass thereof (or anything that has a
+            type_info attribute of type :class:`~kotti.resources.TypeInfo`).
+        :param request: current request (:class:`kotti.request.Request`).
 
         :result: True if the type described in 'self' may be added to 'context',
                  False otherwise.
@@ -435,19 +427,15 @@ class TypeInfo:
         """Add a view to the list of default views selectable by the
         user in the UI.
 
-        :param name: Name the view is registered with
-        :type name: str
-
-        :param title: Title for the view for display in the UI.
-        :type title: str or TranslationString
+        :param str name: Name the view is registered with.
+        :param str title: Title for the view for display in the UI.
         """
         self.selectable_default_views.append((name, title))
 
     def is_uploadable_mimetype(self, mimetype: str) -> int:
         """Check if uploads of the given MIME type are allowed.
 
-        :param mimetype: MIME type
-        :type mimetype: str
+        :param str mimetype: MIME type.
 
         :result: Upload allowed (>0) or forbidden (0).  The greater the result,
                  the better is the match.  E.g. ``image/*`` (6) is a better
@@ -835,7 +823,7 @@ def get_root(request: Request | None = None) -> Node:
        return its result.
 
     :param request: current request (optional)
-    :type request: :class:`kotti.request.Request`
+        (:class:`kotti.request.Request`).
 
     :result: a node in the node tree
     :rtype: :class:`~kotti.resources.Node` or descendant;

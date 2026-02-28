@@ -36,14 +36,10 @@ class Request(pyramid.request.Request):
         than the one bound to the request can be passed.  This allows to
         consider local roles for the check.
 
-        :param permission: name of the permission to check
-        :type permission: str
-
-        :param context: context for which the permission is checked.
-                        Defaults to the context on which the request invoked.
-        :type context: :class:`kotti.resources.Node`
-
-        :result: True if has_permission, False else
+        :param str permission: name of the permission to check
+        :param kotti.resources.Node context: context for which the permission
+            is checked. Defaults to the context on which the request invoked.
+        :returns: True if has_permission, False else
         :rtype: bool
         """
 
