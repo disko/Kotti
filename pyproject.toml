@@ -126,10 +126,9 @@ test = [
     "ruff>=0.11",
 ]
 docs = [
-    "Sphinx",
-    "docutils",
-    "repoze.sphinx.autointerface",
-    "sphinx_rtd_theme",
+    "mkdocs-material[imaging]>=9.5",
+    "mkdocstrings[python]>=0.24",
+    "mike>=2.0",
 ]
 dev = [
     "kotti[test]",
@@ -153,10 +152,9 @@ test = [
     "ruff>=0.11",
 ]
 docs = [
-    "Sphinx",
-    "docutils",
-    "repoze.sphinx.autointerface",
-    "sphinx_rtd_theme",
+    "mkdocs-material[imaging]>=9.5",
+    "mkdocstrings[python]>=0.24",
+    "mike>=2.0",
 ]
 dev = [
     {include-group = "test"},
