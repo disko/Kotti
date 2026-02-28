@@ -8,7 +8,7 @@ progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 12
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-27)
 
 **Core value:** Keep Kotti installable, functional, and maintainable on modern Python (3.10-3.13) without breaking existing users
-**Current focus:** Phase 4 — Code Quality and Formatting
+**Current focus:** Phase 5 — Documentation Migration
 
 ## Current Position
 
-Phase: 4 of 5 (Code Quality and Formatting)
-Plan: 3 of 3 in current phase — COMPLETE
-Status: Phase 4 COMPLETE (all 3 plans done)
-Last activity: 2026-02-28 — Completed 04-03: pre-commit hooks with ruff enforcement, CI format check and pre-commit steps added
+Phase: 5 of 5 (Documentation Migration)
+Plan: 1 of 4 in current phase — Plan 01 COMPLETE
+Status: Phase 5 in progress (1 of 4 plans done)
+Last activity: 2026-02-28 — Completed 05-01: MkDocs scaffold with brand kit, full nav, .readthedocs.yaml
 
-Progress: [████████░░] 75%
+Progress: [█████████░] 83%
 
 ## Performance Metrics
 
@@ -44,6 +44,7 @@ Progress: [████████░░] 75%
 | Phase 2 | 2 | ~30m | ~15m |
 | Phase 3 | 1 | 1m 26s | 1m 26s |
 | Phase 4 | 3 (of 3) | ~30m | ~10m |
+| Phase 5 | 1 (of 4) | ~3m | ~3m |
 
 **Recent Trend:**
 - Last 5 plans: 02-02 (~15m), 03-01 (1m 26s), 04-01 (~8m), 04-02 (~20m), 04-03 (~2m)
@@ -88,6 +89,10 @@ Recent decisions affecting current work:
 - [04-02]: RUF012 for SQLAlchemy __mapper_args__, Pyramid __acl__, DummyRequest.POST get # noqa: RUF012 (framework-managed)
 - [04-02]: B015 pointless comparisons in tests (test_sqla.py, test_node.py) were genuine test bugs — fixed to assert statements
 - [04-03]: kotti-brand/ excluded from check-yaml hook — external untracked asset with Python YAML constructors (!!python/name:) that standard YAML parser rejects
+- [05-01]: navigation.indexes added to mkdocs.yml features (not in brand kit default) — required for section index pages
+- [05-01]: Social plugin enabled only in CI via !ENV [CI, false] to avoid local cairosvg system deps
+- [05-01]: Stub API pages have no ::: directives — mkdocstrings invocation deferred to plan 03 to allow build without kotti importable
+- [05-01]: mkdocs build --strict exits 0 in 0.21s — MkDocs 2.0/Material warning is advisory only, not a build failure
 
 ### Pending Todos
 
@@ -100,6 +105,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-28T00:50:24Z
-Stopped at: Completed 04-03-PLAN.md — pre-commit hooks configured, CI lint job updated, Phase 4 complete
+Last session: 2026-02-28T09:28:47Z
+Stopped at: Completed 05-01-PLAN.md — MkDocs scaffold, brand kit, full nav, .readthedocs.yaml, mkdocs build green
 Resume file: None
