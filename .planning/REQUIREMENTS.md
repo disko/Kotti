@@ -64,7 +64,7 @@ Requirements for this modernization milestone. Each maps to roadmap phases.
 
 - [x] **DOC-01**: Documentation migrated from Sphinx/RST to MkDocs with Material for MkDocs theme
 - [x] **DOC-02**: Documentation builds successfully with MkDocs
-- [ ] **DOC-03**: All existing documentation content preserved during migration
+- [x] **DOC-03**: All existing documentation content preserved during migration
 - [ ] **DOC-04**: API documentation generated (mkdocstrings or equivalent)
 
 ## v2 Requirements
@@ -140,7 +140,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CQ-04 | Phase 4 | Complete |
 | DOC-01 | Phase 5 | Complete |
 | DOC-02 | Phase 5 | Complete |
-| DOC-03 | Phase 5 | Pending |
+| DOC-03 | Phase 5 | Complete |
 | DOC-04 | Phase 5 | Pending |
 
 **Coverage:**

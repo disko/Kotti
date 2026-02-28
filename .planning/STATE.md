@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-28T00:58:27.508Z"
+last_updated: "2026-02-28T09:44:28.907Z"
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 12
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 5 of 5 (Documentation Migration)
-Plan: 1 of 4 in current phase — Plan 01 COMPLETE
-Status: Phase 5 in progress (1 of 4 plans done)
-Last activity: 2026-02-28 — Completed 05-01: MkDocs scaffold with brand kit, full nav, .readthedocs.yaml
+Plan: 2 of 4 in current phase — Plan 02 COMPLETE
+Status: Phase 5 in progress (2 of 4 plans done)
+Last activity: 2026-02-28 — Completed 05-02: first_steps/, community/, developer-manual, security, configuration, testing, translations, deployment converted to Markdown
 
-Progress: [█████████░] 83%
+Progress: [█████████░] 87%
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Progress: [█████████░] 83%
 - Trend: Stable
 
 *Updated after each plan completion*
+| Phase 05 P02 | 15m | 2 tasks | 16 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [05-01]: Social plugin enabled only in CI via !ENV [CI, false] to avoid local cairosvg system deps
 - [05-01]: Stub API pages have no ::: directives — mkdocstrings invocation deferred to plan 03 to allow build without kotti importable
 - [05-01]: mkdocs build --strict exits 0 in 0.21s — MkDocs 2.0/Material warning is advisory only, not a build failure
+- [Phase 05]: griffe duplicate-param warnings in mkdocs build --strict are pre-existing from kotti source docstrings; mkdocs build exits 0
+- [Phase 05]: contributing.md rewritten for MkDocs workflow (uv sync, mkdocs serve/build) — Sphinx references fully removed
 
 ### Pending Todos
 
@@ -105,6 +108,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-28T09:28:47Z
-Stopped at: Completed 05-01-PLAN.md — MkDocs scaffold, brand kit, full nav, .readthedocs.yaml, mkdocs build green
+Last session: 2026-02-28T09:43:15Z
+Stopped at: Completed 05-02-PLAN.md — 14 narrative pages converted to Markdown, changelog/contributing/index real content, mkdocs build exits 0
 Resume file: None
