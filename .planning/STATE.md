@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-28T09:44:28.907Z"
+last_updated: "2026-02-28T09:45:45Z"
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 12
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 5 of 5 (Documentation Migration)
-Plan: 2 of 4 in current phase — Plan 02 COMPLETE
-Status: Phase 5 in progress (2 of 4 plans done)
-Last activity: 2026-02-28 — Completed 05-02: first_steps/, community/, developer-manual, security, configuration, testing, translations, deployment converted to Markdown
+Plan: 3 of 4 in current phase — Plan 03 COMPLETE
+Status: Phase 5 in progress (3 of 4 plans done)
+Last activity: 2026-02-28 — Completed 05-03: 11 advanced guides + 32 API reference pages, mkdocstrings introspection working, mkdocs build --strict green
 
-Progress: [█████████░] 87%
+Progress: [█████████░] 92%
 
 ## Performance Metrics
 
@@ -96,6 +96,9 @@ Recent decisions affecting current work:
 - [05-01]: mkdocs build --strict exits 0 in 0.21s — MkDocs 2.0/Material warning is advisory only, not a build failure
 - [Phase 05]: griffe duplicate-param warnings in mkdocs build --strict are pre-existing from kotti source docstrings; mkdocs build exits 0
 - [Phase 05]: contributing.md rewritten for MkDocs workflow (uv sync, mkdocs serve/build) — Sphinx references fully removed
+- [05-03]: griffe 2.0 warns on :param x: + :type x: separately — merged into :param type x: in 6 source files to pass --strict
+- [05-03]: mkdocstrings-python 2.0.3 uses members_order (plural) not member_order — corrected in all API pages
+- [05-03]: blobs.md callgraph SVGs moved to docs/images/ and rendered as HTML grid (md_in_html extension)
 
 ### Pending Todos
 
@@ -108,6 +111,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-28T09:43:15Z
-Stopped at: Completed 05-02-PLAN.md — 14 narrative pages converted to Markdown, changelog/contributing/index real content, mkdocs build exits 0
+Last session: 2026-02-28T09:45:45Z
+Stopped at: Completed 05-03-PLAN.md — 11 advanced guides + 32 API pages, mkdocstrings real introspection, mkdocs build --strict passes
 Resume file: None
