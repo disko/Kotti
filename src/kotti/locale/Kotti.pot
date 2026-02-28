@@ -251,7 +251,7 @@ msgstr ""
 #. Used in sentence: "Fill out your username or email and click
 #. ${reset_password} below to receive an email with a link to reset your
 #. password."
-#. 
+#.
 #: ./kotti/templates/login.pt:52 ./kotti/templates/login.pt:67
 msgid "Reset password"
 msgstr ""

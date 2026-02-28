@@ -27,4 +27,3 @@ API Documentation
    kotti.util
    kotti.views/index
    kotti.workflow
-
