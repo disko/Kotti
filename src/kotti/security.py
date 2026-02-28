@@ -1,7 +1,6 @@
 from collections.abc import Iterable, Iterator, MutableMapping
 from contextlib import contextmanager
 from datetime import datetime
-from typing import Optional, Tuple, Union
 
 import bcrypt
 from pyramid.location import lineage
@@ -28,7 +27,7 @@ def get_principals() -> "Principals":
 
 
 # @request_cache(lambda request: None)
-def get_user(request: "Request") -> Optional["Principal"]:
+def get_user(request: "Request") -> "Principal | None":
     userid = request.unauthenticated_userid
     return get_principals().get(userid)
 
@@ -170,7 +169,7 @@ _DEFAULT_ROLES = ROLES.copy()
 
 # These roles are visible in the sharing tab
 SHARING_ROLES = ["role:viewer", "role:editor", "role:owner"]
-USER_MANAGEMENT_ROLES = SHARING_ROLES + ["role:admin"]
+USER_MANAGEMENT_ROLES = [*SHARING_ROLES, "role:admin"]
 _DEFAULT_SHARING_ROLES = SHARING_ROLES[:]
 _DEFAULT_USER_MANAGEMENT_ROLES = USER_MANAGEMENT_ROLES[:]
 
@@ -232,9 +231,7 @@ class PersistentACLMixin:
     __acl__ = property(_get_acl, _set_acl, _del_acl)
 
 
-def _cachekey_list_groups_raw(
-    name: str, context: "Node"
-) -> Tuple[str, Union[int, "NoneType"]]:  # noqa
+def _cachekey_list_groups_raw(name: str, context: "Node") -> tuple[str, int | None]:
     context_id = context is not None and getattr(context, "id", id(context))
     return name, context_id
 
@@ -254,7 +251,7 @@ def list_groups_raw(name, context):
     return set()
 
 
-def list_groups(name: str, context: Optional["Node"] = None) -> list[str]:
+def list_groups(name: str, context: "Node | None" = None) -> list[str]:
     """List groups for principal with a given ``name``.
 
     The optional ``context`` argument may be passed to check the list
@@ -265,10 +262,10 @@ def list_groups(name: str, context: Optional["Node"] = None) -> list[str]:
 
 def _cachekey_list_groups_ext(
     name: str,
-    context: Optional["Node"] = None,
+    context: "Node | None" = None,
     _seen: set[str] | None = None,
     _inherited: set[str] | None = None,
-) -> Tuple[str, Union[int, "NoneType"]]:  # noqa
+) -> tuple[str, int | None]:
     if _seen is not None or _inherited is not None:
         raise DontCache
     else:
@@ -456,7 +453,7 @@ class Principals(MutableMapping):
             # return DBSession.query(
             #     self.factory).filter(self.factory.name == name).one()
         except NoResultFound:
-            raise KeyError(name)
+            raise KeyError(name) from None
 
     def __setitem__(self, name: str, principal: Principal | dict) -> None:
         name = name
@@ -470,7 +467,7 @@ class Principals(MutableMapping):
             principal = self._principal_by_name(name)
             DBSession.delete(principal)
         except NoResultFound:
-            raise KeyError(name)
+            raise KeyError(name) from None
 
     def __iter__(self) -> Iterator[str]:
         yield from self.keys()

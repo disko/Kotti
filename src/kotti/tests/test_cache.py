@@ -81,9 +81,11 @@ class TestSetCacheHeaders:
         event = MagicMock()
         event.response.headers = {CACHE_POLICY_HEADER: "Random policy"}
 
-        with patch("kotti.views.cache.caching_policy_chooser") as chooser:
-            with pytest.raises(KeyError):
-                set_cache_headers(event)
+        with (
+            patch("kotti.views.cache.caching_policy_chooser") as chooser,
+            pytest.raises(KeyError),
+        ):
+            set_cache_headers(event)
 
         assert chooser.call_count == 0
 

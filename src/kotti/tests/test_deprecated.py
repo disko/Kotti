@@ -22,7 +22,7 @@ class TestToBeRemovedIn20:
             # If there's a last LinkParent item, we'll assume that is
             # the action menu.
             TypeInfo(edit_links=[LinkParent("foo", [])], action_links=[my_item])
-            assert wngs[0].category == DeprecationWarning
+            assert wngs[0].category is DeprecationWarning
 
         with raises(ValueError):
             # If there's no last LinkParent item, we'll raise an

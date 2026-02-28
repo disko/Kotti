@@ -44,9 +44,11 @@ class TestApp:
         from kotti import main
 
         settings = self.required_settings()
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
 
         registry = get_current_registry()
         assert registry.queryUtility(IAuthenticationPolicy) is not None
@@ -58,9 +60,11 @@ class TestApp:
         settings = self.required_settings()
         settings["kotti.authn_policy_factory"] = "kotti.none_factory"
         settings["kotti.authz_policy_factory"] = "kotti.none_factory"
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
 
         registry = get_current_registry()
         assert registry.queryUtility(IAuthenticationPolicy) is None
@@ -71,18 +75,22 @@ class TestApp:
 
         settings = self.required_settings()
         settings["kotti.asset_overrides"] = "pyramid:scaffold/"
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
 
     def test_pyramid_includes_overrides_base_includes(self, root):
         from kotti import main
 
         settings = self.required_settings()
         settings["pyramid.includes"] = "kotti.testing.includeme_login"
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                app = main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            app = main({}, **settings)
 
         provides = [IViewClassifier, implementedBy(Request), providedBy(root)]
         view = app.registry.adapters.lookup(provides, IView, name="login")
@@ -94,9 +102,11 @@ class TestApp:
         settings = self.required_settings()
         settings["kotti.populators"] = ""
         settings["kotti.use_tables"] = "principals"
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
 
     def test_root_factory(self, db_session):
         from kotti import main
@@ -106,9 +116,11 @@ class TestApp:
 
         settings = self.required_settings()
         settings["kotti.root_factory"] = (RootFactory,)
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                app = main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            app = main({}, **settings)
         assert isinstance(get_root(), RootFactory)
         assert isinstance(app.root_factory(), RootFactory)
 
@@ -124,7 +136,7 @@ class TestApp:
             app = main({}, **settings)
 
         request = Request.blank("/@@login")
-        (status, headers, response) = request.call_application(app)
+        (status, _headers, _response) = request.call_application(app)
         assert status == "200 OK"
 
     def test_render_master_view_template_minimal_root(self, no_filedepots, db_session):
@@ -140,9 +152,11 @@ class TestApp:
         settings["kotti_foo.site_title"] = b"K\xc3\xb6tti"
         settings["foo.site_title"] = b"K\xc3\xb6tti"
 
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
         assert get_settings()["kotti.site_title"] == "Kötti"
         assert get_settings()["kotti_foo.site_title"] == "Kötti"
         assert get_settings()["foo.site_title"] == b"K\xc3\xb6tti"
@@ -154,9 +168,11 @@ class TestApp:
 
         settings = self.required_settings()
 
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
         assert DepotManager.get().__class__.__name__ == "DBFileStorage"
         DepotManager._clear()
 
@@ -196,9 +212,11 @@ class TestApp:
 
         settings = self.required_settings()
         settings["kotti.search_content"] = "kotti.testing.dummy_search"
-        with patch("kotti.resources.initialize_sql"):
-            with patch("kotti.filedepot.TweenFactory"):
-                main({}, **settings)
+        with (
+            patch("kotti.resources.initialize_sql"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
         assert search_content("Nuno") == "Not found. Sorry!"
 
     def test_stamp_heads(self, db_session, connection):
@@ -207,10 +225,12 @@ class TestApp:
         settings = self.required_settings()
         engine = connection.engine
         engine.table_names = Mock(return_value=[])
-        with patch("kotti.engine_from_config", return_value=engine):
-            with patch("kotti.resources.metadata"):
-                with patch("kotti.filedepot.TweenFactory"):
-                    main({}, **settings)
+        with (
+            patch("kotti.engine_from_config", return_value=engine),
+            patch("kotti.resources.metadata"),
+            patch("kotti.filedepot.TweenFactory"),
+        ):
+            main({}, **settings)
 
         res = db_session.execute(
             select(

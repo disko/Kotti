@@ -77,7 +77,9 @@ class NodeTreeTraverser(ResourceTreeTraverser):
             except KeyError:
                 path = slash
             except UnicodeDecodeError as e:
-                raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
+                raise URLDecodeError(
+                    e.encoding, e.object, e.start, e.end, e.reason
+                ) from e
         if VH_ROOT_KEY in environ:
             vroot_path = decode_path_info(environ[VH_ROOT_KEY])
             vroot_tuple = split_path_info(vroot_path)
@@ -225,7 +227,9 @@ class NodeTreeTraverser(ResourceTreeTraverser):
         ids = DBSession.query(Node.id.label('node_id')) \
             .select_entity_from(cte) \
             .filter(or_(*conditions))
-        nodes = DBSession.query(Node).filter(Node.id.in_(ids)).order_by(Node.path).offset(1).all()
+        nodes = (
+            DBSession.query(Node).filter(Node.id.in_(ids)).order_by(Node.path).offset(1).all()
+        )
         for i, node in enumerate(nodes):
             if i == 0:
                 setattr(node, 'parent', root)

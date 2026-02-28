@@ -17,7 +17,7 @@ baked.bake_lazy_loaders()
 
 
 def dump_default(obj):
-    if isinstance(obj, MutationDict) or isinstance(obj, MutationList):
+    if isinstance(obj, (MutationDict, MutationList)):
         return obj._d
 
 

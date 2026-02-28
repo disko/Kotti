@@ -1,6 +1,5 @@
 import hashlib
 import time
-from typing import Optional
 from urllib.parse import urlencode
 
 from html2text import HTML2Text
@@ -58,12 +57,10 @@ def validate_token(user: Principal, token: str, valid_hrs: int = 24) -> bool:
         seconds = float(token.split(":")[1])
     except (IndexError, ValueError):
         return False
-    if (
-        token == make_token(user, seconds)
-        and time.time() - seconds < 60 * 60 * valid_hrs
-    ):
-        return True
-    return False
+    valid_duration = 60 * 60 * valid_hrs
+    token_valid = token == make_token(user, seconds)
+    not_expired = time.time() - seconds < valid_duration
+    return bool(token_valid and not_expired)
 
 
 def send_email(
@@ -109,7 +106,7 @@ def send_email(
 def email_set_password(
     user: Principal,
     request: Request,
-    template_name: Optional[str] = "kotti:templates/email-set-password.pt",  # noqa
+    template_name: str | None = "kotti:templates/email-set-password.pt",
     add_query: dict[str, str] | None = None,
 ) -> None:
     site_title = get_settings()["kotti.site_title"]

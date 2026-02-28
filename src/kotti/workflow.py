@@ -41,10 +41,7 @@ def workflow_callback(context, info):
     to_state = info.transition.get("to_state")
 
     if to_state is None:
-        if context.state:
-            to_state = context.state
-        else:
-            to_state = wf.initial_state
+        to_state = context.state or wf.initial_state
 
     state_data = wf._state_data[to_state].copy()
     acl = []

@@ -38,7 +38,7 @@ class TestSendEmail:
 
         assert self.mailer.send.called
         message = self.mailer.send.call_args[0][0]
-        assert ['"John Doe" <joedoe@foo.com>'] == message.recipients
+        assert message.recipients == ['"John Doe" <joedoe@foo.com>']
         assert "Reset your password" in message.subject
 
     def test_send_email_without_template_vars(self, dummy_request):

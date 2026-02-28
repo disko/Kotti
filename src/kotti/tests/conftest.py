@@ -2,7 +2,7 @@ from pytest import fixture, skip
 
 # ``py.test --runslow`` causes the entire testsuite to be run, including test
 # that are decorated with ``@@slow`` (scaffolding tests).
-# see http://pytest.org/latest/example/simple.html#control-skipping-of-tests-according-to-command-line-option  # noqa
+# see http://pytest.org/latest/example/simple.html#control-skipping-of-tests-according-to-command-line-option
 
 
 def pytest_addoption(parser):

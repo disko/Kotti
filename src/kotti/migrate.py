@@ -235,12 +235,12 @@ def kotti_migrate_command():
             func = list_all
         elif arguments["upgrade"]:
             func = upgrade
-            args = args_with_location + (arguments["--rev"],)
+            args = (*args_with_location, arguments["--rev"])
         elif arguments["upgrade_all"]:
             func = upgrade_all
         elif arguments["stamp_head"]:
             func = stamp_head
-            args = args_with_location + (arguments["--rev"],)
+            args = (*args_with_location, arguments["--rev"])
         else:
             raise ValueError("Unknown command")
         func(*args)

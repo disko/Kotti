@@ -307,14 +307,14 @@ class TestGroups:
 
         value = map_principals_with_local_roles(root)
         assert len(value) == 1
-        bob, (bob_all, bob_inherited) = value[0]
+        _bob, (bob_all, bob_inherited) = value[0]
         assert bob_all == ["group:bobsgroup"]
         assert bob_inherited == []
 
         value = map_principals_with_local_roles(child)
         assert len(value) == 2
-        bob, (bob_all, bob_inherited) = value[0]
-        bobsgroup, (bobsgroup_all, bobsgroup_inherited) = value[1]
+        _bob, (bob_all, bob_inherited) = value[0]
+        _bobsgroup, (bobsgroup_all, bobsgroup_inherited) = value[1]
         assert set(bob_all) == {"group:bobsgroup", "role:editor"}
         assert set(bob_inherited) == {"group:bobsgroup", "role:editor"}
         assert bobsgroup_all == ["role:editor"]
@@ -641,9 +641,9 @@ class TestRolesSetters:
 
         before = ROLES.copy()
         set_roles({"role:admin": ROLES["role:admin"]})
-        assert ROLES == {"role:admin": ROLES["role:admin"]}
+        assert {"role:admin": ROLES["role:admin"]} == ROLES
         reset_roles()
-        assert ROLES == before
+        assert before == ROLES
 
     def test_set_sharing_roles(self):
         from kotti.security import SHARING_ROLES, reset_sharing_roles, set_sharing_roles
@@ -652,7 +652,7 @@ class TestRolesSetters:
         set_sharing_roles(["role:admin"])
         assert SHARING_ROLES == ["role:admin"]
         reset_sharing_roles()
-        assert SHARING_ROLES == before
+        assert before == SHARING_ROLES
 
     def test_set_user_management_roles(self):
         from kotti.security import (
@@ -665,4 +665,4 @@ class TestRolesSetters:
         set_user_management_roles(["role:admin"])
         assert USER_MANAGEMENT_ROLES == ["role:admin"]
         reset_user_management_roles()
-        assert USER_MANAGEMENT_ROLES == before
+        assert before == USER_MANAGEMENT_ROLES

@@ -77,7 +77,7 @@ class TestNestedMutationDict:
         assert isinstance(wrapper["children"], NestedMutationList)
         wrapper["children"].append({"name": "sandy", "age": 33})
         assert changed.call_count == 2
-        assert len(wrapper["children"]), 1
+        assert len(wrapper["children"]) == 1
         assert isinstance(wrapper["children"][0], NestedMutationDict)
 
     def test_listwrapper_wraps(self):
@@ -196,7 +196,7 @@ class TestMutationList:
         from kotti.sqla import MutationList
 
         mlist = MutationList(["foo"])
-        assert ["bar"] + mlist == ["bar", "foo"]
+        assert ["bar", *mlist] == ["bar", "foo"]
 
 
 class TestMutationDunderJson:
@@ -204,7 +204,7 @@ class TestMutationDunderJson:
         from kotti.sqla import MutationList
 
         mlist = MutationList(["foo"])
-        json.loads(json.dumps(mlist.__json__())) == ["foo"]
+        assert json.loads(json.dumps(mlist.__json__())) == ["foo"]
 
     def test_dunder_json_recursive(self):
         from kotti.sqla import MutationDict, MutationList
@@ -216,7 +216,7 @@ class TestMutationDunderJson:
             ]
         )
 
-        json.loads(json.dumps(mlist.__json__())) == [
+        assert json.loads(json.dumps(mlist.__json__())) == [
             {"foo": [{"bar": "baz"}]},
             {"foo": ["bar", "baz"]},
         ]
@@ -225,7 +225,7 @@ class TestMutationDunderJson:
             {"foo": MutationList([{"bar": "baz"}]), "bar": ["bar", "baz"]}
         )
 
-        json.loads(json.dumps(mdict.__json__())) == {
+        assert json.loads(json.dumps(mdict.__json__())) == {
             "foo": [{"bar": "baz"}],
             "bar": ["bar", "baz"],
         }

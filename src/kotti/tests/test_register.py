@@ -30,23 +30,25 @@ class TestRegister:
         request.POST["email"] = "test@example.com"
         request.POST["register"] = ("register",)
 
-        with mock.patch("kotti.views.login.UserAddFormView") as form:
-            with mock.patch("kotti.views.login.get_principals"):
-                res = register(root, request)
-                form.assert_has_calls(
-                    [
-                        mock.call().add_user_success(
-                            {
-                                "name": "test",
-                                "roles": "",
-                                "title": "Test User",
-                                "send_email": True,
-                                "groups": "",
-                                "email": "test@example.com",
-                            }
-                        )
-                    ]
-                )
+        with (
+            mock.patch("kotti.views.login.UserAddFormView") as form,
+            mock.patch("kotti.views.login.get_principals"),
+        ):
+            res = register(root, request)
+            form.assert_has_calls(
+                [
+                    mock.call().add_user_success(
+                        {
+                            "name": "test",
+                            "roles": "",
+                            "title": "Test User",
+                            "send_email": True,
+                            "groups": "",
+                            "email": "test@example.com",
+                        }
+                    )
+                ]
+            )
         assert isinstance(res, HTTPFound)
 
     def test_register_event(self, root):
@@ -58,10 +60,12 @@ class TestRegister:
         request.POST["email"] = "test@example.com"
         request.POST["register"] = ("register",)
 
-        with mock.patch("kotti.views.login.UserAddFormView"):
-            with mock.patch("kotti.views.login.get_principals"):
-                with mock.patch("kotti.views.login.notify") as notify:
-                    register(root, request)
+        with (
+            mock.patch("kotti.views.login.UserAddFormView"),
+            mock.patch("kotti.views.login.get_principals"),
+            mock.patch("kotti.views.login.notify") as notify,
+        ):
+            register(root, request)
         assert notify.call_count == 1
 
     def test_register_submit_groups_and_roles(self, root):
@@ -75,15 +79,17 @@ class TestRegister:
         request.POST["email"] = "test@example.com"
         request.POST["register"] = ("register",)
 
-        with mock.patch("kotti.views.login.UserAddFormView") as form:
-            with mock.patch("kotti.views.login.get_principals"):
-                with mock.patch("kotti.views.login.get_settings") as get_settings:
-                    get_settings.return_value = {
-                        "kotti.register.group": "mygroup",
-                        "kotti.register.role": "myrole",
-                    }
+        with (
+            mock.patch("kotti.views.login.UserAddFormView") as form,
+            mock.patch("kotti.views.login.get_principals"),
+            mock.patch("kotti.views.login.get_settings") as get_settings,
+        ):
+            get_settings.return_value = {
+                "kotti.register.group": "mygroup",
+                "kotti.register.role": "myrole",
+            }
 
-                    res = register(root, request)
+            res = register(root, request)
 
         form.assert_has_calls(
             [

@@ -56,21 +56,21 @@ class TestDefaultViewSelection:
         request = DummyRequest(GET={"view_name": "folder_view"})
         view = DefaultViewSelection(context, request)
 
-        assert type(view.set_default_view()) == HTTPFound
+        assert isinstance(view.set_default_view(), HTTPFound)
         assert context.default_view == "folder_view"
 
         # set back to default
         request = DummyRequest(GET={"view_name": "default"})
         view = DefaultViewSelection(context, request)
 
-        assert type(view.set_default_view()) == HTTPFound
+        assert isinstance(view.set_default_view(), HTTPFound)
         assert context.default_view is None
 
         # try to set non existing view
         request = DummyRequest(GET={"view_name": "nonexisting"})
         view = DefaultViewSelection(context, request)
 
-        assert type(view.set_default_view()) == HTTPFound
+        assert isinstance(view.set_default_view(), HTTPFound)
         assert context.default_view is None
 
     def test_warning_for_non_registered_views(self, root):

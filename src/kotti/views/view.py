@@ -21,7 +21,8 @@ def view_content_default(context, request):
     response = render_view_to_response(context, request, name=view_name)
     if response is None:  # pragma: no cover
         warnings.warn(
-            f"Failed to look up default view called {view_name!r} for {context!r}."
+            f"Failed to look up default view called {view_name!r} for {context!r}.",
+            stacklevel=2,
         )
         raise HTTPNotFound()
     return response

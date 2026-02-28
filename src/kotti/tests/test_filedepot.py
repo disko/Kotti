@@ -265,7 +265,7 @@ class TestTween:
         root["img"] = File(data=image_asset.read(), title="Image")
         db_session.flush()
         root = get_root()
-        img = root["img"]
+        root["img"]
 
         # the image resource itself is served by the full Kotti stack
         resp = webtest.app.get("/img")

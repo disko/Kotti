@@ -225,7 +225,7 @@ class FileUploadTempStore(MutableMapping):
         return len(self.session)
 
     def keys(self):
-        return [k for k in self.session.keys() if not k.startswith("_")]
+        return [k for k in self.session if not k.startswith("_")]
 
     def __setitem__(self, key, value):
         value = value.copy()

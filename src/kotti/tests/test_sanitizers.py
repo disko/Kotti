@@ -97,11 +97,15 @@ def test_default_config(unresolved_settings):
 
     assert (
         unresolved_settings["kotti.sanitizers"]
-        == "xss_protection:kotti.sanitizers.xss_protection_nh3 minimal_html:kotti.sanitizers.minimal_html_nh3 no_html:kotti.sanitizers.no_html_nh3"
+        == "xss_protection:kotti.sanitizers.xss_protection_nh3"
+        " minimal_html:kotti.sanitizers.minimal_html_nh3"
+        " no_html:kotti.sanitizers.no_html_nh3"
     )
     assert (
         unresolved_settings["kotti.sanitize_on_write"]
-        == "kotti.resources.Document.body:xss_protection kotti.resources.Content.title:no_html kotti.resources.Content.description:no_html"
+        == "kotti.resources.Document.body:xss_protection"
+        " kotti.resources.Content.title:no_html"
+        " kotti.resources.Content.description:no_html"
     )
 
 
@@ -146,7 +150,7 @@ def test_listeners(app, root, db_session):
         name="test", title=None, description=unsanitized, body=unsanitized
     )
     db_session.flush()
-    assert doc.title == None
+    assert doc.title is None
 
 
 @pytest.mark.filterwarnings("ignore::DeprecationWarning")

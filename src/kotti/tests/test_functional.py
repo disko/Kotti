@@ -375,11 +375,6 @@ class TestBrowser:
     @pytest.mark.user("admin")
     def test_view_actions(self, webtest):
 
-        from kotti.resources import Document, File
-
-        save_addable_document = Document.type_info.addable_to
-        save_addable_file = File.type_info.addable_to
-
         app = webtest.app
 
         def _add_document(resp, title):
@@ -987,7 +982,7 @@ class TestBrowser:
 
         # Remember that we sent Bob an email for registration.
         # He can use it to set his own password:
-        [email, email2] = dummy_mailer.outbox
+        [email, _email2] = dummy_mailer.outbox
         assert email.recipients == ['"Bob Dabolina" <bob@dabolina.com>']
         assert email.subject == "Your registration for Website des Kottbusser Tors"
         assert "Hello, Bob Dabolina!" in email.body
@@ -1032,7 +1027,7 @@ class TestBrowser:
         form["login"] = "bob"
         resp = form.submit("reset-password").maybe_follow()
         assert "You should be receiving an email" in resp.text
-        [email1, email2, email3] = dummy_mailer.outbox
+        [_email1, _email2, email3] = dummy_mailer.outbox
         assert "Hello, Bob Dabolina!" in email3.body
         assert (
             "Click this link to reset your password at Website des "

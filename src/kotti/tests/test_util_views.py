@@ -74,7 +74,7 @@ class TestTemplateAPI:
         assert len(api.list_children(root)) == 0
 
         # Now try it on a little graph:
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, aa, ab, ac, aca, _acb = create_contents(root)
         with patch("kotti.testing.DummyRequest.has_permission", return_value=True):
             assert api.list_children() == [a]
             assert api.list_children(root) == [a]
@@ -95,7 +95,7 @@ class TestTemplateAPI:
     def test_root(self, db_session):
         api = self.make()
         root = api.context
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        _a, _aa, _ab, _ac, _aca, acb = create_contents(root)
         assert self.make().root == root
         assert self.make(acb).root == root
 
@@ -106,7 +106,7 @@ class TestTemplateAPI:
 
         api = self.make()
         root = api.context
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, _aa, _ab, _ac, _aca, acb = create_contents(root)
         assert self.make().navigation_root == root
         assert self.make(acb).navigation_root == root
 
@@ -116,7 +116,7 @@ class TestTemplateAPI:
     def test_breadcrumbs(self, db_session):
         api = self.make()
         root = api.context
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, _aa, _ab, ac, _aca, acb = create_contents(root)
         api.context = acb
         breadcrumbs = [b for b in api.breadcrumbs]
         assert breadcrumbs == [root, a, ac, acb]
@@ -128,7 +128,7 @@ class TestTemplateAPI:
 
         api = self.make()
         root = api.context
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, _aa, _ab, ac, _aca, acb = create_contents(root)
         api.context = acb
         alsoProvides(a, INavigationRoot)
         breadcrumbs = [b for b in api.breadcrumbs]
@@ -440,11 +440,11 @@ class TestTemplateAPI:
 
     def test_format_currency(self, db_session):
         api = self.make()
-        assert "€13.99" == api.format_currency(13.99, "EUR")
-        assert "$15,499.12" == api.format_currency(15499.12, "USD")
-        assert "€1.00" == api.format_currency(1, fmt="€#,##0", currency="EUR")
-        assert "CHF3.14" == api.format_currency(
-            decimal.Decimal((0, (3, 1, 4), -2)), "CHF"
+        assert api.format_currency(13.99, "EUR") == "€13.99"
+        assert api.format_currency(15499.12, "USD") == "$15,499.12"
+        assert api.format_currency(1, fmt="€#,##0", currency="EUR") == "€1.00"
+        assert (
+            api.format_currency(decimal.Decimal((0, (3, 1, 4), -2)), "CHF") == "CHF3.14"
         )
 
     def test_format_datetime(self, db_session):
@@ -597,7 +597,7 @@ class TestLocalNavigationSlot:
         from kotti.interfaces import INavigationRoot
         from kotti.views.navigation import local_navigation
 
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, _aa, _ab, ac, aca, acb = create_contents(root)
 
         ret = local_navigation(ac, DummyRequest())
         assert ret == dict(parent=ac, children=[aca, acb])
@@ -614,7 +614,7 @@ class TestLocalNavigationSlot:
         config.testing_add_renderer("kotti:templates/view/nav-local.pt")
         from kotti.views.navigation import local_navigation
 
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        _a, _aa, _ab, ac, _aca, _acb = create_contents(root)
 
         with patch("kotti.testing.DummyRequest.has_permission", return_value=True):
             assert local_navigation(ac, DummyRequest())["parent"] is not None
@@ -626,7 +626,7 @@ class TestLocalNavigationSlot:
         config.testing_add_renderer("kotti:templates/view/nav-local.pt")
         from kotti.views.navigation import local_navigation
 
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, aa, ab, ac, _aca, _acb = create_contents(root)
 
         assert local_navigation(a, DummyRequest())["parent"] is not None
         aa.in_navigation = False
@@ -639,7 +639,7 @@ class TestNodesTree:
     def test_it(self, root):
         from kotti.views.util import nodes_tree
 
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, aa, ab, ac, _aca, _acb = create_contents(root)
         aa.in_navigation = False  # nodes_tree doesn't care
         tree = nodes_tree(DummyRequest())
         assert tree.id == a.__parent__.id
@@ -649,7 +649,7 @@ class TestNodesTree:
     def test_ordering(self, root):
         from kotti.views.util import nodes_tree
 
-        a, aa, ab, ac, aca, acb = create_contents(root)
+        a, aa, ab, ac, _aca, _acb = create_contents(root)
         a.children.insert(1, a.children.pop(0))
         tree = nodes_tree(DummyRequest())
         assert [ch.position for ch in tree.children[0].children] == [0, 1, 2]

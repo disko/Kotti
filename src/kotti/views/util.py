@@ -422,10 +422,7 @@ def nodes_tree(request, context=None, permission="view"):
     for children in item_to_children.values():
         children.sort(key=lambda ch: ch.position)
 
-    if context is None:
-        node = item_to_children[None][0]
-    else:
-        node = context
+    node = item_to_children[None][0] if context is None else context
 
     return NodesTree(node, request, item_mapping, item_to_children, permission)
 

@@ -17,7 +17,7 @@ from collections.abc import Iterable, MutableMapping
 from copy import copy
 from fnmatch import fnmatch
 from io import BufferedReader, BytesIO
-from typing import Any, Optional, Union
+from typing import Any
 
 from depot.fields.sqlalchemy import UploadedFileField, _SQLAMutationTracker
 from depot.fields.upload import UploadedFile
@@ -116,7 +116,7 @@ class ContainerMixin(MutableMapping):
             try:
                 [child] = filter(lambda ch: ch.name == path[0], self._children)
             except ValueError:
-                raise KeyError(path)
+                raise KeyError(path) from None
             if rest:
                 return child[rest]
             else:
@@ -136,7 +136,7 @@ class ContainerMixin(MutableMapping):
                     .one()
                 )
             except NoResultFound:
-                raise KeyError(path)
+                raise KeyError(path) from None
 
         # We have a path with more than one element, so let's be a
         # little clever about fetching the requested node:
@@ -217,7 +217,9 @@ class LocalGroup(Base):
         return self.__class__(**kwargs)
 
     def __repr__(self):
-        return f"<{self.__class__.__name__} {self.principal_name} => {self.group_name} at {resource_path(self.node)}>"
+        path = resource_path(self.node)
+        cls = self.__class__.__name__
+        return f"<{cls} {self.principal_name} => {self.group_name} at {path}>"
 
 
 class NodeMeta(DeclarativeMeta, abc.ABCMeta):
@@ -229,7 +231,7 @@ class Node(Base, ContainerMixin, PersistentACLMixin, metaclass=NodeMeta):
     """Basic node in the persistance hierarchy."""
 
     __table_args__ = (UniqueConstraint("parent_id", "name"),)
-    __mapper_args__ = dict(
+    __mapper_args__ = dict(  # noqa: RUF012
         polymorphic_on="type", polymorphic_identity="node", with_polymorphic="*"
     )
 
@@ -278,10 +280,10 @@ class Node(Base, ContainerMixin, PersistentACLMixin, metaclass=NodeMeta):
 
     def __init__(
         self,
-        name: str = None,
+        name: str | None = None,
         parent: "Node" = None,
         title: str = "",
-        annotations: dict = None,
+        annotations: dict | None = None,
         **kwargs,
     ):
         """Constructor"""
@@ -383,7 +385,7 @@ class TypeInfo:
             last_link = edit_links[-1] if edit_links else None
             if isinstance(last_link, LinkParent):
                 last_link.children.extend(kwargs["action_links"])
-                warnings.warn(msg, DeprecationWarning)
+                warnings.warn(msg, DeprecationWarning, stacklevel=2)
             else:
                 raise ValueError(msg)
 
@@ -692,7 +694,7 @@ class SaveDataMixin:
     from ``Base`` with ``SQLAlchemy>=1.0``, otherwise that class cannot be
     subclassed further.
 
-    See http://stackoverflow.com/questions/30433960/how-to-use-declare-last-in-sqlalchemy-1-0  # noqa
+    See http://stackoverflow.com/questions/30433960/how-to-use-declare-last-in-sqlalchemy-1-0
     """
 
     #: The filename is used in the attachment view to give downloads
@@ -731,7 +733,7 @@ class SaveDataMixin:
     @staticmethod
     def _save_data(
         target: "File",
-        value: Optional[Union[FieldStorage, bytes, UploadedFile, BufferedReader]],  # noqa
+        value: FieldStorage | bytes | UploadedFile | BufferedReader | None,
         oldvalue: UploadedFile | _symbol | None,
         initiator: Event,
     ) -> UploadedFile | None:
@@ -784,7 +786,7 @@ class SaveDataMixin:
 
     def __init__(
         self,
-        data: Optional[Union[bytes, BufferedReader, FieldStorage]] = None,  # noqa
+        data: bytes | BufferedReader | FieldStorage | None = None,
         filename: str | None = None,
         mimetype: str | None = None,
         size: int | None = None,
@@ -860,7 +862,7 @@ class DefaultRootCache:
                 .with_polymorphic(Node)
                 .add_columns(Node.id)
                 .enable_eagerloads(False)
-                .filter(Node.parent_id == None)
+                .filter(Node.parent_id == None)  # noqa: E711
             )
         )
 

@@ -42,7 +42,7 @@ class Dummy(dict):
 
 class DummyRequest(testing.DummyRequest):
     is_xhr = False
-    POST = dict()
+    POST = dict()  # noqa: RUF012
     user = None
     referrer = None
 
@@ -149,7 +149,7 @@ def _turn_warnings_into_errors():  # pragma: no cover
     # produced by Babel's `localedata.py` vs `localedata/` show up once...
     from babel import localedata
 
-    localedata  # make pyflakes happy... :p
+    _ = localedata  # imported for import-time side effect (babel localedata warning)
     from warnings import filterwarnings
 
     filterwarnings("error")
@@ -282,7 +282,7 @@ class FunctionalTestBase(TestCase):
 class RootFactory(dict):
     __name__ = ""  # root is required to have an empty name!
     __parent__ = None
-    __acl__ = [("Allow", "role:admin", ALL_PERMISSIONS)]
+    __acl__ = [("Allow", "role:admin", ALL_PERMISSIONS)]  # noqa: RUF012
 
     def __init__(self, request):
         super().__init__()
@@ -342,7 +342,7 @@ def registerDummyMailer():
 
 
 # set up deprecation warnings
-from zope.deprecation.deprecation import deprecated  # noqa
+from zope.deprecation.deprecation import deprecated  # noqa: E402
 
 for item in UnitTestBase, EventTestBase, FunctionalTestBase, _init_testing_db:
     name = getattr(item, "__name__", item)

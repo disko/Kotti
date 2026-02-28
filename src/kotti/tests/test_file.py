@@ -139,7 +139,7 @@ class TestFileUploadTempStore:
         ts["a"] = {"fp": BytesIO(b"test"), "marker": "yes"}
         assert ts.session["a"] == {"file_contents": b"test", "marker": "yes"}
         v = ts["a"]
-        assert "fp" in v.keys()
+        assert "fp" in v
         assert v["marker"] == "yes"
         assert v["fp"].read() == b"test"
 

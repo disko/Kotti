@@ -112,7 +112,7 @@ def set_cache_headers(event):
         # noinspection PyBroadException
         try:
             caching_policy = caching_policy_chooser(context, request, response)
-        except:  # noqa: E722
+        except Exception:
             # We don't want to screw up the response if the
             # caching_policy_chooser raises an exception.
             logger.exception(f"{caching_policy_chooser} raised an exception.")

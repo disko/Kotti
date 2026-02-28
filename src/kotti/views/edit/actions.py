@@ -100,7 +100,7 @@ class NodeActions:
         for id in ids:
             item = DBSession.query(Node).get(id)
             self.flash(
-                _("${title} was %s." % action_title, mapping=dict(title=item.title)),
+                _(f"${{title}} was {action_title}.", mapping=dict(title=item.title)),
                 "success",
             )
         if not self.request.is_xhr:
@@ -548,7 +548,7 @@ def workflow(context, request):
     wf = get_workflow(context)
     if wf is not None:
         state_info = _state_info(context, request)
-        curr_state = [i for i in state_info if i["current"]][0]
+        curr_state = next(i for i in state_info if i["current"])
         trans_info = [
             trans
             for trans in wf.get_transitions(context, request)

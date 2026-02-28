@@ -126,15 +126,17 @@ class TestCommand:
 
         func = Mock()
         closer = Mock()
-        with patch("kotti.util.docopt") as docopt:
-            with patch("kotti.util.bootstrap") as bootstrap:
-                docopt.return_value = {"<config_uri>": "app.ini"}
-                bootstrap.return_value = {"closer": closer}
-                assert command(func, "doc") == 0
-                func.assert_called_with({"<config_uri>": "app.ini"})
-                docopt.assert_called_with("doc")
-                bootstrap.assert_called_with("app.ini")
-                assert closer.call_count == 1
+        with (
+            patch("kotti.util.docopt") as docopt,
+            patch("kotti.util.bootstrap") as bootstrap,
+        ):
+            docopt.return_value = {"<config_uri>": "app.ini"}
+            bootstrap.return_value = {"closer": closer}
+            assert command(func, "doc") == 0
+            func.assert_called_with({"<config_uri>": "app.ini"})
+            docopt.assert_called_with("doc")
+            bootstrap.assert_called_with("app.ini")
+            assert closer.call_count == 1
 
 
 class TestTemplateStructure:

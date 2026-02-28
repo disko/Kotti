@@ -44,7 +44,7 @@ def roles_form_handler(context, request, available_role_names, groups_lister):
             if name.startswith("orig-role::"):
                 # orig-role::* is hidden checkboxes that allow us to
                 # see what checkboxes were in the form originally
-                token, principal_name, role_name = name.split("::")
+                _token, principal_name, role_name = name.split("::")
                 if role_name not in available_role_names:
                     raise Forbidden()
                 new_value = bool(
@@ -112,9 +112,10 @@ def search_principals(request, context=None, ignore=None, extra=()):
 )
 def share_node(context, request):
     # Allow roles_form_handler to do processing on 'apply':
-    if "apply" in request.POST:
-        if request.params.get("csrf_token") != request.session.get_csrf_token():
-            raise HTTPBadRequest("Invalid CSRF token")
+    if "apply" in request.POST and (
+        request.params.get("csrf_token") != request.session.get_csrf_token()
+    ):
+        raise HTTPBadRequest("Invalid CSRF token")
     changed = roles_form_handler(context, request, SHARING_ROLES, list_groups_raw)
     if changed:
         for principal_name, context, groups in changed:
@@ -407,7 +408,7 @@ class UsersManage(FormView):
         )
         if changed:
             changed_names = []
-            for principal_name, context, groups in changed:
+            for principal_name, _context, groups in changed:
                 principal = principals[principal_name]
                 principal.groups = list(groups)
                 changed_names.append(principal_name)

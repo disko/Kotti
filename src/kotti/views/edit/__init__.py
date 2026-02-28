@@ -23,6 +23,7 @@ def _translate_titles(info):
                 "_() in workflow.zcml is deprecated. "
                 "Support will be removed in Kotti 2.0.0.",
                 DeprecationWarning,
+                stacklevel=2,
             )
         except (NameError, SyntaxError):
             d["title"] = _(d["title"]) if "title" in d else d["name"]

@@ -362,9 +362,9 @@ class TestPath:
         assert subchild in objs
         assert child2 in objs
 
-        db_session.query(Node).filter(
-            Node.path.startswith("/child-1/child-3/")
-        ).count() == 0
+        path_prefix = "/child-1/child-3/"
+        count = db_session.query(Node).filter(Node.path.startswith(path_prefix)).count()
+        assert count == 0
 
     def test_add_child_to_unnamed_parent(self, db_session, root, events):
         from kotti.resources import Node
@@ -477,5 +477,5 @@ class TestTypeInfo:
         context = Mock(type_info=Mock())
         context.type_info.name = "Document"
         with patch("kotti.resources.view_permitted") as vp:
-            res = type_info.addable(context, None)
+            type_info.addable(context, None)
             assert vp.call_count == 0

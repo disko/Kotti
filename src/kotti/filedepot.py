@@ -4,7 +4,6 @@ import uuid
 from cgi import FieldStorage
 from collections.abc import Callable
 from datetime import datetime
-from typing import Dict, List
 
 from depot.fields.sqlalchemy import _SQLAMutationTracker
 from depot.fields.upload import UploadedFile
@@ -508,10 +507,7 @@ def uploaded_file_response(
 
 
 def uploaded_file_url(self, uploaded_file, disposition="inline"):
-    if disposition == "attachment":
-        suffix = "/download"
-    else:
-        suffix = ""
+    suffix = "/download" if disposition == "attachment" else ""
     url = "{}/{}/{}{}".format(
         self.application_url,
         get_settings()["kotti.depot_mountpoint"][1:],
@@ -594,10 +590,7 @@ class TweenFactory:
             return response
 
         # file is not directly accessible for user agents, serve it ourselves
-        if path[-1] == "download":
-            disposition = "attachment"
-        else:
-            disposition = "inline"
+        disposition = "attachment" if path[-1] == "download" else "inline"
         response = StoredFileResponse(f, request, disposition=disposition)
         return response
 
@@ -630,7 +623,7 @@ def adjust_for_engine(conn: Connection, branch: bool) -> None:
 
 def extract_depot_settings(
     prefix: str | None = "kotti.depot.", settings: dict[str, str] | None = None
-) -> List[Dict[str, str]]:  # noqa
+) -> list[dict[str, str]]:
     """Merges items from a dictionary that have keys that start with `prefix`
     to a list of dictionaries.
 
@@ -651,7 +644,8 @@ def extract_depot_settings(
       ... }
       >>> res = extract_depot_settings('kotti.depot.', settings)
       >>> print(sorted(res[0].items()))
-      [('backend', 'kotti.filedepot.DBFileStorage'), ('file_storage', 'var/files'), ('name', 'local')]
+      [('backend', 'kotti.filedepot.DBFileStorage'), ('file_storage', 'var/files'),
+      ('name', 'local')]
       >>> print(sorted(res[1].items()))
       [('backend', 'depot.io.gridfs.GridStorage'), ('name', 'mongodb'), ('uri', 'localhost://')]
     """

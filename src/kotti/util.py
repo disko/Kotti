@@ -295,10 +295,7 @@ def title_to_name(title, blacklist=(), max_length=None):
         # See #428, #427 and #31
         max_length = Node.name.property.columns[0].type.length - 10
     request = get_current_request()
-    if request is not None:
-        locale_name = get_locale_name(request)
-    else:
-        locale_name = "en"
+    locale_name = get_locale_name(request) if request is not None else "en"
     from kotti import get_settings
 
     urlnormalizer = get_settings()["kotti.url_normalizer"][0]

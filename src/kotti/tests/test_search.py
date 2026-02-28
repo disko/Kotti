@@ -54,7 +54,7 @@ def test_search_content(root):
     from kotti.views.util import search_content
 
     request = DummyRequest()
-    doc1, doc11, doc12, file1 = _create_contents(root)
+    _doc1, _doc11, _doc12, _file1 = _create_contents(root)
     results = search_content("First Document", request)
     assert len(results) == 1
     assert results[0]["name"] == "doc1"
@@ -67,7 +67,7 @@ def test_search_content(root):
     assert results[1]["path"] == "/doc1/doc11/"
     assert results[1]["path"][-1] == "/"
 
-    animals, cat, dog, monkey, gorilla, monkey_file = _create_contents_with_tags()
+    _animals, _cat, _dog, _monkey, _gorilla, _monkey_file = _create_contents_with_tags()
 
     tags = DBSession.query(Tag).all()
     assert len(tags) == 6
@@ -103,7 +103,7 @@ def test_search_file_description(root):
     from kotti.views.util import search_content
 
     request = DummyRequest()
-    doc1, doc11, doc12, file1 = _create_contents(root)
+    _doc1, _doc11, _doc12, _file1 = _create_contents(root)
     results = search_content("this is a file", request)
     assert len(results) == 1
     assert results[0]["name"] == "file1"
@@ -123,7 +123,7 @@ def test_search_content_without_permission(config, root):
 
 def test_search_functional(webtest, root):
 
-    doc1, doc11, doc12, file1 = _create_contents(root)
+    _doc1, _doc11, _doc12, _file1 = _create_contents(root)
 
     resp = webtest.app.get("/")
 

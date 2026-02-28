@@ -27,7 +27,7 @@ class DefaultViewSelection:
 
         Returns True if a view with name view_name is registered for context.
         """
-        provides = [IViewClassifier] + map_(providedBy, (self.request, self.context))
+        provides = [IViewClassifier, *map_(providedBy, (self.request, self.context))]
 
         try:
             reg = self.request.registry
@@ -75,7 +75,8 @@ class DefaultViewSelection:
                 )
             else:
                 warnings.warn(
-                    f"No view called '{name}' is registered for {self.context!r}."
+                    f"No view called '{name}' is registered for {self.context!r}.",
+                    stacklevel=2,
                 )
 
         return {
@@ -84,9 +85,9 @@ class DefaultViewSelection:
                     "name": "default",
                     "title": _("Default view"),
                     "is_current": self.context.default_view is None,
-                }
+                },
+                *sviews,
             ]
-            + sviews
         }
 
     @view_config(name="set-default-view")

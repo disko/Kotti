@@ -126,7 +126,8 @@ _ROOT_ATTRS = dict(
 _ABOUT_ATTRS = dict(
     title=_("About"),
     description=_(
-        "Our company is the leading manufacturer of foo widgets used in a wide variety of aviation and and industrial products."
+        "Our company is the leading manufacturer of foo widgets used in a wide"
+        " variety of aviation and and industrial products."
     ),
     body=_(
         """

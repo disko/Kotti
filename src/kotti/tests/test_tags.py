@@ -7,7 +7,7 @@ from kotti.testing import DummyRequest
 
 class DummyContext:
     view_name = "view_name"
-    tags = ["tag 1", "tag 2", "tag 3"]
+    tags = ["tag 1", "tag 2", "tag 3"]  # noqa: RUF012
 
 
 class TestTags:
@@ -41,8 +41,8 @@ class TestTags:
         root["content_1"] = Content()
         root["content_1"].tags = ["tag 1", "tag 2"]
         assert root["content_1"].tags == ["tag 1", "tag 2"]
-        assert type(root["content_1"]._tags[0]) == TagsToContents
-        assert type(root["content_1"]._tags[0].tag) == Tag
+        assert isinstance(root["content_1"]._tags[0], TagsToContents)
+        assert isinstance(root["content_1"]._tags[0].tag, Tag)
         assert root["content_1"]._tags[0].tag.title == "tag 1"
         assert root["content_1"]._tags[0].position == 0
         assert root["content_1"]._tags[1].tag.title == "tag 2"

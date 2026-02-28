@@ -60,7 +60,7 @@ class TestNodePaste:
 
         request = DummyRequest()
 
-        for index, action in enumerate(["copy", "cut"]):
+        for index, _action in enumerate(["copy", "cut"]):
             request.session["kotti.paste"] = ([1701], "copy")
             response = NodeActions(root, request).paste_nodes()
             assert response.status == "302 Found"

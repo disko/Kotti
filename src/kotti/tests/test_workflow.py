@@ -109,12 +109,14 @@ class TestResetWorkflowCommand:
     def test_it(self, commit):
         from kotti.workflow import reset_workflow_command
 
-        with patch("kotti.workflow.command") as command:
-            with patch("kotti.workflow.reset_workflow") as reset_workflow:
-                reset_workflow_command()
-                func, doc = command.call_args[0]
-                func({"--purge-existing": True})
-                reset_workflow.assert_called_with(purge_existing=True)
+        with (
+            patch("kotti.workflow.command") as command,
+            patch("kotti.workflow.reset_workflow") as reset_workflow,
+        ):
+            reset_workflow_command()
+            func, _doc = command.call_args[0]
+            func({"--purge-existing": True})
+            reset_workflow.assert_called_with(purge_existing=True)
 
 
 class TestDefaultWorkflow:
