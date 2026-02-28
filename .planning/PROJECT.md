@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A modernization effort for Kotti, a Pyramid-based CMS framework published on PyPI. The goal is to bring the project's packaging, tooling, dependencies, and Python version support up to current standards while preserving backwards compatibility through a deprecation cycle. This is an open source project with existing users.
+Kotti is a Pyramid-based CMS framework published on PyPI, now modernized with pyproject.toml packaging, Python 3.10-3.13 support, nh3 sanitization, ruff linting/formatting, and MkDocs Material documentation. Backwards compatibility maintained through deprecation warnings.
 
 ## Core Value
 
@@ -11,8 +11,6 @@ Keep Kotti installable, functional, and maintainable on modern Python (3.10-3.13
 ## Requirements
 
 ### Validated
-
-<!-- Shipped and confirmed valuable. Inferred from existing codebase. -->
 
 - ✓ Hierarchical content tree with traversal-based routing — existing
 - ✓ ACL-based security with local group assignments — existing
@@ -26,33 +24,24 @@ Keep Kotti installable, functional, and maintainable on modern Python (3.10-3.13
 - ✓ Plugin architecture via includeme hooks — existing
 - ✓ Alembic database migrations — existing
 - ✓ Chameleon template rendering — existing
-- ✓ Sphinx documentation on RTD — existing
 - ✓ PyPI package distribution — existing
 - ✓ GitHub Actions CI with multi-DB testing — existing
+- ✓ pyproject.toml with hatchling build backend and src layout — v1.0
+- ✓ uv as package manager with committed lock file — v1.0
+- ✓ ruff for linting and formatting (replaces flake8/isort/black) — v1.0
+- ✓ Python 3.10-3.13 support, 3.6-3.9 dropped — v1.0
+- ✓ nh3 sanitization (replaces deprecated bleach) — v1.0
+- ✓ importlib.metadata/resources (replaces pkg_resources) — v1.0
+- ✓ Consolidated CI matrix (Python x DB backend) — v1.0
+- ✓ pre-commit hooks for code quality — v1.0
+- ✓ MkDocs Material documentation with mkdocstrings API docs — v1.0
+- ✓ Deprecation warnings for all changed public APIs — v1.0
 
 ### Active
 
-<!-- Current scope. Building toward these. -->
-
-- [ ] Migrate from setup.py to pyproject.toml with modern build backend
-- [ ] Adopt src layout
-- [ ] Consolidate tool config (ruff, pytest, etc.) into pyproject.toml
-- [ ] Use uv as package manager
-- [ ] Adopt ruff for linting and formatting
-- [ ] Declare Python 3.10-3.13 compatibility, drop 3.6-3.9
-- [ ] Replace deprecated dependencies with clear drop-in replacements (e.g., bleach → nh3)
-- [ ] Replace mock with unittest.mock throughout tests
-- [ ] Replace pytest-flake8 with ruff in test/CI pipeline
-- [ ] Modernize CI: update GH Actions, Python 3.10-3.13 test matrix, add ruff checks
-- [ ] Modernize Sphinx config and RTD setup
-- [ ] Remove code duplication
-- [ ] Clean up bare exception handlers and type annotation issues
-- [ ] Keep documentation in sync with all changes
-- [ ] Ensure deprecation warnings for any breaking changes
+(None — next milestone requirements TBD via `/gsd:new-milestone`)
 
 ### Out of Scope
-
-<!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
 
 - Replacing fanstatic/js.* asset pipeline — too complex, needs its own milestone
 - Replacing Angular 1.x — frontend overhaul is a separate effort
@@ -60,50 +49,48 @@ Keep Kotti installable, functional, and maintainable on modern Python (3.10-3.13
 - Replacing pyramid_beaker sessions — requires evaluating alternatives, separate effort
 - Removing ZCML support — breaking change for plugins, needs deprecation planning
 - Replacing FormEncode with colander — used in email validation, risk of subtle breakage
-- Adding new features (rate limiting, API versioning, request tracing) — this is modernization, not feature work
 - Performance optimization — separate effort after modernization
 
 ## Context
 
-Kotti is a mature Pyramid-based CMS framework (version 2.0.10dev0) published on PyPI. It has an active codebase with:
-- ~50+ Python source files across kotti/ package
+Kotti is a mature Pyramid-based CMS framework (version 2.0.10dev0) published on PyPI. After v1.0 modernization:
+- 17,000 LOC Python across src/kotti/
 - Test suite using pytest with SQLite/PostgreSQL/MySQL backends
-- Sphinx documentation hosted on RTD
-- GitHub Actions CI (separate workflows per DB backend)
-- Multiple entry points (paste.app_factory, console_scripts, fanstatic, pytest11)
-- Rich plugin ecosystem via includeme hooks
+- MkDocs Material documentation with mkdocstrings API reference
+- GitHub Actions CI: consolidated matrix (Python 3.10-3.13 x 3 DB backends)
+- pyproject.toml + hatchling + src layout + uv.lock
+- ruff linting/formatting + pre-commit hooks
+- nh3 sanitization, importlib.metadata/resources
+- All entry points working (paste.app_factory, console_scripts, fanstatic, pytest11)
 
-The codebase currently targets Python 3.6-3.10 (classifiers) but tox only tests 3.6-3.8. Many dependencies are pinned to old versions. The build system uses setup.py with setuptools_git. No pyproject.toml exists.
-
-Key deprecated/outdated items identified:
-- `bleach` (deprecated, replaced by `nh3` ecosystem)
-- `mock` (stdlib `unittest.mock` since Python 3.3)
-- `pytest-flake8` (replaced by ruff)
-- `setuptools_git` (unnecessary with modern setuptools)
-- `check-manifest` (less relevant with pyproject.toml)
-- Bare `except:` clauses in alembic/env.py and views/cache.py
-- `Union[int, "NoneType"]` patterns instead of `Optional[int]`
+Known tech debt:
+- Pyramid pinned to <2 (pyramid.compat dependency)
+- SQLAlchemy pinned to <2 (declarative_base, baked queries)
+- 3 pre-existing test_file.py failures (depot/cgi FieldStorage issue)
+- fanstatic/Angular 1.x frontend stack unchanged
 
 ## Constraints
 
-- **Backwards compatibility**: Must use deprecation warnings before removing/changing public APIs — existing PyPI users depend on this
-- **PyPI publication**: Package must remain installable via pip throughout the process
-- **Entry points**: paste.app_factory, fanstatic.libraries, console_scripts, and pytest11 entry points must keep working
+- **Backwards compatibility**: Must use deprecation warnings before removing/changing public APIs
+- **PyPI publication**: Package must remain installable via pip throughout
+- **Entry points**: paste.app_factory, fanstatic.libraries, console_scripts, pytest11 must work
 - **Plugin compatibility**: includeme hooks and configuration patterns must remain functional
-- **Test suite**: All existing tests must pass after changes (or be updated with clear rationale)
+- **Test suite**: All existing tests must pass after changes (or updated with clear rationale)
 
 ## Key Decisions
 
-<!-- Decisions that constrain future work. Add throughout project lifecycle. -->
-
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Python 3.10-3.13 target | Drop EOL versions, use modern syntax (match, \|, etc.) | — Pending |
-| pyproject.toml + src layout | Modern Python packaging standard | — Pending |
-| uv as package manager | Fast, modern, replaces pip/pip-tools | — Pending |
-| ruff for linting + formatting | Replaces flake8, isort, black — single fast tool | — Pending |
-| Deprecation cycle for breaking changes | Protect existing users, standard OSS practice | — Pending |
-| Replace bleach with drop-in alternative | bleach is deprecated, nh3 or similar is the path forward | — Pending |
+| Python 3.10-3.13 target | Drop EOL versions, use modern syntax | ✓ Good — all tests pass |
+| pyproject.toml + src layout | Modern Python packaging standard | ✓ Good — clean build |
+| uv as package manager | Fast, modern, replaces pip/pip-tools | ✓ Good — lock file committed |
+| ruff for linting + formatting | Replaces flake8, isort, black — single tool | ✓ Good — 441 violations fixed |
+| Deprecation cycle for breaking changes | Protect existing users | ✓ Good — shims in sanitizers |
+| Replace bleach with nh3 | bleach deprecated, nh3 is maintained | ✓ Good — characterization tests pass |
+| hatchling over setuptools | Modern, handles src layout natively | ✓ Good — all assets included |
+| MkDocs Material over Sphinx update | Modern, better DX, mkdocstrings for API docs | ✓ Good — 52 pages, strict build passes |
+| Isolated formatting commit | Preserves git blame via .git-blame-ignore-revs | ✓ Good — GitHub auto-skips |
+| Keep pyramid<2 and sqlalchemy<2 pins | Too risky for this milestone | ⚠️ Revisit — future milestone |
 
 ---
-*Last updated: 2026-02-27 after initialization*
+*Last updated: 2026-02-28 after v1.0 milestone*
