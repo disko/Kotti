@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 4 of 5 (Code Quality and Formatting)
-Plan: 1 of 3 in current phase — COMPLETE
-Status: Phase 4, Plan 1 complete
-Last activity: 2026-02-28 — Completed 04-01: expanded ruff config, isolated formatting commit, .git-blame-ignore-revs
+Plan: 2 of 3 in current phase — COMPLETE
+Status: Phase 4, Plan 2 complete
+Last activity: 2026-02-28 — Completed 04-02: zero ruff violations, modernized type annotations, fixed bare excepts
 
-Progress: [██████░░░░] 60%
+Progress: [███████░░░] 65%
 
 ## Performance Metrics
 
@@ -43,10 +43,10 @@ Progress: [██████░░░░] 60%
 | Phase 1 | 2 | 22m 12s | 11m 6s |
 | Phase 2 | 2 | ~30m | ~15m |
 | Phase 3 | 1 | 1m 26s | 1m 26s |
-| Phase 4 | 1 (of 3) | ~8m | ~8m |
+| Phase 4 | 2 (of 3) | ~28m | ~14m |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (~15m), 02-02 (~15m), 03-01 (1m 26s), 04-01 (~8m)
+- Last 5 plans: 02-01 (~15m), 02-02 (~15m), 03-01 (1m 26s), 04-01 (~8m), 04-02 (~20m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -84,6 +84,9 @@ Recent decisions affecting current work:
 - [04-01]: B018 per-file-ignored in src/kotti/tests/**/*.py (intentional property-access side effects)
 - [04-01]: Formatting commit 96b5b597 isolated — recorded in .git-blame-ignore-revs; GitHub blame will auto-skip
 - [04-01]: 441 ruff violations visible under expanded ruleset — Plan 02 addresses them
+- [04-02]: SQLAlchemy ORM filter Node.parent_id == None must NOT be changed to is None — E711 suppressed with noqa
+- [04-02]: RUF012 for SQLAlchemy __mapper_args__, Pyramid __acl__, DummyRequest.POST get # noqa: RUF012 (framework-managed)
+- [04-02]: B015 pointless comparisons in tests (test_sqla.py, test_node.py) were genuine test bugs — fixed to assert statements
 
 ### Pending Todos
 
@@ -96,6 +99,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-28T00:29:00Z
-Stopped at: Completed 04-01-PLAN.md — expanded ruff config, isolated formatting commit, .git-blame-ignore-revs
+Last session: 2026-02-28T01:04:14Z
+Stopped at: Completed 04-02-PLAN.md — zero ruff violations, modernized type annotations, fixed bare excepts, exception chaining
 Resume file: None

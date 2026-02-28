@@ -42,7 +42,7 @@ Requirements for this modernization milestone. Each maps to roadmap phases.
 - [x] **LNT-02**: ruff configured for formatting in pyproject.toml (replaces black/isort)
 - [x] **LNT-03**: pytest-flake8 removed from test dependencies
 - [x] **LNT-04**: Formatting applied in isolated first commit (preserves git blame)
-- [ ] **LNT-05**: pyupgrade-style modernizations applied (super(), union syntax, etc.)
+- [x] **LNT-05**: pyupgrade-style modernizations applied (super(), union syntax, etc.)
 - [ ] **LNT-06**: pre-commit hooks configured (.pre-commit-config.yaml)
 
 ### CI/CD
@@ -55,10 +55,10 @@ Requirements for this modernization milestone. Each maps to roadmap phases.
 
 ### Code Quality
 
-- [ ] **CQ-01**: Bare except handlers replaced with specific exceptions (alembic/env.py, views/cache.py)
-- [ ] **CQ-02**: Union[int, "NoneType"] patterns replaced with Optional[int] or X | None syntax
-- [ ] **CQ-03**: Deprecation warnings added for any changed public APIs
-- [ ] **CQ-04**: Code duplication identified and removed where safe
+- [x] **CQ-01**: Bare except handlers replaced with specific exceptions (alembic/env.py, views/cache.py)
+- [x] **CQ-02**: Union[int, "NoneType"] patterns replaced with Optional[int] or X | None syntax
+- [x] **CQ-03**: Deprecation warnings added for any changed public APIs
+- [x] **CQ-04**: Code duplication identified and removed where safe
 
 ### Documentation
 
@@ -127,17 +127,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LNT-02 | Phase 4 | Complete |
 | LNT-03 | Phase 3 | Complete |
 | LNT-04 | Phase 4 | Complete |
-| LNT-05 | Phase 4 | Pending |
+| LNT-05 | Phase 4 | Complete |
 | LNT-06 | Phase 4 | Pending |
 | CI-01 | Phase 3 | Complete |
 | CI-02 | Phase 3 | Complete |
 | CI-03 | Phase 3 | Complete |
 | CI-04 | Phase 3 | Complete |
 | CI-05 | Phase 3 | Complete |
-| CQ-01 | Phase 4 | Pending |
-| CQ-02 | Phase 4 | Pending |
-| CQ-03 | Phase 4 | Pending |
-| CQ-04 | Phase 4 | Pending |
+| CQ-01 | Phase 4 | Complete |
+| CQ-02 | Phase 4 | Complete |
+| CQ-03 | Phase 4 | Complete |
+| CQ-04 | Phase 4 | Complete |
 | DOC-01 | Phase 5 | Pending |
 | DOC-02 | Phase 5 | Pending |
 | DOC-03 | Phase 5 | Pending |
