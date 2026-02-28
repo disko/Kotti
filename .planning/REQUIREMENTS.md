@@ -38,10 +38,10 @@ Requirements for this modernization milestone. Each maps to roadmap phases.
 
 ### Linting & Formatting
 
-- [ ] **LNT-01**: ruff configured for linting in pyproject.toml (replaces flake8)
-- [ ] **LNT-02**: ruff configured for formatting in pyproject.toml (replaces black/isort)
-- [ ] **LNT-03**: pytest-flake8 removed from test dependencies
-- [ ] **LNT-04**: Formatting applied in isolated first commit (preserves git blame)
+- [x] **LNT-01**: ruff configured for linting in pyproject.toml (replaces flake8)
+- [x] **LNT-02**: ruff configured for formatting in pyproject.toml (replaces black/isort)
+- [x] **LNT-03**: pytest-flake8 removed from test dependencies
+- [x] **LNT-04**: Formatting applied in isolated first commit (preserves git blame)
 - [ ] **LNT-05**: pyupgrade-style modernizations applied (super(), union syntax, etc.)
 - [ ] **LNT-06**: pre-commit hooks configured (.pre-commit-config.yaml)
 
@@ -123,10 +123,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PYV-02 | Phase 3 | Complete |
 | PYV-03 | Phase 3 | Complete |
 | PYV-04 | Phase 3 | Complete |
-| LNT-01 | Phase 4 | Pending |
-| LNT-02 | Phase 4 | Pending |
-| LNT-03 | Phase 3 | Pending |
-| LNT-04 | Phase 4 | Pending |
+| LNT-01 | Phase 4 | Complete |
+| LNT-02 | Phase 4 | Complete |
+| LNT-03 | Phase 3 | Complete |
+| LNT-04 | Phase 4 | Complete |
 | LNT-05 | Phase 4 | Pending |
 | LNT-06 | Phase 4 | Pending |
 | CI-01 | Phase 3 | Complete |

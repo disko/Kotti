@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-02-27T23:12:25.076Z"
+status: in-progress
+last_updated: "2026-02-28T00:29:00.000Z"
 progress:
-  total_phases: 3
+  total_phases: 5
   completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
+  total_plans: 8
+  completed_plans: 6
 ---
 
 # Project State
@@ -18,23 +18,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-27)
 
 **Core value:** Keep Kotti installable, functional, and maintainable on modern Python (3.10-3.13) without breaking existing users
-**Current focus:** Phase 3 — Python Version and CI Modernization
+**Current focus:** Phase 4 — Code Quality and Formatting
 
 ## Current Position
 
-Phase: 3 of 5 (Python Version and CI Modernization)
-Plan: 1 of 1 in current phase
-Status: Phase 3, Plan 1 complete
-Last activity: 2026-02-27 — Completed 03-01: ruff linting, consolidated CI matrix, Dependabot config
+Phase: 4 of 5 (Code Quality and Formatting)
+Plan: 1 of 3 in current phase — COMPLETE
+Status: Phase 4, Plan 1 complete
+Last activity: 2026-02-28 — Completed 04-01: expanded ruff config, isolated formatting commit, .git-blame-ignore-revs
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: ~10m
-- Total execution time: ~37m
+- Total plans completed: 6
+- Average duration: ~9m
+- Total execution time: ~45m
 
 **By Phase:**
 
@@ -43,9 +43,10 @@ Progress: [█████░░░░░] 50%
 | Phase 1 | 2 | 22m 12s | 11m 6s |
 | Phase 2 | 2 | ~30m | ~15m |
 | Phase 3 | 1 | 1m 26s | 1m 26s |
+| Phase 4 | 1 (of 3) | ~8m | ~8m |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (16m 12s), 01-02 (6m), 02-01 (~15m), 02-02 (~15m), 03-01 (1m 26s)
+- Last 5 plans: 02-01 (~15m), 02-02 (~15m), 03-01 (1m 26s), 04-01 (~8m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -79,6 +80,10 @@ Recent decisions affecting current work:
 - [03-01]: PyMySQL (pure Python) chosen over mysqlclient — no C build deps needed
 - [03-01]: E711, E721, F821, F841 rules ignored in ruff — deferred to Phase 4 code quality work
 - [03-01]: Branch triggers limited to master only (drop testing/stable from old workflows)
+- [04-01]: ruff ruleset E,W,F,I,B,UP,SIM,RUF — F821/B008/SIM300 globally ignored (ORM forward refs, i18n patterns, test assert style)
+- [04-01]: B018 per-file-ignored in src/kotti/tests/**/*.py (intentional property-access side effects)
+- [04-01]: Formatting commit 96b5b597 isolated — recorded in .git-blame-ignore-revs; GitHub blame will auto-skip
+- [04-01]: 441 ruff violations visible under expanded ruleset — Plan 02 addresses them
 
 ### Pending Todos
 
@@ -91,6 +96,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-27T22:26:20Z
-Stopped at: Completed 03-01-PLAN.md — ruff linting, consolidated CI matrix, Dependabot config
+Last session: 2026-02-28T00:29:00Z
+Stopped at: Completed 04-01-PLAN.md — expanded ruff config, isolated formatting commit, .git-blame-ignore-revs
 Resume file: None
