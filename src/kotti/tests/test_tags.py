@@ -1,5 +1,6 @@
-import colander
 from unittest.mock import Mock
+
+import colander
 
 from kotti.testing import DummyRequest
 
@@ -35,7 +36,7 @@ class TestTags:
         assert root._tags[0].tag.title == "edited tag"
 
     def test_association_proxy(self, root):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
 
         root["content_1"] = Content()
         root["content_1"].tags = ["tag 1", "tag 2"]
@@ -58,7 +59,7 @@ class TestTags:
         assert len(Tag.query.all()) == 3
 
     def test_delete_tag_doesnt_touch_content(self, root, db_session):
-        from kotti.resources import Tag, Content
+        from kotti.resources import Content, Tag
 
         root["content_1"] = Content()
         root["content_1"].tags = ["my tag"]
@@ -68,7 +69,7 @@ class TestTags:
         assert Content.query.filter_by(name="content_1").count() == 1
 
     def test_delete_content_deletes_orphaned_tags(self, root, events):
-        from kotti.resources import Tag, Content
+        from kotti.resources import Content, Tag
 
         root["content_1"] = Content()
         root["content_2"] = Content()
@@ -79,7 +80,7 @@ class TestTags:
         assert Tag.query.one().title == "tag 2"
 
     def test_delete_tag_assignment_doesnt_touch_content(self, root, db_session):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
 
         root["content_1"] = Content()
         root["content_1"].tags = ["my tag"]
@@ -90,7 +91,7 @@ class TestTags:
         assert Content.query.filter_by(name="content_1").count() == 1
 
     def test_delete_tag_assignment_delete_tag(self, root, events, db_session):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
 
         root["content_1"] = Content()
         root["content_1"].tags = ["my tag"]
@@ -100,7 +101,7 @@ class TestTags:
         assert Tag.query.count() == 0
 
     def test_copy_content_copy_tags(self, root, db_session):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
 
         root["content_1"] = Content()
         root["content_1"].tags = ["my tag"]
@@ -115,7 +116,7 @@ class TestTags:
         assert TagsToContents.query.count() == 2
 
     def test_cut_and_paste_content_copy_tags(self, root):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
         from kotti.views.edit.actions import NodeActions
 
         root["folder_1"] = Content()
@@ -133,7 +134,7 @@ class TestTags:
         assert TagsToContents.query.count() == 1
 
     def test_copy_and_paste_content_copy_tags(self, root, events):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
         from kotti.views.edit.actions import NodeActions
 
         root["folder_1"] = Content()
@@ -152,7 +153,7 @@ class TestTags:
         assert TagsToContents.query.count() == 2
 
     def test_delete_content_delete_tags_and_assignments(self, root, events):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
         from kotti.views.edit.actions import NodeActions
 
         root["folder_1"] = Content()
@@ -171,7 +172,7 @@ class TestTags:
         assert TagsToContents.query.count() == 0
 
     def test_get_content_items_from_tag(self, root):
-        from kotti.resources import Tag, Content
+        from kotti.resources import Content, Tag
 
         root["folder_1"] = Content()
         root["folder_1"].tags = ["first tag", "second tag"]
@@ -187,7 +188,7 @@ class TestTags:
         assert [rel.name for rel in third_tag.items] == ["content_1", "content_2"]
 
     def test_get_content_items_for_tag_title(self, root):
-        from kotti.resources import Tag, TagsToContents, Content
+        from kotti.resources import Content, Tag, TagsToContents
         from kotti.views.util import content_with_tags
 
         root["folder_1"] = Content()

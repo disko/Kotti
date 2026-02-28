@@ -15,9 +15,10 @@ def test_404_admin(webtest, root):
 
 
 def test_404_api_root(db_session, dummy_request):
+    from pyramid.httpexceptions import HTTPNotFound
+
     from kotti.resources import get_root
     from kotti.views.util import TemplateAPI
-    from pyramid.httpexceptions import HTTPNotFound
 
     api = TemplateAPI(HTTPNotFound(), dummy_request)
 

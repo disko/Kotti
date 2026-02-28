@@ -1,6 +1,4 @@
-from pytest import fixture
-from pytest import skip
-
+from pytest import fixture, skip
 
 # ``py.test --runslow`` causes the entire testsuite to be run, including test
 # that are decorated with ``@@slow`` (scaffolding tests).

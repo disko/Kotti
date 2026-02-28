@@ -9,17 +9,17 @@ import cgi
 import re
 
 from docopt import docopt
-from pyramid.i18n import TranslationStringFactory
-from pyramid.i18n import get_locale_name
-from pyramid.i18n import get_localizer
-from pyramid.i18n import make_localizer
+from pyramid.i18n import (
+    TranslationStringFactory,
+    get_locale_name,
+    get_localizer,
+    make_localizer,
+)
 from pyramid.interfaces import ITranslationDirectories
 from pyramid.location import inside
-from pyramid.paster import bootstrap
-from pyramid.paster import setup_logging
+from pyramid.paster import bootstrap, setup_logging
 from pyramid.renderers import render
-from pyramid.threadlocal import get_current_registry
-from pyramid.threadlocal import get_current_request
+from pyramid.threadlocal import get_current_registry, get_current_request
 from pyramid.url import resource_url
 from pyramid.view import render_view_to_response
 from repoze.lru import LRUCache

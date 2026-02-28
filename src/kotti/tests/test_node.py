@@ -1,13 +1,8 @@
-from unittest.mock import Mock
-from unittest.mock import patch
-from pyramid.security import ALL_PERMISSIONS
-from pyramid.security import Allow
-from pyramid.security import Deny
-from pyramid.security import Everyone
-from pytest import mark
-from pytest import raises
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.exc import SQLAlchemyError
+from unittest.mock import Mock, patch
+
+from pyramid.security import ALL_PERMISSIONS, Allow, Deny, Everyone
+from pytest import mark, raises
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 
 class TestNode:
@@ -198,8 +193,7 @@ class TestNode:
         assert grandchild2.parent is None
 
     def test_node_copy_with_local_groups(self, db_session, root):
-        from kotti.resources import Node
-        from kotti.resources import LocalGroup
+        from kotti.resources import LocalGroup, Node
 
         child1 = root["child1"] = Node()
         local_group1 = LocalGroup(child1, "joe", "role:admin")
@@ -413,10 +407,8 @@ class TestPath:
 
     def test_node_lineage_not_loaded_new_parent(self, db_session, root, events):
 
-        from kotti.resources import Node
-        from kotti.resources import get_root
-        from kotti.events import ObjectEvent
-        from kotti.events import objectevent_listeners
+        from kotti.events import ObjectEvent, objectevent_listeners
+        from kotti.resources import Node, get_root
 
         # We want to guarantee that an object event handler can call
         # get_root(), which is only possible if our event handler
@@ -456,9 +448,7 @@ class TestLocalGroup:
 class TestTypeInfo:
     def test_add_selectable_default_view(self):
 
-        from kotti.resources import Content
-        from kotti.resources import Document
-        from kotti.resources import TypeInfo
+        from kotti.resources import Content, Document, TypeInfo
 
         type_info = TypeInfo(selectable_default_views=[])
         type_info.add_selectable_default_view("foo", "Fannick")

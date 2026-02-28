@@ -1,7 +1,5 @@
 import hashlib
 import time
-from typing import Dict
-from typing import List
 from typing import Optional
 from urllib.parse import urlencode
 
@@ -24,7 +22,7 @@ def get_mailer():
     return Mailer.from_settings(get_settings())  # pragma: no cover
 
 
-def make_token(user: Principal, seconds: Optional[float] = None) -> str:
+def make_token(user: Principal, seconds: float | None = None) -> str:
     secret = get_settings()["kotti.secret2"]
     if seconds is None:
         seconds = time.time()
@@ -70,9 +68,9 @@ def validate_token(user: Principal, token: str, valid_hrs: int = 24) -> bool:
 
 def send_email(
     request: Request,
-    recipients: List[str],
+    recipients: list[str],
     template_name: str,
-    template_vars: Optional[Dict[str, str]] = None,
+    template_vars: dict[str, str] | None = None,
 ) -> None:
     """General email sender.
 
@@ -112,7 +110,7 @@ def email_set_password(
     user: Principal,
     request: Request,
     template_name: Optional[str] = "kotti:templates/email-set-password.pt",  # noqa
-    add_query: Optional[Dict[str, str]] = None,
+    add_query: dict[str, str] | None = None,
 ) -> None:
     site_title = get_settings()["kotti.site_title"]
     token = make_token(user)
@@ -120,9 +118,7 @@ def email_set_password(
     set_password_query = {"token": token, "email": user.email}
     if add_query:
         set_password_query.update(add_query)
-    url = "{}/@@set-password?{}".format(
-        request.application_url, urlencode(set_password_query)
-    )
+    url = f"{request.application_url}/@@set-password?{urlencode(set_password_query)}"
     variables = dict(user_title=user.title, site_title=site_title, url=url)
     recipients = [f'"{user.title}" <{user.email}>']  # XXX naive?
     send_email(request, recipients, template_name, variables)

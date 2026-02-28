@@ -41,12 +41,10 @@ users of your package to include your slot assignments through the
 from urllib.parse import urlencode
 
 from pyramid.exceptions import PredicateMismatch
-from pyramid.httpexceptions import HTTPException
-from pyramid.httpexceptions import HTTPForbidden
+from pyramid.httpexceptions import HTTPException, HTTPForbidden
 from pyramid.view import render_view
 
-from kotti.events import ObjectEvent
-from kotti.events import objectevent_listeners
+from kotti.events import ObjectEvent, objectevent_listeners
 
 REQUEST_ATTRS_TO_COPY = ("context", "registry", "user", "cookies", "session")
 
@@ -73,7 +71,7 @@ def _render_view_on_slot_event(view_name, event, params):
     # This is quite brittle:
     for name in REQUEST_ATTRS_TO_COPY:
         setattr(view_request, name, getattr(request, name))
-    setattr(view_request, "kotti_slot", event.name)
+    view_request.kotti_slot = event.name
 
     try:
         result = render_view(context, view_request, view_name)

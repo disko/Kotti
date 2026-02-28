@@ -1,40 +1,19 @@
-from collections.abc import MutableMapping
+from collections.abc import Iterable, Iterator, MutableMapping
 from contextlib import contextmanager
 from datetime import datetime
-from typing import Dict
-from typing import Iterable
-from typing import Iterator
-from typing import List
-from typing import Optional
-from typing import Set
-from typing import Tuple
-from typing import Union
+from typing import Optional, Tuple, Union
 
 import bcrypt
 from pyramid.location import lineage
-from pyramid.security import PermitsResult
-from pyramid.security import view_execution_permitted
-from sqlalchemy import Boolean
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import Integer
-from sqlalchemy import Unicode
-from sqlalchemy import bindparam
-from sqlalchemy import func
+from pyramid.security import PermitsResult, view_execution_permitted
+from sqlalchemy import Boolean, Column, DateTime, Integer, Unicode, bindparam, func
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.query import Query
-from sqlalchemy.sql.expression import and_
-from sqlalchemy.sql.expression import or_
+from sqlalchemy.sql.expression import and_, or_
 
-from kotti import Base
-from kotti import DBSession
-from kotti import get_settings
-from kotti.sqla import JsonType
-from kotti.sqla import MutationList
-from kotti.sqla import bakery
-from kotti.util import DontCache
-from kotti.util import _
-from kotti.util import request_cache
+from kotti import Base, DBSession, get_settings
+from kotti.sqla import JsonType, MutationList, bakery
+from kotti.util import DontCache, _, request_cache
 
 
 def has_permission(
@@ -91,12 +70,12 @@ class Principal(Base):
     def __init__(
         self,
         name: str,
-        password: Optional[str] = None,
-        active: Optional[bool] = True,
-        confirm_token: Optional[str] = None,
-        title: Optional[str] = "",
-        email: Optional[str] = None,
-        groups: Optional[List[str]] = None,
+        password: str | None = None,
+        active: bool | None = True,
+        confirm_token: str | None = None,
+        title: str | None = "",
+        email: str | None = None,
+        groups: list[str] | None = None,
     ):
         self.name = name
         if password is not None:
@@ -136,7 +115,7 @@ class AbstractPrincipals:
     def __getitem__(self, name: str):
         """Return the Principal object with the id 'name'."""
 
-    def __setitem__(self, name: str, principal: Union[Principal, dict]):
+    def __setitem__(self, name: str, principal: Principal | dict):
         """Add a given Principal object to the database.
 
         'name' is expected to the the same as 'principal.name'.
@@ -147,10 +126,10 @@ class AbstractPrincipals:
     def __delitem__(self, name: str) -> None:
         """Remove the principal with the given name from the database."""
 
-    def keys(self) -> List[str]:
+    def keys(self) -> list[str]:
         """Return a list of principal ids that are in the database."""
 
-    def search(self, **kwargs) -> List[Principal]:
+    def search(self, **kwargs) -> list[Principal]:
         """Return an iterable with principal objects that correspond
         to the search arguments passed in.
 
@@ -206,16 +185,16 @@ SITE_ACL = [
 ]
 
 
-def set_roles(roles_dict: Dict[str, Principal]) -> None:
+def set_roles(roles_dict: dict[str, Principal]) -> None:
     ROLES.clear()
     ROLES.update(roles_dict)
 
 
-def set_sharing_roles(role_names: List[str]) -> None:
+def set_sharing_roles(role_names: list[str]) -> None:
     SHARING_ROLES[:] = role_names
 
 
-def set_user_management_roles(role_names: List[str]) -> None:
+def set_user_management_roles(role_names: list[str]) -> None:
     USER_MANAGEMENT_ROLES[:] = role_names
 
 
@@ -275,7 +254,7 @@ def list_groups_raw(name, context):
     return set()
 
 
-def list_groups(name: str, context: Optional["Node"] = None) -> List[str]:
+def list_groups(name: str, context: Optional["Node"] = None) -> list[str]:
     """List groups for principal with a given ``name``.
 
     The optional ``context`` argument may be passed to check the list
@@ -287,8 +266,8 @@ def list_groups(name: str, context: Optional["Node"] = None) -> List[str]:
 def _cachekey_list_groups_ext(
     name: str,
     context: Optional["Node"] = None,
-    _seen: Optional[Set[str]] = None,
-    _inherited: Optional[Set[str]] = None,
+    _seen: set[str] | None = None,
+    _inherited: set[str] | None = None,
 ) -> Tuple[str, Union[int, "NoneType"]]:  # noqa
     if _seen is not None or _inherited is not None:
         raise DontCache
@@ -352,7 +331,7 @@ def set_groups(name: str, context: "Node", groups_to_set: Iterable[str] = ()) ->
     ]
 
 
-def list_groups_callback(name: str, request: "Request") -> Optional[List[str]]:
+def list_groups_callback(name: str, request: "Request") -> list[str] | None:
     """List the groups for the principal identified by ``name``.  Consider
     ``authz_context`` to support assignment of local roles to groups."""
     if not is_user(name):
@@ -394,17 +373,16 @@ def request_method(request: "Request", method: str):
 def view_permitted(
     context: object,
     request: "Request",
-    name: Optional[str] = "",
-    method: Optional[str] = "GET",
+    name: str | None = "",
+    method: str | None = "GET",
 ) -> PermitsResult:
-    with authz_context(context, request):
-        with request_method(request, method):
-            return view_execution_permitted(context, request, name)
+    with authz_context(context, request), request_method(request, method):
+        return view_execution_permitted(context, request, name)
 
 
 def principals_with_local_roles(
-    context: "Node", inherit: Optional[bool] = True
-) -> List[str]:
+    context: "Node", inherit: bool | None = True
+) -> list[str]:
     """Return a list of principal names that have local roles in the
     context.
     """
@@ -439,7 +417,7 @@ def map_principals_with_local_roles(context: "Node"):
     return sorted(value, key=lambda t: t[0].name)
 
 
-def is_user(principal: Union[Principal, str]) -> bool:
+def is_user(principal: Principal | str) -> bool:
     if not isinstance(principal, str):
         principal = principal.name
     return ":" not in principal
@@ -480,7 +458,7 @@ class Principals(MutableMapping):
         except NoResultFound:
             raise KeyError(name)
 
-    def __setitem__(self, name: str, principal: Union[Principal, dict]) -> None:
+    def __setitem__(self, name: str, principal: Principal | dict) -> None:
         name = name
         if isinstance(principal, dict):
             principal = self.factory(**principal)
@@ -504,10 +482,10 @@ class Principals(MutableMapping):
         for (principal_name,) in DBSession.query(self.factory.name):
             yield principal_name
 
-    def keys(self) -> List[str]:
+    def keys(self) -> list[str]:
         return list(self.iterkeys())
 
-    def search(self, match: Optional[str] = "any", **kwargs) -> Query:
+    def search(self, match: str | None = "any", **kwargs) -> Query:
         """Search the principal database.
 
         :param match: ``any`` to return all principals matching any search
@@ -548,7 +526,7 @@ class Principals(MutableMapping):
 
     log_rounds = 10
 
-    def hash_password(self, password: str, salt: Optional[str] = None) -> str:
+    def hash_password(self, password: str, salt: str | None = None) -> str:
         if salt is None:
             salt = bcrypt.gensalt(self.log_rounds)
         if isinstance(password, str):

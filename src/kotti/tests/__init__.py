@@ -44,9 +44,9 @@ Fixture dependencies
 
 import warnings
 from datetime import datetime
+from unittest.mock import MagicMock
 
 from depot.io.memory import MemoryFileStorage
-from unittest.mock import MagicMock
 from pytest import fixture
 
 from kotti import testing
@@ -119,6 +119,7 @@ def config(settings):
     with Kotti's default (test) settings.
     """
     from pyramid import testing
+
     from kotti import security
 
     config = testing.setUp(settings=settings)
@@ -142,8 +143,8 @@ def connection(custom_settings):
     # enabling us to use savepoints independent from the orm, thus allowing
     # to `rollback` after using `transaction.commit`...
     from sqlalchemy import create_engine
-    from kotti import DBSession
-    from kotti import metadata
+
+    from kotti import DBSession, metadata
     from kotti.resources import _adjust_for_engine
     from kotti.testing import testing_db_url
 
@@ -160,8 +161,8 @@ def connection(custom_settings):
 def content(connection, settings):
     """sets up some default content using Kotti's testing populator."""
     import transaction
-    from kotti import DBSession
-    from kotti import metadata
+
+    from kotti import DBSession, metadata
     from kotti.resources import get_root
 
     if connection.in_transaction():
@@ -175,6 +176,7 @@ def content(connection, settings):
     # the workflow must be initialized first;  please note that these
     # settings won't persist, though;  use the `workflow` fixture if needed
     from zope.configuration import xmlconfig
+
     import kotti
 
     xmlconfig.file("workflow.zcml", kotti, execute=True)
@@ -262,10 +264,11 @@ def browser(db_session, request, setup_app):
     the browser with the given login name: `@user('admin')`.
     """
     from zope.testbrowser.wsgi import Browser
+
     from kotti.testing import BASE_URL
 
     host, port = BASE_URL.split(":")[-2:]
-    browser = Browser("http://{}:{}/".format(host[2:], int(port)), wsgi_app=setup_app)
+    browser = Browser(f"http://{host[2:]}:{int(port)}/", wsgi_app=setup_app)
     marker = request.node.get_closest_marker("user")
     if marker:
         # set auth cookie directly on the browser instance...
@@ -309,6 +312,7 @@ def webtest(app, monkeypatch, request, filedepot, dummy_mailer):
 def workflow(config):
     """loads and activates Kotti's default workflow rules."""
     from zope.configuration import xmlconfig
+
     import kotti
 
     xmlconfig.file("workflow.zcml", kotti, execute=True)
@@ -331,9 +335,8 @@ def depot_tween(config, dummy_request):
     suppress exceptions on subsequent calls. Yields the ``DepotManager``."""
 
     from depot.manager import DepotManager
-    from kotti.filedepot import TweenFactory
-    from kotti.filedepot import uploaded_file_response
-    from kotti.filedepot import uploaded_file_url
+
+    from kotti.filedepot import TweenFactory, uploaded_file_response, uploaded_file_url
 
     dummy_request.__class__.uploaded_file_response = uploaded_file_response
     dummy_request.__class__.uploaded_file_url = uploaded_file_url

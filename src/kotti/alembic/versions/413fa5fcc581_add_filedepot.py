@@ -23,9 +23,9 @@ log.setLevel(logging.INFO)
 
 
 def upgrade():
-    from depot.manager import DepotManager
     from depot.fields.upload import UploadedFile
-    from sqlalchemy import bindparam, Unicode, Column
+    from depot.manager import DepotManager
+    from sqlalchemy import Column, Unicode, bindparam
 
     from kotti import DBSession, metadata
 
@@ -86,7 +86,7 @@ def upgrade():
     for cdata in chunks(_saved, 10):
         DBSession.execute(update, cdata)
 
-    log.info("Blob migration completed in {} seconds".format(int(time.time() - now)))
+    log.info(f"Blob migration completed in {int(time.time() - now)} seconds")
 
 
 def downgrade():

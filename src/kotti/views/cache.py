@@ -1,8 +1,7 @@
 import datetime
 from logging import getLogger
 
-from pyramid.events import NewResponse
-from pyramid.events import subscriber
+from pyramid.events import NewResponse, subscriber
 from pyramid.response import FileResponse
 from sqlalchemy.orm.exc import DetachedInstanceError
 
@@ -74,7 +73,7 @@ caching_policies = {
 def _safe_get_user(request):
     try:
         return get_user(request)
-    except DetachedInstanceError:  # noqa XXX need to understand what's happening
+    except DetachedInstanceError:
         return not None
 
 

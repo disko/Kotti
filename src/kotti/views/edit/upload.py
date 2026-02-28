@@ -7,8 +7,7 @@ from cgi import FieldStorage
 from logging import getLogger
 
 from pyramid.response import Response
-from pyramid.view import view_config
-from pyramid.view import view_defaults
+from pyramid.view import view_config, view_defaults
 
 from kotti.fanstatic import upload
 from kotti.util import title_to_name

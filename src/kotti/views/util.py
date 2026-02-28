@@ -3,36 +3,23 @@ from collections import defaultdict
 from datetime import datetime
 from urllib.parse import urlencode
 
-from babel.dates import format_date
-from babel.dates import format_datetime
-from babel.dates import format_time
+from babel.dates import format_date, format_datetime, format_time
 from babel.numbers import format_currency
 from pyramid.decorator import reify
 from pyramid.i18n import get_locale_name
 from pyramid.interfaces import ILocation
-from pyramid.location import inside
-from pyramid.location import lineage
-from pyramid.renderers import get_renderer
-from pyramid.renderers import render
+from pyramid.location import inside, lineage
+from pyramid.renderers import get_renderer, render
 from pyramid.settings import asbool
-from sqlalchemy import and_
-from sqlalchemy import not_
-from sqlalchemy import or_
+from sqlalchemy import and_, not_, or_
 
-from kotti import DBSession
-from kotti import get_settings
+from kotti import DBSession, get_settings
 from kotti.events import objectevent_listeners
 from kotti.interfaces import INavigationRoot
-from kotti.resources import Content
-from kotti.resources import Document
-from kotti.resources import Node
-from kotti.resources import Tag
-from kotti.resources import TagsToContents
-from kotti.resources import get_root
+from kotti.resources import Content, Document, Node, Tag, TagsToContents, get_root
 from kotti.sanitizers import sanitize
 from kotti.security import view_permitted
-from kotti.util import TemplateStructure
-from kotti.util import render_view
+from kotti.util import TemplateStructure, render_view
 from kotti.views.site_setup import CONTROL_PANEL_LINKS
 from kotti.views.slots import slot_events
 
@@ -308,7 +295,7 @@ class TemplateAPI:
             email = user.name
         h = hashlib.md5(email.encode("utf8")).hexdigest()
         query = {"default": default_image, "size": str(size)}
-        url = "https://secure.gravatar.com/avatar/{}?{}".format(h, urlencode(query))
+        url = f"https://secure.gravatar.com/avatar/{h}?{urlencode(query)}"
         return url
 
     @reify

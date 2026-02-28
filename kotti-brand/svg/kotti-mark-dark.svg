@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140" fill="none">
+  <!-- Kotti V4 Corner Line — Dark background version -->
+  <!-- Ghost mass -->
+  <path d="M2 48 L142 6 L172 20 L196 46 L192 118 Q142 84 6 118 Z" fill="#D4920B" opacity="0.04"/>
+  <!-- Roofline -->
+  <path d="M2 48 L142 6 L172 20 L196 46" stroke="#D4920B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Corner line -->
+  <path d="M142 6 L142 112" stroke="#D4920B" stroke-width="1.2" stroke-dasharray="3 5" opacity="0.2"/>
+  <!-- Balcony 1 -->
+  <path d="M5 64 L142 24 L171 34 L194 58" stroke="#D4920B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <!-- Balcony 2 -->
+  <path d="M8 78 L142 40 L170 48 L192 70" stroke="#D4920B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.33"/>
+  <!-- Balcony 3 -->
+  <path d="M11 92 L142 56 L169 62 L190 82" stroke="#D4920B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
+  <!-- Arc base -->
+  <path d="M18 124 Q110 98 180 124" stroke="#D4920B" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

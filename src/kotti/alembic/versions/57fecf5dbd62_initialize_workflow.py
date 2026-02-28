@@ -12,11 +12,9 @@ down_revision = "9398ccf41c2"
 
 
 def upgrade():
-    from kotti import DBSession
-    from kotti import get_settings
+    from kotti import DBSession, get_settings
     from kotti.resources import Document
-    from kotti.workflow import get_workflow
-    from kotti.workflow import reset_workflow
+    from kotti.workflow import get_workflow, reset_workflow
 
     is_default = get_settings()["kotti.use_workflow"] == "kotti:workflow.zcml"
     if not is_default:

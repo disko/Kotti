@@ -2,13 +2,9 @@ import logging
 import mimetypes
 import uuid
 from cgi import FieldStorage
+from collections.abc import Callable
 from datetime import datetime
-from typing import Callable
-from typing import Dict
-from typing import List
-from typing import Optional
-from typing import Tuple
-from typing import Union
+from typing import Dict, List
 
 from depot.fields.sqlalchemy import _SQLAMutationTracker
 from depot.fields.upload import UploadedFile
@@ -18,34 +14,24 @@ from depot.manager import DepotManager
 from depot.utils import make_content_disposition
 from pyramid import tweens
 from pyramid.config import Configurator
-from pyramid.httpexceptions import HTTPMovedPermanently
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPMovedPermanently, HTTPNotFound
 from pyramid.registry import Registry
-from pyramid.response import FileIter
-from pyramid.response import Response
-from pyramid.response import _BLOCK_SIZE
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import Integer
-from sqlalchemy import LargeBinary
-from sqlalchemy import String
-from sqlalchemy import Unicode
-from sqlalchemy import event
+from pyramid.response import _BLOCK_SIZE, FileIter, Response
+from sqlalchemy import Column, DateTime, Integer, LargeBinary, String, Unicode, event
 from sqlalchemy.engine.base import Connection
 from sqlalchemy.orm import deferred
 from sqlalchemy.orm.attributes import Event
 from sqlalchemy.util.langhelpers import _symbol
 
-from kotti import Base
-from kotti import DBSession
-from kotti import get_settings
-from kotti.events import ObjectInsert
-from kotti.events import ObjectUpdate
+from kotti import Base, DBSession, get_settings
+from kotti.events import ObjectInsert, ObjectUpdate
 from kotti.request import Request
-from kotti.util import _to_fieldstorage
-from kotti.util import camel_case_to_name
-from kotti.util import command
-from kotti.util import extract_from_settings
+from kotti.util import (
+    _to_fieldstorage,
+    camel_case_to_name,
+    command,
+    extract_from_settings,
+)
 
 _marker = object()
 
@@ -200,22 +186,22 @@ class DBStoredFile(Base):
 # noinspection PyUnusedLocal
 def handle_change_data(
     target: DBStoredFile,
-    value: Optional[bytes],
-    oldvalue: Union[bytes, _symbol],
+    value: bytes | None,
+    oldvalue: bytes | _symbol,
     initiator: Event,
 ) -> None:
     target._cursor = 0
     target._data = _marker
 
 
-def set_metadata(event: Union[ObjectUpdate, ObjectInsert]) -> None:
+def set_metadata(event: ObjectUpdate | ObjectInsert) -> None:
     """Set DBStoredFile metadata based on data
 
     :param event: event that triggered this handler.
     :type event: :class:`ObjectInsert` or :class:`ObjectUpdate`
     """
     obj = event.object
-    obj.content_length = obj.data and len(obj.data) or 0
+    obj.content_length = (obj.data and len(obj.data)) or 0
     obj.last_modified = datetime.now()
 
 
@@ -243,9 +229,9 @@ class DBFileStorage(FileStorage):
 
     def create(
         self,
-        content: Union[bytes, FieldStorage],
-        filename: Optional[str] = None,
-        content_type: Optional[str] = None,
+        content: bytes | FieldStorage,
+        filename: str | None = None,
+        content_type: str | None = None,
     ) -> str:
         """Saves a new file and returns the file id
 
@@ -279,10 +265,10 @@ class DBFileStorage(FileStorage):
 
     def replace(
         self,
-        file_or_id: Union[DBStoredFile, str],
+        file_or_id: DBStoredFile | str,
         content: bytes,
-        filename: Optional[str] = None,
-        content_type: Optional[str] = None,
+        filename: str | None = None,
+        content_type: str | None = None,
     ) -> None:
         """Replaces an existing file, an ``IOError`` is raised if the file
         didn't already exist.
@@ -349,7 +335,7 @@ class DBFileStorage(FileStorage):
         raise NotImplementedError("list() method is unimplemented.")
 
     @staticmethod
-    def _get_file_id(file_or_id: Union[DBStoredFile, str]) -> str:
+    def _get_file_id(file_or_id: DBStoredFile | str) -> str:
         if hasattr(file_or_id, "file_id"):
             return file_or_id.file_id
         return file_or_id
@@ -491,7 +477,7 @@ class StoredFileResponse(Response):
     @staticmethod
     def _get_type_and_encoding(
         content_encoding: None, content_type: None, f: MemoryStoredFile
-    ) -> Tuple["NoneType", str]:
+    ) -> tuple["NoneType", str]:
         content_type = content_type or getattr(f, "content_type", None)
         if content_type is None:
             content_type, content_encoding = mimetypes.guess_type(
@@ -544,7 +530,7 @@ class TweenFactory:
     object instead of the WSGI environment.
     """
 
-    def __init__(self, handler: Optional[Callable], registry: Registry) -> None:
+    def __init__(self, handler: Callable | None, registry: Registry) -> None:
         """
         :param handler: Downstream tween or main Pyramid request handler (Kotti)
         :type handler: function
@@ -643,7 +629,7 @@ def adjust_for_engine(conn: Connection, branch: bool) -> None:
 
 
 def extract_depot_settings(
-    prefix: Optional[str] = "kotti.depot.", settings: Optional[Dict[str, str]] = None
+    prefix: str | None = "kotti.depot.", settings: dict[str, str] | None = None
 ) -> List[Dict[str, str]]:  # noqa
     """Merges items from a dictionary that have keys that start with `prefix`
     to a list of dictionaries.
@@ -684,7 +670,7 @@ def extract_depot_settings(
     return result
 
 
-def configure_filedepot(settings: Dict[str, str]) -> None:
+def configure_filedepot(settings: dict[str, str]) -> None:
     config = extract_depot_settings("kotti.depot.", settings)
     for conf in config:
         name = conf.pop("name")
@@ -705,12 +691,10 @@ def includeme(config: Configurator) -> None:
     config.add_request_method(uploaded_file_response, name="uploaded_file_response")
     config.add_request_method(uploaded_file_url, name="uploaded_file_url")
 
-    from kotti.events import objectevent_listeners
-    from kotti.events import ObjectInsert
-    from kotti.events import ObjectUpdate
-
-    from sqlalchemy.event import listen
     from sqlalchemy.engine import Engine
+    from sqlalchemy.event import listen
+
+    from kotti.events import ObjectInsert, ObjectUpdate, objectevent_listeners
 
     listen(Engine, "engine_connect", adjust_for_engine)
 

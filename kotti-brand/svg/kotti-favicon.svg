@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Kotti V4 — Favicon (roof + arc only) -->
+  <path d="M2 14 L20 3 L26 7 L30 14" stroke="#D4920B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M5 27 Q16 22 28 27" stroke="#D4920B" stroke-width="3" stroke-linecap="round"/>
+</svg>

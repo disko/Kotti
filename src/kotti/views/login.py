@@ -5,32 +5,27 @@ Login / logout and forbidden views and forms.
 from datetime import datetime
 
 import colander
-from deform import Button
-from deform import Form
-from deform import ValidationFailure
-from deform.widget import CheckedPasswordWidget
-from deform.widget import HiddenWidget
+from deform import Button, Form, ValidationFailure
+from deform.widget import CheckedPasswordWidget, HiddenWidget
 from formencode.validators import Email
 from pyramid.encode import urlencode
-from pyramid.httpexceptions import HTTPForbidden
-from pyramid.httpexceptions import HTTPFound
-from pyramid.security import forget
-from pyramid.security import remember
+from pyramid.httpexceptions import HTTPForbidden, HTTPFound
+from pyramid.security import forget, remember
 from pyramid.settings import asbool
 from pyramid.url import resource_url
 from pyramid.view import view_config
 
 from kotti import get_settings
-from kotti.events import ObjectEvent
-from kotti.events import notify
-from kotti.message import email_set_password
-from kotti.message import validate_token
+from kotti.events import ObjectEvent, notify
+from kotti.message import email_set_password, validate_token
 from kotti.security import get_principals
 from kotti.util import _
-from kotti.views.users import UserAddFormView
-from kotti.views.users import deferred_email_validator
-from kotti.views.users import name_new_validator
-from kotti.views.users import name_pattern_validator
+from kotti.views.users import (
+    UserAddFormView,
+    deferred_email_validator,
+    name_new_validator,
+    name_pattern_validator,
+)
 from kotti.views.util import template_api
 
 

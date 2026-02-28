@@ -1,10 +1,9 @@
+from unittest.mock import patch
 from warnings import filterwarnings
 
-from unittest.mock import patch
 from pytest import raises
 
-from kotti.testing import Dummy
-from kotti.testing import DummyRequest
+from kotti.testing import Dummy, DummyRequest
 
 # filter deprecation warnings for code that is still tested...
 filterwarnings("ignore", "^send_set_password is deprecated")

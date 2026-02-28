@@ -1,11 +1,11 @@
-from alembic.migration import MigrationContext
 from unittest.mock import patch
+
+from alembic.migration import MigrationContext
 
 
 class TestScriptDirectoryWithDefaultEnvPy:
     def make(self):
-        from kotti.migrate import ScriptDirectoryWithDefaultEnvPy
-        from kotti.migrate import KOTTI_SCRIPT_DIR
+        from kotti.migrate import KOTTI_SCRIPT_DIR, ScriptDirectoryWithDefaultEnvPy
 
         return ScriptDirectoryWithDefaultEnvPy(KOTTI_SCRIPT_DIR)
 
@@ -31,8 +31,7 @@ class TestScriptDirectoryWithDefaultEnvPy:
 
 class TestPackageEnvironment:
     def make(self):
-        from kotti.migrate import PackageEnvironment
-        from kotti.migrate import DEFAULT_LOCATION
+        from kotti.migrate import DEFAULT_LOCATION, PackageEnvironment
 
         with patch(
             "kotti.migrate.get_settings",

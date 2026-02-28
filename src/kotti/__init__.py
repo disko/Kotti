@@ -14,11 +14,9 @@ from pyramid.events import BeforeRender
 from pyramid.threadlocal import get_current_registry
 from pyramid.util import DottedNameResolver
 from pyramid_beaker import session_factory_from_settings
-from sqlalchemy import MetaData
-from sqlalchemy import engine_from_config
+from sqlalchemy import MetaData, engine_from_config
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker
 from zope.sqlalchemy import register
 
 from kotti.sqla import Base as KottiBase
@@ -112,7 +110,7 @@ conf_defaults = {
     "kotti.register.group": "",
     "kotti.register.role": "",
     "kotti.request_factory": "kotti.request.Request",
-    "kotti.reset_password_callback": "kotti.views.login.reset_password_callback",  # noqa
+    "kotti.reset_password_callback": "kotti.views.login.reset_password_callback",
     "kotti.root_factory": "kotti.resources.default_get_root",
     "kotti.sanitizers": " ".join(
         [

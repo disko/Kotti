@@ -6,8 +6,7 @@ Inheritance Diagram
 """
 
 import os
-from os.path import dirname
-from os.path import join
+from os.path import dirname, join
 from unittest import TestCase
 from warnings import catch_warnings
 
@@ -124,6 +123,7 @@ def testing_db_url():
 
 def _init_testing_db():
     from sqlalchemy import create_engine
+
     from kotti import get_settings
     from kotti.resources import initialize_sql
 
@@ -135,8 +135,8 @@ def _init_testing_db():
 
 def _populator():
     from kotti import DBSession
-    from kotti.resources import Document
     from kotti.populate import populate
+    from kotti.resources import Document
 
     populate()
     for doc in DBSession.query(Document)[1:]:
@@ -159,8 +159,7 @@ def _turn_warnings_into_errors():  # pragma: no cover
 def setUp(init_db=True, **kwargs):
     # _turn_warnings_into_errors()
 
-    from kotti import _resolve_dotted
-    from kotti import conf_defaults
+    from kotti import _resolve_dotted, conf_defaults
 
     tearDown()
     settings = conf_defaults.copy()
@@ -184,8 +183,8 @@ def setUp(init_db=True, **kwargs):
 # noinspection PyPep8Naming
 def tearDown():
     from depot.manager import DepotManager
-    from kotti import events
-    from kotti import security
+
+    from kotti import events, security
     from kotti.message import _inject_mailer
 
     # These should arguable use the configurator, so they don't need
@@ -234,9 +233,10 @@ def _zope_testbrowser_pyquery(self):
 
 # noinspection PyPep8Naming
 def setUpFunctional(global_config=None, **settings):
-    from kotti import main
-    from zope.testbrowser.wsgi import Browser
     from webtest import TestApp
+    from zope.testbrowser.wsgi import Browser
+
+    from kotti import main
 
     tearDown()
 
@@ -255,10 +255,8 @@ def setUpFunctional(global_config=None, **settings):
     Browser.pyquery = property(_zope_testbrowser_pyquery)
 
     return dict(
-        Browser=lambda: Browser(
-            "http://{}:{}/".format(host[2:], int(port)), wsgi_app=app
-        ),
-        browser=Browser("http://{}:{}/".format(host[2:], int(port)), wsgi_app=app),
+        Browser=lambda: Browser(f"http://{host[2:]}:{int(port)}/", wsgi_app=app),
+        browser=Browser(f"http://{host[2:]}:{int(port)}/", wsgi_app=app),
         test_app=TestApp(app),
     )
 
@@ -335,6 +333,7 @@ def setUpFunctionalStrippedDownApp(global_config=None, **settings):
 # noinspection PyPep8Naming
 def registerDummyMailer():
     from pyramid_mailer.mailer import DummyMailer
+
     from kotti.message import _inject_mailer
 
     mailer = DummyMailer()

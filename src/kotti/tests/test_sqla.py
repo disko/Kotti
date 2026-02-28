@@ -1,6 +1,6 @@
 import json
-
 from unittest.mock import MagicMock
+
 from pyramid.security import ALL_PERMISSIONS
 
 
@@ -65,8 +65,7 @@ class TestNestedMutationDict:
         assert changed.call_count == 3
 
     def test_dictwrapper_wraps(self):
-        from kotti.sqla import NestedMutationDict
-        from kotti.sqla import NestedMutationList
+        from kotti.sqla import NestedMutationDict, NestedMutationList
 
         wrapper = NestedMutationDict({"name": "andy", "age": 77, "children": []})
         assert getattr(wrapper, "get", False) is not False
@@ -82,8 +81,7 @@ class TestNestedMutationDict:
         assert isinstance(wrapper["children"][0], NestedMutationDict)
 
     def test_listwrapper_wraps(self):
-        from kotti.sqla import NestedMutationDict
-        from kotti.sqla import NestedMutationList
+        from kotti.sqla import NestedMutationDict, NestedMutationList
 
         wrapper = NestedMutationList([{"name": "andy", "age": 77, "children": []}])
         assert getattr(wrapper, "get", False) is False
@@ -100,8 +98,7 @@ class TestNestedMutationDict:
         assert isinstance(mdict.setdefault("bar", {}), NestedMutationDict)
 
     def test_setdefault_list(self):
-        from kotti.sqla import NestedMutationDict
-        from kotti.sqla import NestedMutationList
+        from kotti.sqla import NestedMutationDict, NestedMutationList
 
         mdict = NestedMutationDict({})
         assert isinstance(mdict.setdefault("bar", []), NestedMutationList)
@@ -210,8 +207,7 @@ class TestMutationDunderJson:
         json.loads(json.dumps(mlist.__json__())) == ["foo"]
 
     def test_dunder_json_recursive(self):
-        from kotti.sqla import MutationList
-        from kotti.sqla import MutationDict
+        from kotti.sqla import MutationDict, MutationList
 
         mlist = MutationList(
             [
@@ -240,6 +236,7 @@ def test_missing_foreign_key_indices(db_session):
     index."""
 
     from sqlalchemy_utils.functions import non_indexed_foreign_keys
+
     from kotti import metadata
 
     assert non_indexed_foreign_keys(metadata) == {}

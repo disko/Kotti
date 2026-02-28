@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Kotti documentation build configuration file, created by
 # sphinx-quickstart on Fri Mar 18 23:14:47 2011.
@@ -27,7 +26,7 @@ extensions = [
     "sphinx.ext.viewcode",
 ]
 
-copyright = "2012-{0}, Kotti developers".format(date.today().year)
+copyright = f"2012-{date.today().year}, Kotti developers"
 exclude_patterns = ["_build", "_themes"]
 master_doc = "index"
 project = "Kotti"

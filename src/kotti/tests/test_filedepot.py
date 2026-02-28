@@ -2,8 +2,7 @@ import datetime
 
 import pytest
 
-from kotti.filedepot import DBFileStorage
-from kotti.filedepot import DBStoredFile
+from kotti.filedepot import DBFileStorage, DBStoredFile
 from kotti.resources import File
 
 
@@ -190,14 +189,15 @@ class TestMigrateBetweenStorage:
     def test_migrate_between_storages(
         self, db_session, root, no_filedepots, image_asset, image_asset2
     ):
-        from kotti.filedepot import configure_filedepot
-        from kotti.filedepot import migrate_storage
-        from kotti.resources import Node
+        import os
+        import shutil
+        import tempfile
+
         from depot.fields.sqlalchemy import _SQLAMutationTracker
         from sqlalchemy import event
-        import os
-        import tempfile
-        import shutil
+
+        from kotti.filedepot import configure_filedepot, migrate_storage
+        from kotti.resources import Node
 
         event.listen(
             db_session, "before_commit", _SQLAMutationTracker._session_committed
@@ -259,8 +259,7 @@ class TestTween:
     @pytest.mark.user("admin")
     def test_tween(self, webtest, filedepot, root, image_asset, db_session):
 
-        from kotti.resources import File
-        from kotti.resources import get_root
+        from kotti.resources import File, get_root
 
         # create an image resource
         root["img"] = File(data=image_asset.read(), title="Image")

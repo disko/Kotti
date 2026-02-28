@@ -2,10 +2,8 @@ import transaction
 from pyramid.security import DENY_ALL
 from repoze.workflow import get_workflow as base_get_workflow
 
-from kotti import DBSession
-from kotti import TRUE_VALUES
-from kotti.events import ObjectEvent
-from kotti.events import notify
+from kotti import TRUE_VALUES, DBSession
+from kotti.events import ObjectEvent, notify
 from kotti.resources import Content
 from kotti.util import command
 

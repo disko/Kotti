@@ -32,15 +32,10 @@ request.path          Pyramid traverser (rps) Kotti traverser (rps)
 
 """
 
-from pyramid.compat import decode_path_info
-from pyramid.compat import is_nonstr_iter
+from pyramid.compat import decode_path_info, is_nonstr_iter
 from pyramid.exceptions import URLDecodeError
-from pyramid.interfaces import ITraverser
-from pyramid.interfaces import VH_ROOT_KEY
-from pyramid.traversal import ResourceTreeTraverser
-from pyramid.traversal import empty
-from pyramid.traversal import slash
-from pyramid.traversal import split_path_info
+from pyramid.interfaces import VH_ROOT_KEY, ITraverser
+from pyramid.traversal import ResourceTreeTraverser, empty, slash, split_path_info
 from sqlalchemy import or_
 from zope.interface import implementer
 
@@ -180,9 +175,9 @@ class NodeTreeTraverser(ResourceTreeTraverser):
         )
         for i, node in enumerate(nodes):
             if i == 0:
-                setattr(node, "parent", root)
+                node.parent = root
             else:
-                setattr(node, "parent", nodes[i - 1])
+                node.parent = nodes[i - 1]
 
         return nodes
 

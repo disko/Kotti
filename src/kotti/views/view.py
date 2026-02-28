@@ -1,13 +1,10 @@
 import warnings
 
 from pyramid.httpexceptions import HTTPNotFound
-from pyramid.view import notfound_view_config
-from pyramid.view import render_view_to_response
-from pyramid.view import view_config
+from pyramid.view import notfound_view_config, render_view_to_response, view_config
 
 from kotti.interfaces import IContent
-from kotti.views.util import search_content
-from kotti.views.util import search_content_for_tags
+from kotti.views.util import search_content, search_content_for_tags
 
 
 @view_config(context=IContent)
@@ -24,9 +21,7 @@ def view_content_default(context, request):
     response = render_view_to_response(context, request, name=view_name)
     if response is None:  # pragma: no cover
         warnings.warn(
-            "Failed to look up default view called {!r} for {!r}.".format(
-                view_name, context
-            )
+            f"Failed to look up default view called {view_name!r} for {context!r}."
         )
         raise HTTPNotFound()
     return response

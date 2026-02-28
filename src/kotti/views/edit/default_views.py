@@ -6,11 +6,9 @@ import warnings
 
 from pyramid.compat import map_
 from pyramid.httpexceptions import HTTPFound
-from pyramid.interfaces import IView
-from pyramid.interfaces import IViewClassifier
+from pyramid.interfaces import IView, IViewClassifier
 from pyramid.threadlocal import get_current_registry
-from pyramid.view import view_config
-from pyramid.view import view_defaults
+from pyramid.view import view_config, view_defaults
 from zope.interface import providedBy
 
 from kotti.util import _
@@ -77,9 +75,7 @@ class DefaultViewSelection:
                 )
             else:
                 warnings.warn(
-                    "No view called '{}' is registered for {!r}.".format(
-                        name, self.context
-                    )
+                    f"No view called '{name}' is registered for {self.context!r}."
                 )
 
         return {

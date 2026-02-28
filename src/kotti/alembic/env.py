@@ -4,8 +4,7 @@ import transaction
 from alembic import context
 from zope.sqlalchemy import mark_changed
 
-from kotti import DBSession
-from kotti import metadata
+from kotti import DBSession, metadata
 
 
 def run_migrations_online():

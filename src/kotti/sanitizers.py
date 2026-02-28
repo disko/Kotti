@@ -3,18 +3,13 @@ see :ref:`sanitizers`.
 """
 
 import warnings
-from typing import Dict
-from typing import Union
 
 import nh3
 from pyramid.config import Configurator
 from pyramid.util import DottedNameResolver
 
 from kotti import get_settings
-from kotti.events import ObjectInsert
-from kotti.events import ObjectUpdate
-from kotti.events import objectevent_listeners
-
+from kotti.events import ObjectInsert, ObjectUpdate, objectevent_listeners
 
 # XSS-safe tags — curated set based on generally_xss_safe from bleach_allowlist,
 # minus 'style' (causes nh3 PanicException) and 'script' (content always removed by
@@ -334,7 +329,7 @@ def no_html(html: str) -> str:
     return no_html_nh3(html)
 
 
-def _setup_sanitizers(settings: Dict[str, Union[str, bool]]) -> None:
+def _setup_sanitizers(settings: dict[str, str | bool]) -> None:
 
     # step 1: resolve sanitizer functions and make ``kotti.sanitizers`` a
     # dictionary containing resolved functions

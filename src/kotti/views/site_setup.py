@@ -1,4 +1,3 @@
-from kotti.util import Link
-from kotti.util import _
+from kotti.util import Link, _
 
 CONTROL_PANEL_LINKS = [Link("setup-users", title=_("User Management"))]

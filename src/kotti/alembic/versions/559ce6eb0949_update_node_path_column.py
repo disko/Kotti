@@ -13,9 +13,9 @@ down_revision = "1063d7178fa"
 
 def upgrade():
 
-    from kotti.resources import DBSession
-
     from alembic.context import get_bind
+
+    from kotti.resources import DBSession
 
     conn = get_bind()
 

@@ -6,22 +6,18 @@ Inheritance Diagram
 """
 
 from pyramid.compat import json
-from pyramid.security import ALL_PERMISSIONS
-from pyramid.security import Allow
+from pyramid.security import ALL_PERMISSIONS, Allow
 from sqlalchemy.ext import baked
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.mutable import Mutable
-from sqlalchemy.types import Text
-from sqlalchemy.types import TypeDecorator
+from sqlalchemy.types import Text, TypeDecorator
 
 bakery = baked.bakery()
 baked.bake_lazy_loaders()
 
 
 def dump_default(obj):
-    if isinstance(obj, MutationDict):
-        return obj._d
-    elif isinstance(obj, MutationList):
+    if isinstance(obj, MutationDict) or isinstance(obj, MutationList):
         return obj._d
 
 
@@ -225,4 +221,4 @@ class Base:
     def __tablename__(cls):
         from kotti.util import camel_case_to_name  # prevent circ import
 
-        return "{}s".format(camel_case_to_name(cls.__name__))
+        return f"{camel_case_to_name(cls.__name__)}s"

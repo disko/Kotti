@@ -1,17 +1,14 @@
 import decimal
 import time
+from unittest.mock import MagicMock, Mock, patch
 from warnings import filterwarnings
 
-from unittest.mock import MagicMock
-from unittest.mock import Mock
-from unittest.mock import patch
 from pyramid.interfaces import ILocation
 from pyramid.request import Response
 from pytest import raises
 from zope.interface import implementer
 
-from kotti.testing import Dummy
-from kotti.testing import DummyRequest
+from kotti.testing import Dummy, DummyRequest
 
 filterwarnings("ignore", "^kotti.views.slots.register is deprecated")
 
@@ -104,6 +101,7 @@ class TestTemplateAPI:
 
     def test_navigation_root(self, db_session):
         from zope.interface import alsoProvides
+
         from kotti.interfaces import INavigationRoot
 
         api = self.make()
@@ -125,6 +123,7 @@ class TestTemplateAPI:
 
     def test_breadcrumbs_with_navigation_root(self, db_session):
         from zope.interface import alsoProvides
+
         from kotti.interfaces import INavigationRoot
 
         api = self.make()
@@ -142,9 +141,9 @@ class TestTemplateAPI:
             has_permission.assert_called_with("drink", api.root)
 
     def test_contenttypefactories_add_links(self, config):
-        from kotti.views.edit.actions import content_type_factories
         from kotti.resources import Document, File
         from kotti.views.edit import content
+        from kotti.views.edit.actions import content_type_factories
 
         config.include(content)
 
@@ -152,8 +151,7 @@ class TestTemplateAPI:
         assert res["factories"] == [Document, File]
 
     def test_contenttypefactories_with_invalid_add_link(self, config):
-        from kotti.resources import Document, File
-        from kotti.resources import default_type_info
+        from kotti.resources import Document, File, default_type_info
         from kotti.views.edit import content
         from kotti.views.edit.actions import content_type_factories
 
@@ -181,9 +179,9 @@ class TestTemplateAPI:
 
     def test_edit_links(self, config, db_session):
         from kotti import views
-        from kotti.views.edit import actions, content, default_views
-        from kotti.views import users
         from kotti.util import Link
+        from kotti.views import users
+        from kotti.views.edit import actions, content, default_views
 
         api = self.make()
         config.include(views)
@@ -217,7 +215,7 @@ class TestTemplateAPI:
         assert api.edit_links == [open_link]
 
     def test_default_actions(self):
-        from kotti.resources import default_actions, Document
+        from kotti.resources import Document, default_actions
         from kotti.util import Link
 
         default_actions.append(Link("test", "Test"))
@@ -328,8 +326,9 @@ class TestTemplateAPI:
         assert api.slots.right == ["Hello world!"]
 
     def test_assign_to_slot_forbidden(self, config, db_session, events):
-        from kotti.views.slots import assign_slot
         from pyramid.exceptions import HTTPForbidden
+
+        from kotti.views.slots import assign_slot
 
         def special(context, request):
             return Response("Hello world!")
@@ -450,8 +449,9 @@ class TestTemplateAPI:
 
     def test_format_datetime(self, db_session):
         import datetime
-        from babel.dates import format_datetime
+
         from babel.core import UnknownLocaleError
+        from babel.dates import format_datetime
 
         api = self.make()
         first = datetime.datetime(2012, 1, 1)
@@ -471,8 +471,9 @@ class TestTemplateAPI:
 
     def test_format_date(self, db_session):
         import datetime
-        from babel.dates import format_date
+
         from babel.core import UnknownLocaleError
+        from babel.dates import format_date
 
         api = self.make()
         first = datetime.date(2012, 1, 1)
@@ -489,8 +490,9 @@ class TestTemplateAPI:
 
     def test_format_time(self, db_session):
         import datetime
-        from babel.dates import format_time
+
         from babel.core import UnknownLocaleError
+        from babel.dates import format_time
 
         api = self.make()
         first = datetime.time(23, 59)
@@ -591,6 +593,7 @@ class TestLocalNavigationSlot:
     def test_it(self, config, root):
         config.testing_add_renderer("kotti:templates/view/nav-local.pt")
         from zope.interface import alsoProvides
+
         from kotti.interfaces import INavigationRoot
         from kotti.views.navigation import local_navigation
 

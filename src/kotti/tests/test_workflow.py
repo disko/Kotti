@@ -1,4 +1,5 @@
 from unittest.mock import patch
+
 from pyramid.security import ALL_PERMISSIONS
 
 from kotti.testing import Dummy
@@ -52,10 +53,8 @@ class TestWorkflow:
         ]
 
     def test_workflow_callback_event(self):
-        from kotti.events import listeners
-        from kotti.events import ObjectEvent
-        from kotti.workflow import workflow_callback
-        from kotti.workflow import WorkflowTransition
+        from kotti.events import ObjectEvent, listeners
+        from kotti.workflow import WorkflowTransition, workflow_callback
 
         events = []
 
@@ -155,8 +154,7 @@ class TestDefaultWorkflow:
         assert content.state == "public"
 
     def test_reset_workflow(self, root, workflow, events):
-        from kotti.workflow import get_workflow
-        from kotti.workflow import reset_workflow
+        from kotti.workflow import get_workflow, reset_workflow
 
         content = self.make_document(root)
         wf = get_workflow(content)
@@ -170,8 +168,7 @@ class TestDefaultWorkflow:
         assert len(content.__acl__) == len(save_acl)
 
     def test_reset_workflow_purge_existing(self, root, workflow, events):
-        from kotti.workflow import get_workflow
-        from kotti.workflow import reset_workflow
+        from kotti.workflow import get_workflow, reset_workflow
 
         content = self.make_document(root)
         wf = get_workflow(content)
@@ -183,6 +180,7 @@ class TestDefaultWorkflow:
 
     def test_translate_titles(self, root, dummy_request):
         from pyramid.i18n import TranslationString
+
         from kotti.views.edit import _state_info
 
         content = self.make_document(root)
@@ -193,9 +191,10 @@ class TestDefaultWorkflow:
 class TestContentExtensibleWithWorkflow:
     def test_add_wf_interface_to_content(self, workflow):
         from zope import interface
+
+        from kotti.interfaces import IDefaultWorkflow
         from kotti.resources import Content
         from kotti.workflow import get_workflow
-        from kotti.interfaces import IDefaultWorkflow
 
         content = Content()
         assert get_workflow(content) is None

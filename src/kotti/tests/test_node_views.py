@@ -89,6 +89,7 @@ class TestNodePaste:
 class TestNodeRename:
     def setUp(self):
         from pyramid.threadlocal import get_current_registry
+
         from kotti.url_normalizer import url_normalizer
 
         r = get_current_registry()
@@ -140,8 +141,7 @@ class TestNodeRename:
 
 class TestNodeDelete:
     def test_multi_delete(self, root):
-        from kotti.resources import Document
-        from kotti.resources import File
+        from kotti.resources import Document, File
         from kotti.views.edit.actions import NodeActions
 
         root["child1"] = Document(title="Child 1")
@@ -208,8 +208,7 @@ class TestNodeMove:
 
         import transaction
 
-        from kotti.resources import Document
-        from kotti.resources import get_root
+        from kotti.resources import Document, get_root
         from kotti.views.edit.actions import move_child_position
 
         # Create some documents
@@ -290,8 +289,7 @@ class TestNodeMove:
 
         import transaction
 
-        from kotti.resources import Document
-        from kotti.resources import get_root
+        from kotti.resources import Document, get_root
         from kotti.views.edit.actions import move_child_position
 
         # Create some documents
@@ -395,8 +393,8 @@ class TestNodeShowHide:
 
 class TestNodeShare:
     def test_roles(self, root):
-        from kotti.views.users import share_node
         from kotti.security import SHARING_ROLES
+        from kotti.views.users import share_node
 
         # The 'share_node' view will return a list of available roles
         # as defined in 'kotti.security.SHARING_ROLES'
@@ -406,8 +404,7 @@ class TestNodeShare:
         ] == SHARING_ROLES
 
     def test_search(self, extra_principals, root, db_session):
-        from kotti.security import get_principals
-        from kotti.security import set_groups
+        from kotti.security import get_principals, set_groups
         from kotti.testing import DummyRequest
         from kotti.views.users import share_node
 
@@ -456,8 +453,7 @@ class TestNodeShare:
         assert entries[0][0] == P["bob"]
 
     def test_apply(self, extra_principals, root):
-        from kotti.security import list_groups
-        from kotti.security import set_groups
+        from kotti.security import list_groups, set_groups
         from kotti.views.users import share_node
 
         request = DummyRequest()
@@ -506,6 +502,6 @@ class TestNodeShare:
         with raises(HTTPBadRequest):
             share_node(root, dummy_request)
 
-        dummy_request.params["csrf_token"] = dummy_request.session.get_csrf_token()  # noqa
+        dummy_request.params["csrf_token"] = dummy_request.session.get_csrf_token()
         result = share_node(root, dummy_request)
         assert result["csrf_token"] == dummy_request.session.get_csrf_token()

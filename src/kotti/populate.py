@@ -7,11 +7,8 @@ from pyramid.i18n import LocalizerRequestMixin
 from pyramid.threadlocal import get_current_registry
 
 from kotti import get_settings
-from kotti.resources import DBSession
-from kotti.resources import Document
-from kotti.resources import Node
-from kotti.security import SITE_ACL
-from kotti.security import get_principals
+from kotti.resources import DBSession, Document, Node
+from kotti.security import SITE_ACL, get_principals
 from kotti.util import _
 from kotti.workflow import get_workflow
 
@@ -130,7 +127,7 @@ _ABOUT_ATTRS = dict(
     title=_("About"),
     description=_(
         "Our company is the leading manufacturer of foo widgets used in a wide variety of aviation and and industrial products."
-    ),  # noqa
+    ),
     body=_(
         """
 <p>

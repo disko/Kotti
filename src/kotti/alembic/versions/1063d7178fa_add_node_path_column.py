@@ -6,10 +6,9 @@ Create Date: 2014-05-26 15:34:31.050983
 
 """
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 from pyramid.location import lineage
-
 
 # revision identifiers, used by Alembic.
 revision = "1063d7178fa"

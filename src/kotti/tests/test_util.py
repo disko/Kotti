@@ -1,5 +1,4 @@
-from unittest.mock import Mock
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 class TestRequestCache:
@@ -56,6 +55,7 @@ class TestLRUCache(TestRequestCache):
 class TestTitleToName:
     def setUp(self):
         from pyramid.threadlocal import get_current_registry
+
         from kotti.url_normalizer import url_normalizer
 
         r = get_current_registry()
@@ -147,8 +147,8 @@ class TestTemplateStructure:
 
 class TestLink:
     def test_link_selected(self):
-        from kotti.util import Link
         from kotti.testing import DummyRequest
+        from kotti.util import Link
 
         req = DummyRequest()
         req.view_name = "manage"

@@ -1,21 +1,18 @@
+from unittest.mock import Mock, patch
 from warnings import filterwarnings
 
-from unittest.mock import Mock
-from unittest.mock import patch
-from pyramid.interfaces import IAuthenticationPolicy
-from pyramid.interfaces import IAuthorizationPolicy
-from pyramid.interfaces import IView
-from pyramid.interfaces import IViewClassifier
+from pyramid.interfaces import (
+    IAuthenticationPolicy,
+    IAuthorizationPolicy,
+    IView,
+    IViewClassifier,
+)
 from pyramid.request import Request
 from pyramid.threadlocal import get_current_registry
-from sqlalchemy import column
-from sqlalchemy import select
-from sqlalchemy import table
-from zope.interface import implementedBy
-from zope.interface import providedBy
+from sqlalchemy import column, select, table
+from zope.interface import implementedBy, providedBy
 
-from kotti.testing import RootFactory
-from kotti.testing import testing_db_url
+from kotti.testing import RootFactory, testing_db_url
 
 # filter deprecation warnings for code that is still tested...
 filterwarnings("ignore", "^The 'kotti.includes' setting")
@@ -26,8 +23,7 @@ class TestApp:
         return {"sqlalchemy.url": testing_db_url(), "kotti.secret": "dude"}
 
     def test_override_settings(self, db_session):
-        from kotti import main
-        from kotti import get_settings
+        from kotti import get_settings, main
 
         class MyType:
             pass
@@ -137,8 +133,7 @@ class TestApp:
         return self.test_render_master_edit_template_minimal_root(settings)
 
     def test_setting_values_as_unicode(self, db_session, filedepot):
-        from kotti import get_settings
-        from kotti import main
+        from kotti import get_settings, main
 
         settings = self.required_settings()
         settings["kotti.site_title"] = b"K\xc3\xb6tti"  # Kötti
@@ -153,8 +148,9 @@ class TestApp:
         assert get_settings()["foo.site_title"] == b"K\xc3\xb6tti"
 
     def test_default_filedepot(self, db_session):
-        from kotti import main
         from depot.manager import DepotManager
+
+        from kotti import main
 
         settings = self.required_settings()
 
@@ -166,8 +162,9 @@ class TestApp:
 
     def test_configure_filedepot(self, no_filedepots):
         from depot.manager import DepotManager
-        from kotti.filedepot import configure_filedepot
+
         from kotti import tests
+        from kotti.filedepot import configure_filedepot
 
         tests.TFS1 = Mock(return_value=Mock(marker="TFS1"))
         tests.TFS2 = Mock(return_value=Mock(marker="TFS2"))

@@ -1,7 +1,7 @@
+from unittest.mock import Mock, patch
+
 import colander
 import pytest
-from unittest.mock import Mock
-from unittest.mock import patch
 from pytest import raises
 
 from kotti.testing import DummyRequest
@@ -45,8 +45,7 @@ class TestUserManagement:
         assert entries[1][1] == (["role:admin"], [])
 
     def test_apply(self, extra_principals, root):
-        from kotti.security import get_principals
-        from kotti.security import list_groups
+        from kotti.security import get_principals, list_groups
         from kotti.views.users import UsersManage
 
         request = DummyRequest()
@@ -132,8 +131,8 @@ class TestUserDelete:
     def test_deleted_group_removed_from_localgroups(
         self, events, extra_principals, root
     ):
-        from kotti.security import set_groups
         from kotti.resources import LocalGroup
+        from kotti.security import set_groups
         from kotti.views.users import user_delete
 
         request = DummyRequest()

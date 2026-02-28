@@ -1,16 +1,13 @@
 from io import BytesIO
+from unittest.mock import MagicMock, patch
 
 import pytest
 from colander import null
-from unittest.mock import MagicMock
-from unittest.mock import patch
 from pyramid.httpexceptions import HTTPMovedPermanently
 
 from kotti.filedepot import StoredFileResponse
-from kotti.testing import DummyRequest
-from kotti.testing import asset
-from kotti.views.file import attachment_view
-from kotti.views.file import inline_view
+from kotti.testing import DummyRequest, asset
+from kotti.views.file import attachment_view, inline_view
 
 
 class TestFileViews:
@@ -45,8 +42,8 @@ class TestFileViews:
 
 class TestFileEditForm:
     def make_one(self):
-        from kotti.views.edit.content import FileEditForm
         from kotti.resources import File
+        from kotti.views.edit.content import FileEditForm
 
         return FileEditForm(File(), DummyRequest())
 
@@ -257,6 +254,7 @@ class TestUploadedFileResponse:
 
     def test_caching(self, filedepot, monkeypatch, dummy_request):
         import datetime
+
         import webob.response
 
         f = self._create_file()
@@ -326,6 +324,7 @@ class TestStoredFileResponse:
 
     def test_caching(self, filedepot, monkeypatch, dummy_request):
         import datetime
+
         import webob.response
 
         f = self._create_file()

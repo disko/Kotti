@@ -1,9 +1,9 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from webtest.forms import Upload
 
-from kotti.testing import BASE_URL
-from kotti.testing import user
+from kotti.testing import BASE_URL, user
 
 
 class TestLogin:
@@ -224,8 +224,7 @@ class TestBrowser:
     @pytest.mark.user("admin")
     def test_content_management(self, webtest):
 
-        from kotti.resources import Document
-        from kotti.resources import File
+        from kotti.resources import Document, File
 
         save_addable_document = Document.type_info.addable_to
         save_addable_file = File.type_info.addable_to
@@ -376,8 +375,7 @@ class TestBrowser:
     @pytest.mark.user("admin")
     def test_view_actions(self, webtest):
 
-        from kotti.resources import Document
-        from kotti.resources import File
+        from kotti.resources import Document, File
 
         save_addable_document = Document.type_info.addable_to
         save_addable_file = File.type_info.addable_to
@@ -542,7 +540,7 @@ class TestBrowser:
         assert "Welcome to Kotti" in resp.text
         assert '<i class="glyphicon glyphicon-home"></i>' in resp.text
         assert '<i class="glyphicon glyphicon-folder-open"></i>' in resp.text
-        assert '<i class="glyphicon glyphicon-folder-close"></i>' not in resp.text  # noqa
+        assert '<i class="glyphicon glyphicon-folder-close"></i>' not in resp.text
 
         # Navigation
         resp = resp.click("Navigate")
@@ -774,14 +772,14 @@ class TestBrowser:
         resp = resp.click("Contents")
         assert (
             "/second-child/third-child/@@workflow-change?new_state=public" in resp.text
-        )  # noqa
+        )
 
         resp = app.get(
             "/second-child/third-child/@@workflow-change?new_state=public"
-        ).maybe_follow()  # noqa
+        ).maybe_follow()
         assert (
             "/second-child/third-child/@@workflow-change?new_state=private" in resp.text
-        )  # noqa
+        )
 
         resp = app.get("/second-child/third-child/@@contents")
         form = self._select_children(resp, 0, 1, 2)
@@ -808,30 +806,30 @@ class TestBrowser:
         assert (
             "/second-child/third-child/grandchild-1/@@workflow-change?new_state=private"
             in resp.text
-        )  # noqa
+        )
         assert (
             "/second-child/third-child/grandchild-2/@@workflow-change?new_state=private"
             in resp.text
-        )  # noqa
+        )
         assert (
             "/second-child/third-child/grandchild-3/@@workflow-change?new_state=private"
             in resp.text
-        )  # noqa
+        )
 
         resp = resp.click("Child One", index=1)
         assert (
             "/second-child/third-child/child-one/@@workflow-change?new_state=public"
             in resp.text
-        )  # noqa
+        )
 
         app.get(
             "/second-child/third-child/child-one/@@workflow-change?new_state=public"
-        )  # noqa
+        )
         resp = app.get("/second-child/third-child/@@contents")
         assert (
             "/second-child/third-child/child-one/@@workflow-change?new_state=private"
             in resp.text
-        )  # noqa
+        )
 
         resp = resp.click("Child One", index=1)
         resp = resp.click("Document", index=0)
@@ -841,7 +839,7 @@ class TestBrowser:
         assert (
             "/second-child/third-child/child-one/sub-child/@@workflow-change?new_state=public"
             in resp.text
-        )  # noqa
+        )
 
         resp = resp.click("Second Child", index=0)
         resp = resp.click("Contents")
@@ -855,13 +853,13 @@ class TestBrowser:
         assert "Your changes have been saved." in resp.text
         assert (
             "/second-child/third-child/@@workflow-change?new_state=public" in resp.text
-        )  # noqa
+        )
 
         resp = app.get("/second-child/third-child/child-one/sub-child/")
         assert (
             "/second-child/third-child/child-one/sub-child/@@workflow-change?new_state=public"
             in resp.text
-        )  # noqa
+        )
 
     def test_user_management(self, webtest, settings, dummy_mailer):
         from kotti import get_settings

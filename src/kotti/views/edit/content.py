@@ -1,25 +1,21 @@
 import random
 
 import colander
-from colander import SchemaNode
-from colander import null
+from colander import SchemaNode, null
 from deform import FileData
-from deform.widget import FileUploadWidget
-from deform.widget import RichTextWidget
-from deform.widget import TextAreaWidget
+from deform.widget import FileUploadWidget, RichTextWidget, TextAreaWidget
 
-from kotti.resources import Document
-from kotti.resources import File
-from kotti.resources import Node
-from kotti.util import _
-from kotti.util import _to_fieldstorage
-from kotti.views.form import AddFormView
-from kotti.views.form import EditFormView
-from kotti.views.form import FileUploadTempStore
-from kotti.views.form import ObjectType
-from kotti.views.form import deferred_tag_it_widget
-from kotti.views.form import get_appstruct
-from kotti.views.form import validate_file_size_limit
+from kotti.resources import Document, File, Node
+from kotti.util import _, _to_fieldstorage
+from kotti.views.form import (
+    AddFormView,
+    EditFormView,
+    FileUploadTempStore,
+    ObjectType,
+    deferred_tag_it_widget,
+    get_appstruct,
+    validate_file_size_limit,
+)
 
 
 class ContentSchema(colander.MappingSchema):

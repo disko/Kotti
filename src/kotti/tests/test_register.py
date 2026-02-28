@@ -20,8 +20,9 @@ class TestRegister:
         assert "There was a problem with your submission" in res["form"]
 
     def test_register_submit(self, root):
-        from kotti.views.login import register
         from pyramid.httpexceptions import HTTPFound
+
+        from kotti.views.login import register
 
         request = DummyRequest()
         request.POST["title"] = "Test User"
@@ -64,8 +65,9 @@ class TestRegister:
         assert notify.call_count == 1
 
     def test_register_submit_groups_and_roles(self, root):
-        from kotti.views.login import register
         from pyramid.httpexceptions import HTTPFound
+
+        from kotti.views.login import register
 
         request = DummyRequest()
         request.POST["title"] = "Test User"
@@ -75,7 +77,7 @@ class TestRegister:
 
         with mock.patch("kotti.views.login.UserAddFormView") as form:
             with mock.patch("kotti.views.login.get_principals"):
-                with mock.patch("kotti.views.login.get_settings") as get_settings:  # noqa
+                with mock.patch("kotti.views.login.get_settings") as get_settings:
                     get_settings.return_value = {
                         "kotti.register.group": "mygroup",
                         "kotti.register.role": "myrole",

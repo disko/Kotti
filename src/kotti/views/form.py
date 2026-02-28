@@ -14,15 +14,12 @@ import colander
 import deform.widget
 from pyramid.decorator import reify
 from pyramid.httpexceptions import HTTPFound
-from pyramid_deform import CSRFSchema
-from pyramid_deform import FormView
+from pyramid_deform import CSRFSchema, FormView
 
 from kotti import get_settings
 from kotti.fanstatic import tagit
 from kotti.resources import Tag
-from kotti.util import _
-from kotti.util import title_to_name
-from kotti.util import translate
+from kotti.util import _, title_to_name, translate
 
 
 def get_appstruct(context, schema):

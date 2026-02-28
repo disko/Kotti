@@ -15,8 +15,7 @@ class TestEvents:
     @mark.user("bob")
     def test_owner(self, root, db_session, events, dummy_request):
         from kotti.resources import Content
-        from kotti.security import list_groups
-        from kotti.security import list_groups_raw
+        from kotti.security import list_groups, list_groups_raw
         from kotti.util import clear_cache
 
         child = root["child"] = Content()
@@ -90,11 +89,13 @@ class TestEvents:
 
     def test_subscribe(self, root, db_session):
 
-        from kotti.events import ObjectEvent
-        from kotti.events import clear
-        from kotti.events import listeners
-        from kotti.events import objectevent_listeners
-        from kotti.events import subscribe
+        from kotti.events import (
+            ObjectEvent,
+            clear,
+            listeners,
+            objectevent_listeners,
+            subscribe,
+        )
         from kotti.resources import Document
 
         def handler(event):
@@ -140,6 +141,7 @@ class TestEvents:
     def test_set_modification_date(self, root, db_session, events):
 
         from time import sleep
+
         from kotti.resources import Document
 
         # create 2 documents

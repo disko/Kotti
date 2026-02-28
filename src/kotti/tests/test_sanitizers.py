@@ -24,9 +24,9 @@ def _verify_no_html(sanitized):
 
 def test_no_html():
 
-    from kotti.sanitizers import no_html
-
     import warnings
+
+    from kotti.sanitizers import no_html
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", DeprecationWarning)
@@ -98,18 +98,20 @@ def test_default_config(unresolved_settings):
     assert (
         unresolved_settings["kotti.sanitizers"]
         == "xss_protection:kotti.sanitizers.xss_protection_nh3 minimal_html:kotti.sanitizers.minimal_html_nh3 no_html:kotti.sanitizers.no_html_nh3"
-    )  # noqa
+    )
     assert (
         unresolved_settings["kotti.sanitize_on_write"]
         == "kotti.resources.Document.body:xss_protection kotti.resources.Content.title:no_html kotti.resources.Content.description:no_html"
-    )  # noqa
+    )
 
 
 def test_setup_sanitizers(unresolved_settings):
-    from kotti.sanitizers import _setup_sanitizers
-    from kotti.sanitizers import minimal_html_nh3
-    from kotti.sanitizers import no_html_nh3
-    from kotti.sanitizers import xss_protection_nh3
+    from kotti.sanitizers import (
+        _setup_sanitizers,
+        minimal_html_nh3,
+        no_html_nh3,
+        xss_protection_nh3,
+    )
 
     _setup_sanitizers(unresolved_settings)
 
@@ -150,8 +152,8 @@ def test_listeners(app, root, db_session):
 @pytest.mark.filterwarnings("ignore::DeprecationWarning")
 def test_sanitize(app, dummy_request):
 
-    from kotti.sanitizers import sanitize
     from kotti.resources import Document
+    from kotti.sanitizers import sanitize
     from kotti.views.util import TemplateAPI
 
     _verify_no_html(sanitize(unsanitized, "no_html"))
@@ -166,7 +168,8 @@ def test_sanitize(app, dummy_request):
 
 def test_deprecation_warnings():
     import warnings
-    from kotti.sanitizers import xss_protection, minimal_html, no_html
+
+    from kotti.sanitizers import minimal_html, no_html, xss_protection
 
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")

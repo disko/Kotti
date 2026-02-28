@@ -1,13 +1,8 @@
-from typing import List
-from typing import Optional
 from typing import Union
 
-from fanstatic import Group
-from fanstatic import Library
-from fanstatic import Resource
+from fanstatic import Group, Library, Resource
 from js.angular import angular
-from js.bootstrap import bootstrap_css
-from js.bootstrap import bootstrap_js
+from js.bootstrap import bootstrap_css, bootstrap_js
 from js.fineuploader import fineuploader
 from js.html5shiv import html5shiv
 from js.jquery import jquery
@@ -58,9 +53,7 @@ class NeededGroup:
     """A collection of fanstatic resources that supports
     dynamic appending of resources after initialization"""
 
-    def __init__(
-        self, resources: Optional[List[Union[Resource, "NeededGroup"]]] = None
-    ):  # noqa
+    def __init__(self, resources: list[Union[Resource, "NeededGroup"]] | None = None):
 
         if resources is None:
             resources = []

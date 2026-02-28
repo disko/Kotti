@@ -18,23 +18,19 @@ import sqlalchemy.event
 import venusian
 from pyramid.location import lineage
 from pyramid.threadlocal import get_current_request
-from sqlalchemy.orm import load_only
-from sqlalchemy.orm import mapper
+from sqlalchemy.orm import load_only, mapper
 from sqlalchemy_utils.functions import has_changes
 from zope.deprecation import deprecated
 
-from kotti import DBSession
-from kotti import get_settings
-from kotti.resources import Content
-from kotti.resources import LocalGroup
-from kotti.resources import Node
-from kotti.resources import Tag
-from kotti.resources import TagsToContents
-from kotti.security import Principal
-from kotti.security import get_principals
-from kotti.security import list_groups
-from kotti.security import list_groups_raw
-from kotti.security import set_groups
+from kotti import DBSession, get_settings
+from kotti.resources import Content, LocalGroup, Node, Tag, TagsToContents
+from kotti.security import (
+    Principal,
+    get_principals,
+    list_groups,
+    list_groups_raw,
+    set_groups,
+)
 from kotti.sqla import no_autoflush
 
 
@@ -125,9 +121,8 @@ class DispatcherDict(OrderedDict):
         return type(self)(self.default_factory, copy.deepcopy(self.items()))
 
     def __repr__(self):
-        return "OrderedDefaultDict({}, {})".format(
-            self.default_factory,
-            OrderedDict.__repr__(self),
+        return (
+            f"OrderedDefaultDict({self.default_factory}, {OrderedDict.__repr__(self)})"
         )
 
 

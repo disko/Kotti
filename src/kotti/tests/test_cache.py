@@ -1,13 +1,11 @@
 import datetime
 import time
+from unittest.mock import MagicMock, patch
 
 import pytest
-from unittest.mock import MagicMock
-from unittest.mock import patch
 
 from kotti.resources import File
-from kotti.testing import Dummy
-from kotti.testing import asset
+from kotti.testing import Dummy, asset
 from kotti.views.cache import set_max_age
 
 
@@ -78,8 +76,7 @@ class TestSetCacheHeaders:
         chooser.assert_called_with(event.request.context, event.request, event.response)
 
     def test_header_set_before(self):
-        from kotti.views.cache import CACHE_POLICY_HEADER
-        from kotti.views.cache import set_cache_headers
+        from kotti.views.cache import CACHE_POLICY_HEADER, set_cache_headers
 
         event = MagicMock()
         event.response.headers = {CACHE_POLICY_HEADER: "Random policy"}

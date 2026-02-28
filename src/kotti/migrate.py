@@ -39,20 +39,17 @@ adding their Alembic 'script directory' location to the
 'stamp_heads' will then include the add-on.
 """
 
-import os
-from typing import Callable
-from typing import List
-
 import importlib.resources as importlib_resources
+import os
+from collections.abc import Callable
+
 from alembic.config import Config
 from alembic.environment import EnvironmentContext
 from alembic.script import ScriptDirectory
 from alembic.util import load_python_file
 from zope.sqlalchemy import mark_changed
 
-from kotti import DBSession
-from kotti import conf_defaults
-from kotti import get_settings
+from kotti import DBSession, conf_defaults, get_settings
 from kotti.util import command
 
 KOTTI_SCRIPT_DIR = str(importlib_resources.files("kotti") / "alembic")
@@ -106,7 +103,7 @@ class PackageEnvironment:
         return script_dir
 
 
-def get_locations() -> List[str]:
+def get_locations() -> list[str]:
     conf_str = get_settings()["kotti.alembic_dirs"]
     return [line.strip() for line in conf_str.split() if line.strip()]
 
@@ -176,11 +173,7 @@ def list_all():
         print(f"{pkg_env.pkg_name}:")
 
         for script in pkg_env.script_dir.walk_revisions():
-            print(
-                "  - {} -> {}: {}".format(
-                    script.down_revision, script.revision, script.doc
-                )
-            )
+            print(f"  - {script.down_revision} -> {script.revision}: {script.doc}")
 
         def current_revision(rev, context):
             rev = rev[0] if rev else None

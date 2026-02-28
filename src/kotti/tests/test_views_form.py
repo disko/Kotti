@@ -1,9 +1,8 @@
-import colander
-from unittest.mock import MagicMock
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
-from kotti.testing import Dummy
-from kotti.testing import DummyRequest
+import colander
+
+from kotti.testing import Dummy, DummyRequest
 
 
 class TestBaseFormView:

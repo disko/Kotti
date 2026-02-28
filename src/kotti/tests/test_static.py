@@ -4,8 +4,8 @@ from pytest import raises
 def test_needed_group():
 
     from js.deform import deform_js
-    from kotti.fanstatic import contents_view_js
-    from kotti.fanstatic import NeededGroup
+
+    from kotti.fanstatic import NeededGroup, contents_view_js
 
     def NeededGroupFactory(resources):
         return NeededGroup(resources)

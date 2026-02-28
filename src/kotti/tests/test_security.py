@@ -1,4 +1,5 @@
 from unittest.mock import patch
+
 from pyramid.authentication import CallbackAuthenticationPolicy
 from pytest import raises
 
@@ -8,6 +9,7 @@ from kotti.testing import DummyRequest
 class HasPermissionTests:
     def test_has_permission(self):
         import unittest.mock as mock
+
         from kotti.security import has_permission
 
         permission = "edit"
@@ -22,8 +24,7 @@ class HasPermissionTests:
 
 class TestGroups:
     def test_root_default(self, db_session, root):
-        from kotti.security import list_groups
-        from kotti.security import list_groups_raw
+        from kotti.security import list_groups, list_groups_raw
 
         assert list_groups("admin", root) == ["role:admin"]
         assert list_groups_raw("admin", root) == set()
@@ -34,9 +35,7 @@ class TestGroups:
         assert list_groups("bob", root) == []
 
     def test_simple(self, db_session, root):
-        from kotti.security import list_groups
-        from kotti.security import list_groups_raw
-        from kotti.security import set_groups
+        from kotti.security import list_groups, list_groups_raw, set_groups
 
         set_groups("bob", root, ["role:editor"])
         assert list_groups("bob", root) == ["role:editor"]
@@ -49,9 +48,7 @@ class TestGroups:
 
     def test_overwrite_and_delete(self, db_session, root):
         from kotti.resources import get_root
-        from kotti.security import list_groups
-        from kotti.security import list_groups_raw
-        from kotti.security import set_groups
+        from kotti.security import list_groups, list_groups_raw, set_groups
 
         set_groups("bob", root, ["role:editor"])
         assert list_groups("bob", root) == ["role:editor"]
@@ -67,9 +64,7 @@ class TestGroups:
 
     def test_inherit(self, db_session, root):
         from kotti.resources import Node
-        from kotti.security import list_groups
-        from kotti.security import list_groups_raw
-        from kotti.security import set_groups
+        from kotti.security import list_groups, list_groups_raw, set_groups
 
         child = root["child"] = Node()
         db_session.flush()
@@ -120,8 +115,7 @@ class TestGroups:
         set_groups("group:franksgroup", grandchild, ["role:owner", "group:bobsgroup"])
 
     def test_nested_groups(self, db_session, root):
-        from kotti.security import list_groups
-        from kotti.security import list_groups_ext
+        from kotti.security import list_groups, list_groups_ext
 
         self.add_some_groups(db_session, root)
         child = root["child"]
@@ -171,9 +165,7 @@ class TestGroups:
 
     def test_works_with_auth(self, db_session, root):
         from kotti.resources import Node
-        from kotti.security import get_principals
-        from kotti.security import list_groups_callback
-        from kotti.security import set_groups
+        from kotti.security import get_principals, list_groups_callback, set_groups
 
         child = root["child"] = Node()
         db_session.flush()
@@ -235,8 +227,7 @@ class TestGroups:
         }
 
     def test_list_groups_callback_with_groups(self, db_session):
-        from kotti.security import list_groups_callback
-        from kotti.security import get_principals
+        from kotti.security import get_principals, list_groups_callback
 
         # Although group definitions are also in the user database,
         # we're not allowed to authenticate with a group id:
@@ -249,9 +240,11 @@ class TestGroups:
 
     def test_principals_with_local_roles(self, db_session, root):
         from kotti.resources import Node
-        from kotti.security import map_principals_with_local_roles
-        from kotti.security import principals_with_local_roles
-        from kotti.security import set_groups
+        from kotti.security import (
+            map_principals_with_local_roles,
+            principals_with_local_roles,
+            set_groups,
+        )
 
         child = root["child"] = Node()
         db_session.flush()
@@ -276,8 +269,7 @@ class TestGroups:
         assert set(principals_with_local_roles(root)) == {"bob", "group:franksgroup"}
 
     def test_copy_local_groups(self, db_session, root):
-        from kotti.security import principals_with_local_roles
-        from kotti.security import set_groups
+        from kotti.security import principals_with_local_roles, set_groups
 
         self.test_principals_with_local_roles(db_session, root)
         child = root["child"]
@@ -301,8 +293,7 @@ class TestGroups:
         assert len(principals_with_local_roles(child2)) == 2
 
     def test_map_principals_with_local_roles(self, db_session, root):
-        from kotti.security import get_principals
-        from kotti.security import map_principals_with_local_roles
+        from kotti.security import get_principals, map_principals_with_local_roles
 
         self.test_principals_with_local_roles(db_session, root)
         child = root["child"]
@@ -330,8 +321,7 @@ class TestGroups:
         assert bobsgroup_inherited == []
 
     def test_local_roles_db_cascade(self, db_session, root):
-        from kotti.resources import LocalGroup
-        from kotti.resources import Node
+        from kotti.resources import LocalGroup, Node
         from kotti.security import set_groups
 
         child = root["child"] = Node()
@@ -419,8 +409,7 @@ class TestPrincipals:
 
     def test_groups_from_users(self, db_session, root):
         from kotti.resources import Node
-        from kotti.security import list_groups
-        from kotti.security import set_groups
+        from kotti.security import list_groups, set_groups
 
         self.make_bob()
         child = root["child"] = Node()
@@ -648,9 +637,7 @@ class TestHasPermission:
 
 class TestRolesSetters:
     def test_set_roles(self):
-        from kotti.security import ROLES
-        from kotti.security import set_roles
-        from kotti.security import reset_roles
+        from kotti.security import ROLES, reset_roles, set_roles
 
         before = ROLES.copy()
         set_roles({"role:admin": ROLES["role:admin"]})
@@ -659,9 +646,7 @@ class TestRolesSetters:
         assert ROLES == before
 
     def test_set_sharing_roles(self):
-        from kotti.security import SHARING_ROLES
-        from kotti.security import set_sharing_roles
-        from kotti.security import reset_sharing_roles
+        from kotti.security import SHARING_ROLES, reset_sharing_roles, set_sharing_roles
 
         before = SHARING_ROLES[:]
         set_sharing_roles(["role:admin"])
@@ -670,9 +655,11 @@ class TestRolesSetters:
         assert SHARING_ROLES == before
 
     def test_set_user_management_roles(self):
-        from kotti.security import USER_MANAGEMENT_ROLES
-        from kotti.security import set_user_management_roles
-        from kotti.security import reset_user_management_roles
+        from kotti.security import (
+            USER_MANAGEMENT_ROLES,
+            reset_user_management_roles,
+            set_user_management_roles,
+        )
 
         before = USER_MANAGEMENT_ROLES[:]
         set_user_management_roles(["role:admin"])

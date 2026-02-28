@@ -16,8 +16,7 @@ def _create_contents(root):
 
 
 def _create_contents_with_tags(root=None):
-    from kotti.resources import get_root
-    from kotti.resources import Content, File
+    from kotti.resources import Content, File, get_root
 
     if root is None:
         root = get_root()
@@ -50,9 +49,9 @@ def test_search_empty_content(db_session):
 
 
 def test_search_content(root):
-    from kotti.views.util import search_content
     from kotti import DBSession
     from kotti.resources import Tag
+    from kotti.views.util import search_content
 
     request = DummyRequest()
     doc1, doc11, doc12, file1 = _create_contents(root)

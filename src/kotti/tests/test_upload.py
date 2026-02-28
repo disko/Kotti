@@ -3,8 +3,7 @@ import json
 from pytest import raises
 from zope.testbrowser.browser import LinkNotFoundError
 
-from kotti.testing import BASE_URL
-from kotti.testing import user
+from kotti.testing import BASE_URL, user
 from kotti.views.edit.upload import UploadView
 
 

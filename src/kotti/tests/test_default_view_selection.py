@@ -83,4 +83,4 @@ class TestDefaultViewSelection:
             assert (
                 str(w[-1].message)
                 == "No view called 'folder_view' is registered for <Document 1 at />."
-            )  # noqa
+            )

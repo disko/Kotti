@@ -2,8 +2,7 @@
 
 from pyramid.view import view_config
 
-from kotti.interfaces import INavigationRoot
-from kotti.interfaces import INode
+from kotti.interfaces import INavigationRoot, INode
 from kotti.resources import get_root
 from kotti.views.util import nodes_tree
 

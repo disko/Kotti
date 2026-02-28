@@ -5,31 +5,32 @@ from urllib.parse import urlencode
 
 import colander
 from deform import Button
-from deform.widget import AutocompleteInputWidget
-from deform.widget import CheckboxChoiceWidget
-from deform.widget import CheckedPasswordWidget
-from deform.widget import SequenceWidget
+from deform.widget import (
+    AutocompleteInputWidget,
+    CheckboxChoiceWidget,
+    CheckedPasswordWidget,
+    SequenceWidget,
+)
 from pyramid.exceptions import Forbidden
-from pyramid.httpexceptions import HTTPBadRequest
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPBadRequest, HTTPFound
 from pyramid.view import view_config
 from pyramid_deform import FormView
 
-from kotti.events import UserDeleted
-from kotti.events import notify
+from kotti.events import UserDeleted, notify
 from kotti.message import email_set_password
 from kotti.resources import get_root
-from kotti.security import ROLES
-from kotti.security import SHARING_ROLES
-from kotti.security import USER_MANAGEMENT_ROLES
-from kotti.security import get_principals
-from kotti.security import list_groups_ext
-from kotti.security import list_groups_raw
-from kotti.security import map_principals_with_local_roles
-from kotti.security import set_groups
+from kotti.security import (
+    ROLES,
+    SHARING_ROLES,
+    USER_MANAGEMENT_ROLES,
+    get_principals,
+    list_groups_ext,
+    list_groups_raw,
+    map_principals_with_local_roles,
+    set_groups,
+)
 from kotti.util import _
-from kotti.views.form import AddFormView
-from kotti.views.form import EditFormView
+from kotti.views.form import AddFormView, EditFormView
 from kotti.views.site_setup import CONTROL_PANEL_LINKS
 from kotti.views.util import template_api
 
@@ -557,7 +558,7 @@ class UserManage(FormView):
 def user_delete(context, request):
     principals = get_principals()
 
-    if "name" in request.params and request.params["name"]:
+    if request.params.get("name"):
         user_or_group = request.params["name"]
         principal = principals.search(name=user_or_group).first()
         if principal is None:

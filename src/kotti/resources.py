@@ -13,81 +13,60 @@ import datetime
 import os
 import warnings
 from cgi import FieldStorage
-from collections.abc import MutableMapping
+from collections.abc import Iterable, MutableMapping
 from copy import copy
 from fnmatch import fnmatch
-from io import BufferedReader
-from io import BytesIO
-from typing import Any
-from typing import Iterable
-from typing import List
-from typing import Optional
-from typing import Union
+from io import BufferedReader, BytesIO
+from typing import Any, Optional, Union
 
-from depot.fields.sqlalchemy import UploadedFileField
-from depot.fields.sqlalchemy import _SQLAMutationTracker
+from depot.fields.sqlalchemy import UploadedFileField, _SQLAMutationTracker
 from depot.fields.upload import UploadedFile
 from pyramid.decorator import reify
 from pyramid.traversal import resource_path
-from sqlalchemy import Boolean
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
-from sqlalchemy import String
-from sqlalchemy import Unicode
-from sqlalchemy import UnicodeText
-from sqlalchemy import UniqueConstraint
-from sqlalchemy import bindparam
-from sqlalchemy import event
-from sqlalchemy import inspect
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    String,
+    Unicode,
+    UnicodeText,
+    UniqueConstraint,
+    bindparam,
+    event,
+    inspect,
+)
 from sqlalchemy.engine.base import Engine
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy.ext.declarative import DeclarativeMeta
-from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.ext.declarative import DeclarativeMeta, declared_attr
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.ext.orderinglist import OrderingList
-from sqlalchemy.ext.orderinglist import ordering_list
-from sqlalchemy.orm import backref
-from sqlalchemy.orm import object_mapper
-from sqlalchemy.orm import relation
+from sqlalchemy.ext.orderinglist import OrderingList, ordering_list
+from sqlalchemy.orm import backref, object_mapper, relation
 from sqlalchemy.orm.attributes import Event
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.scoping import scoped_session
-from sqlalchemy.sql import and_
-from sqlalchemy.sql import select
+from sqlalchemy.sql import and_, select
 from sqlalchemy.util import classproperty
 from sqlalchemy.util.langhelpers import _symbol
 from transaction import commit
 from zope.interface import implementer
 
-from kotti import Base
-from kotti import DBSession
-from kotti import TRUE_VALUES
-from kotti import _resolve_dotted
-from kotti import get_settings
-from kotti import metadata
-from kotti.interfaces import IContent
-from kotti.interfaces import IDefaultWorkflow
-from kotti.interfaces import IDocument
-from kotti.interfaces import IFile
-from kotti.interfaces import INode
+from kotti import TRUE_VALUES, Base, DBSession, _resolve_dotted, get_settings, metadata
+from kotti.interfaces import IContent, IDefaultWorkflow, IDocument, IFile, INode
 from kotti.migrate import stamp_heads
 from kotti.request import Request
-from kotti.security import PersistentACLMixin
-from kotti.security import view_permitted
-from kotti.sqla import ACLType
-from kotti.sqla import JsonType
-from kotti.sqla import MutationList
-from kotti.sqla import NestedMutationDict
-from kotti.sqla import bakery
-from kotti.util import Link
-from kotti.util import LinkParent
-from kotti.util import LinkRenderer
-from kotti.util import _
-from kotti.util import _to_fieldstorage
-from kotti.util import camel_case_to_name
-from kotti.util import get_paste_items
+from kotti.security import PersistentACLMixin, view_permitted
+from kotti.sqla import ACLType, JsonType, MutationList, NestedMutationDict, bakery
+from kotti.util import (
+    Link,
+    LinkParent,
+    LinkRenderer,
+    _,
+    _to_fieldstorage,
+    camel_case_to_name,
+    get_paste_items,
+)
 
 
 class ContainerMixin(MutableMapping):
@@ -111,7 +90,7 @@ class ContainerMixin(MutableMapping):
         self.children.remove(node)
         DBSession.delete(node)
 
-    def keys(self) -> List[str]:
+    def keys(self) -> list[str]:
         """
         :result: children names
         :rtype: list
@@ -122,7 +101,7 @@ class ContainerMixin(MutableMapping):
     def values(self) -> OrderingList:
         return self.children
 
-    def __getitem__(self, path: Union[str, Iterable[str]]) -> "Node":
+    def __getitem__(self, path: str | Iterable[str]) -> "Node":
         db_session = DBSession()
         db_session._autoflush()
 
@@ -185,7 +164,7 @@ class ContainerMixin(MutableMapping):
 
     def children_with_permission(
         self, request: Request, permission: str = "view"
-    ) -> "List[Node]":
+    ) -> "list[Node]":
         """Return only those children for which the user initiating the
         request has the asked permission.
 
@@ -238,12 +217,7 @@ class LocalGroup(Base):
         return self.__class__(**kwargs)
 
     def __repr__(self):
-        return "<{} {} => {} at {}>".format(
-            self.__class__.__name__,
-            self.principal_name,
-            self.group_name,
-            resource_path(self.node),
-        )
+        return f"<{self.__class__.__name__} {self.principal_name} => {self.group_name} at {resource_path(self.node)}>"
 
 
 class NodeMeta(DeclarativeMeta, abc.ABCMeta):
@@ -334,9 +308,7 @@ class Node(Base, ContainerMixin, PersistentACLMixin, metaclass=NodeMeta):
         self.parent = value
 
     def __repr__(self) -> str:
-        return "<{} {} at {}>".format(
-            self.__class__.__name__, self.id, resource_path(self)
-        )
+        return f"<{self.__class__.__name__} {self.id} at {resource_path(self)}>"
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, Node) and self.id == other.id
@@ -434,7 +406,7 @@ class TypeInfo:
 
         return TypeInfo(**d)
 
-    def addable(self, context: "Content", request: Optional[Request]) -> bool:
+    def addable(self, context: "Content", request: Request | None) -> bool:
         """
 
         :param context:
@@ -509,7 +481,7 @@ class Tag(Base):
         return f"<Tag ('{self.title}')>"
 
     @property
-    def items(self) -> List[Node]:
+    def items(self) -> list[Node]:
         """
 
         :result:
@@ -645,18 +617,18 @@ class Content(Node):
 
     def __init__(
         self,
-        name: Optional[str] = None,
-        parent: Optional[Node] = None,
-        title: Optional[str] = "",
-        annotations: Optional[dict] = None,
-        default_view: Optional[str] = None,
-        description: Optional[str] = "",
-        language: Optional[str] = None,
-        owner: Optional[str] = None,
-        creation_date: Optional[datetime.datetime] = None,
-        modification_date: Optional[datetime.datetime] = None,
-        in_navigation: Optional[bool] = True,
-        tags: Optional[List[str]] = None,
+        name: str | None = None,
+        parent: Node | None = None,
+        title: str | None = "",
+        annotations: dict | None = None,
+        default_view: str | None = None,
+        description: str | None = "",
+        language: str | None = None,
+        owner: str | None = None,
+        creation_date: datetime.datetime | None = None,
+        modification_date: datetime.datetime | None = None,
+        in_navigation: bool | None = True,
+        tags: list[str] | None = None,
         **kwargs,
     ):
         super().__init__(name, parent, title, annotations, **kwargs)
@@ -706,7 +678,7 @@ class Document(Content):
     )
 
     def __init__(
-        self, body: Optional[str] = "", mime_type: Optional[str] = "text/html", **kwargs
+        self, body: str | None = "", mime_type: str | None = "text/html", **kwargs
     ):
         super().__init__(**kwargs)
 
@@ -760,9 +732,9 @@ class SaveDataMixin:
     def _save_data(
         target: "File",
         value: Optional[Union[FieldStorage, bytes, UploadedFile, BufferedReader]],  # noqa
-        oldvalue: Optional[Union[UploadedFile, _symbol]],
+        oldvalue: UploadedFile | _symbol | None,
         initiator: Event,
-    ) -> Optional[UploadedFile]:
+    ) -> UploadedFile | None:
         """Refresh metadata and save the binary data to the data field.
 
         :param target: The File instance
@@ -813,9 +785,9 @@ class SaveDataMixin:
     def __init__(
         self,
         data: Optional[Union[bytes, BufferedReader, FieldStorage]] = None,  # noqa
-        filename: Optional[str] = None,
-        mimetype: Optional[str] = None,
-        size: Optional[int] = None,
+        filename: str | None = None,
+        mimetype: str | None = None,
+        size: int | None = None,
         **kwargs,
     ) -> None:
 
@@ -856,7 +828,7 @@ class File(SaveDataMixin, Content):
     )
 
 
-def get_root(request: Optional[Request] = None) -> Node:
+def get_root(request: Request | None = None) -> Node:
     """Call the function defined by the ``kotti.root_factory`` setting and
        return its result.
 
@@ -913,7 +885,7 @@ class DefaultRootCache:
 
         return self._root
 
-    def __call__(self, request: Optional[Request] = None) -> Node:
+    def __call__(self, request: Request | None = None) -> Node:
         """Default implementation for :func:`~kotti.resources.get_root`
         :param request: Current request (optional)
         :type request: :class:`kotti.request.Request`
