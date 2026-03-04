@@ -1273,4 +1273,3 @@ Bugs
 - Improve user database hashing and local roles storage.
 
 - Compatibility fix for Pyramid 1.2.
-
